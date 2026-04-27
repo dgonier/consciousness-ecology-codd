@@ -1,0 +1,33 @@
+# Illustrative stdout from `python -u scripts/eval_stocknet.py` on a smoke
+# slice (top-5 tickers, ~10 days/ticker). Numbers are SYNTHETIC — included to
+# show the report shape, not as a claim about checkpoint quality.
+
+[stocknet-eval] label=ipo_seed7 ckpt=checkpoints/ipo_seed7_best.pt seed=7 tickers=['AAPL', 'GOOG', 'MSFT', 'AMZN', 'JPM'] max_per_ticker=10
+[stocknet-eval] hidden=2048 dtype=torch.bfloat16 dev=cuda:0
+[stocknet-eval] loaded: {'epoch': 0, 'kind': 'ipo', 'seed': 7, 'best_dev': 0.388}
+[stocknet-eval] loading scenarios...
+[stocknet-eval] 47 scenarios
+
+=== STOCKNET EVAL [ipo_seed7] ===
+
+=== RESULTS [ipo_seed7] ===
+  scenarios:       47
+  decisions:       43 (91.5%)
+  abstained:       3
+  parse_failed:    1
+  TP=14 TN=12 FP=9 FN=8
+  ACCURACY:        0.605
+  MCC:             0.211
+
+  per-ticker:
+    AAPL: 7/10 = 0.700
+    GOOG: 5/9  = 0.556
+    MSFT: 6/9  = 0.667
+    AMZN: 5/8  = 0.625
+    JPM:  3/7  = 0.429
+
+  baselines (reference):
+    Adv-ALSTM (Feng+2018):   ~0.57 acc
+    MAN-SF (Sawhney+2020):   ~0.58 acc
+    StockEmbed/BERT-tuned:   ~0.74 acc
+    Random (50/50):           0.50 acc, 0.00 MCC

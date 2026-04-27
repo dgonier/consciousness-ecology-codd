@@ -1,0 +1,16 @@
+# Illustrative excerpt of the StockNet preprocessed price file format.
+# Source layout: yumoxu/stocknet-dataset/price/preprocessed/<TICKER>.txt
+# Columns (tab-separated):
+#   date  movement_pct  open_norm  high_norm  low_norm  close_norm  volume
+# movement_pct = (close[t] - close[t-1]) / close[t-1]
+# *_norm columns are the paper's per-window normalized OHLC values.
+# Numbers below are SYNTHETIC and only illustrate parsing — for real
+# values, fetch from the upstream repo via stocknet_loader._read_price_file.
+2015-10-06	-0.0021	-0.013	-0.005	-0.022	-0.018	51200000
+2015-10-07	 0.0094	 0.011	 0.018	 0.004	 0.015	48700000
+2015-10-08	 0.0072	 0.008	 0.012	 0.001	 0.010	44300000
+2015-10-09	-0.0008	-0.002	 0.003	-0.005	-0.001	39800000
+2015-10-12	 0.0033	 0.004	 0.007	 0.000	 0.005	36100000
+2015-10-13	 0.0061	 0.007	 0.011	 0.003	 0.009	41500000
+2015-10-14	-0.0142	-0.012	-0.005	-0.018	-0.016	58900000
+2015-10-15	 0.0058	 0.005	 0.010	 0.002	 0.008	44600000

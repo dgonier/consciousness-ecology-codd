@@ -1,0 +1,39 @@
+{
+  "_comment": "Illustrative serialization of one Scenario produced by trophic.training.stocknet_loader.build_stocknet_scenarios. Numbers are synthetic — see docs/benchmark_examples.md for how to regenerate real scenarios from the upstream dataset.",
+  "name": "stocknet_test_AAPL_2015-10-13",
+  "split": "test",
+  "ticker": "AAPL",
+  "date": "2015-10-13",
+  "label": "up",
+  "movement_pct": 0.0061,
+  "label_rule": "movement_pct >= 0.0055 -> 'up'; <= -0.005 -> 'down'; else filtered",
+  "inputs": [
+    {
+      "id": "stocknet.AAPL.2015-10-13.ohlcv",
+      "source": "ohlcv",
+      "payload": {
+        "source": "stocknet_normalized",
+        "bars": [
+          {"open": -0.013, "high": -0.005, "low": -0.022, "close": -0.018, "volume": 51200000.0},
+          {"open":  0.011, "high":  0.018, "low":  0.004, "close":  0.015, "volume": 48700000.0},
+          {"open":  0.008, "high":  0.012, "low":  0.001, "close":  0.010, "volume": 44300000.0},
+          {"open": -0.002, "high":  0.003, "low": -0.005, "close": -0.001, "volume": 39800000.0},
+          {"open":  0.004, "high":  0.007, "low":  0.000, "close":  0.005, "volume": 36100000.0}
+        ]
+      }
+    },
+    {
+      "id": "stocknet.AAPL.2015-10-13.press",
+      "source": "press",
+      "payload": {
+        "ticker": "AAPL",
+        "headline": "daily tweet feed (5 tweets)",
+        "body": "$ aapl earnings next week long calls URL\naapl iphone 6s demand looks strong into q4\nAT_USER aapl supply chain reads soft watch the guide\n$ aapl breakout above 112 if spy holds\naapl options skew neutral today no directional edge",
+        "source": "stocknet_tweets"
+      }
+    }
+  ],
+  "predator_target": "<prediction><ticker>AAPL</ticker><direction>up</direction><horizon_min>1440</horizon_min><confidence>0.65</confidence></prediction>",
+  "technical_target": "<synthesis kind=\"technical\"><ticker>AAPL</ticker><bias>up</bias><signal>moderate</signal></synthesis>",
+  "fundamental_target": "<synthesis kind=\"fundamental\"><ticker>AAPL</ticker><bias>up</bias><signal>moderate</signal></synthesis>"
+}
