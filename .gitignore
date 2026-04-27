@@ -1,0 +1,113 @@
+# =========================================================================
+# Trophic — gitignore
+# Aggressive about big files (checkpoints, datasets, logs) since this repo
+# trains on a 4090 and produces 2GB+ artifacts on every run.
+# =========================================================================
+
+# ---- model artifacts ----
+checkpoints/
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.pth
+runs/
+
+# ---- LoRA / adapter weights ----
+**/adapter_model.bin
+**/adapter_model.safetensors
+**/adapter_config.json
+
+# ---- training logs ----
+logs/
+*.log
+*.pid
+
+# ---- vendored datasets (large; pull on demand instead) ----
+external/
+data/
+datasets/
+
+# ---- python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+wheels/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ---- virtualenvs ----
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# ---- testing / coverage ----
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+coverage.xml
+*.cover
+.hypothesis/
+nosetests.xml
+
+# ---- type checking ----
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# ---- jupyter ----
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# ---- editors ----
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ---- claude code / agent scratch ----
+.claude/
+*.tmp
+/tmp/
+tasks/completed/
+
+# ---- experimental scratch ----
+notebooks/scratch/
+scratch/
+*.draft.md
+
+# ---- but DO commit ----
+!docs/
+!tasks/
+!.gitignore
+!.gitattributes
+!README.md
+!LICENSE
+!pyproject.toml
