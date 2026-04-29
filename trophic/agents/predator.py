@@ -117,6 +117,8 @@ class Predator(BaseAgent):
                 ch_seed = None
                 if seed_base is not None:
                     ch_seed = _stable_hash(seed_base, "pred", self.kind, herb_kind)
+                import os as _os
+                _arch = _os.environ.get("TROPHIC_CHANNEL_ARCH", "v1")
                 self.channels[herb_kind] = Channel(
                     hidden_size=host.hidden_size,
                     n_heads=8,
@@ -124,6 +126,7 @@ class Predator(BaseAgent):
                     capacity=self.capacity,
                     target_norm=tn,
                     seed=ch_seed,
+                    arch_version=_arch,
                 )
         # Materialise the skip holder so its parameter is included by
         # any `parameters()` enumeration the trainer does at attach time.
@@ -165,8 +168,6 @@ class Predator(BaseAgent):
         """
         self.ensure_initialized(host)
 
-        hunter_state = self.role_prefix.mean(dim=0)
-
         # Single Channel call — multi-head attention routes; we pick the
         # first per-kind Channel as the runtime channel.
         primary_kind = next(iter(self.channels))
@@ -185,6 +186,24 @@ class Predator(BaseAgent):
             prey_t = torch.zeros(
                 0, host.hidden_size, dtype=ch_dtype, device=ch_device,
             )
+
+        # Issue #6 fix: hunter_state must depend on input. Previously this was
+        # `self.role_prefix.mean(dim=0)` — fixed across every scenario, which
+        # meant Q was constant and the cross-attention produced bit-identical
+        # outputs regardless of input (diagnosed in scripts/diagnostics/
+        # diag_predator_attention.py). The fix pools the candidate herbivore
+        # broadcasts and adds them to the role_prefix so Q changes per tick.
+        #
+        # Issue #12 fix: role_q normalized via base.normalize_role_q so prefix
+        # length changes don't shift the Q distribution (which broke trained
+        # Channels in experiment A — see issue #11).
+        from .base import normalize_role_q
+        role_q = normalize_role_q(self.role_prefix)
+        if candidates:
+            input_q = prey_t.mean(dim=0).to(device=role_q.device, dtype=role_q.dtype)
+            hunter_state = role_q + input_q
+        else:
+            hunter_state = role_q
         hs = hunter_state.to(device=ch_device, dtype=ch_dtype)
         out: ChannelOutput = ch(hs, prey_t)
         for i in out.selected_indices:

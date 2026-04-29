@@ -109,6 +109,8 @@ class Herbivore(BaseAgent):
                 ch_seed = None
                 if seed_base is not None:
                     ch_seed = _stable_hash(seed_base, "herb", self.kind, producer_kind)
+                import os as _os
+                _arch = _os.environ.get("TROPHIC_CHANNEL_ARCH", "v1")
                 self.channels[producer_kind] = Channel(
                     hidden_size=host.hidden_size,
                     n_heads=8,
@@ -116,6 +118,7 @@ class Herbivore(BaseAgent):
                     capacity=self.capacity,
                     target_norm=tn,
                     seed=ch_seed,
+                    arch_version=_arch,
                 )
 
     @property
@@ -142,9 +145,6 @@ class Herbivore(BaseAgent):
         """
         self.ensure_initialized(host)
 
-        # Hunter state = pooled role prefix. (Future: also include meal-so-far.)
-        hunter_state = self.role_prefix.mean(dim=0)  # [hidden]
-
         # Single Channel call — multi-head attention does the routing.
         # Pick the first per-kind Channel as the runtime channel; with
         # SFT updating all Channel weights similarly, the choice is
@@ -168,6 +168,23 @@ class Herbivore(BaseAgent):
             prey_t = torch.zeros(
                 0, host.hidden_size, dtype=ch_dtype, device=ch_device,
             )
+
+        # Issue #6 fix: hunter_state must depend on input. Previously this was
+        # `self.role_prefix.mean(dim=0)` — constant per agent across every
+        # scenario — which collapsed the cross-attention to input-independent
+        # output. The fix pools the candidate producer broadcasts into Q so
+        # the herbivore's "what am I looking for" depends on what producers
+        # actually emitted this tick.
+        #
+        # Issue #12 fix: role_q normalized via base.normalize_role_q so prefix
+        # length changes don't break trained Channel weights at inference.
+        from .base import normalize_role_q
+        role_q = normalize_role_q(self.role_prefix)
+        if candidates:
+            input_q = prey_t.mean(dim=0).to(device=role_q.device, dtype=role_q.dtype)
+            hunter_state = role_q + input_q
+        else:
+            hunter_state = role_q
         hs = hunter_state.to(device=ch_device, dtype=ch_dtype)
         out: ChannelOutput = ch(hs, prey_t)
         null_prob = out.null_prob

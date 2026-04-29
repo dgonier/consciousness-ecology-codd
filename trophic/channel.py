@@ -75,6 +75,7 @@ class Channel(nn.Module):
         target_norm: float = 1.0,
         proj_inner: int | None = None,
         seed: int | None = None,
+        arch_version: str = "v1",
     ):
         super().__init__()
         assert hidden_size % n_heads == 0, (hidden_size, n_heads)
@@ -84,6 +85,14 @@ class Channel(nn.Module):
         self.out_seq_len = out_seq_len
         self.capacity = capacity
         self.target_norm = target_norm
+        # arch_version="v1": original Channel (small-Gaussian W_Q/W_K, learnable null slot).
+        #                    Kept for checkpoint backward-compat (seed1...seed18).
+        # arch_version="v2": post-second-opinion fix — scaled-identity W_Q/W_K,
+        #                    LayerNorm(Q) and LayerNorm(K) before dot product,
+        #                    NO null slot (abstention learned as a real-V
+        #                    direction). See diag_input_responsiveness_seed18 +
+        #                    second-opinion log 20260429_064029.
+        self.arch_version = arch_version
 
         # Local generator for reproducible init. Doesn't touch global RNG state.
         gen = torch.Generator()
@@ -92,30 +101,42 @@ class Channel(nn.Module):
         else:
             gen.seed()
 
-        # W_Q / W_K initialized small (not identity) so attention scores at
-        # init are near-zero and softmax is uniform — null wins lightly,
-        # real keys compete on equal terms. Identity-init blew up downstream
-        # in fp16 because producer hidden states have large native magnitude.
         self.W_Q = nn.Linear(hidden_size, hidden_size, bias=False)
         self.W_K = nn.Linear(hidden_size, hidden_size, bias=False)
-        # W_V initialized as scaled identity so the channel passes value
-        # information through (slightly damped) at init.
         self.W_V = nn.Linear(hidden_size, hidden_size, bias=False)
         with torch.no_grad():
-            std_qk = 1.0 / hidden_size ** 0.5
-            self.W_Q.weight.copy_(torch.empty_like(self.W_Q.weight).normal_(0.0, std_qk, generator=gen))
-            self.W_K.weight.copy_(torch.empty_like(self.W_K.weight).normal_(0.0, std_qk, generator=gen))
-            self.W_V.weight.copy_(torch.eye(hidden_size) * 0.5)
+            if arch_version == "v2":
+                # Scaled-identity init: cos(W_Q(x), W_K(x)) ≈ 1 at step 0, so
+                # real-key attention scores are non-trivial from the start.
+                # Combined with LayerNorm before the dot product, this prevents
+                # the orthogonal-init basin that v1 got stuck in.
+                self.W_Q.weight.copy_(torch.eye(hidden_size) * 0.5)
+                self.W_K.weight.copy_(torch.eye(hidden_size) * 0.5)
+                self.W_V.weight.copy_(torch.eye(hidden_size) * 0.5)
+            else:
+                # v1 original — small Gaussian Q/K (orthogonal at init), eye/2 for V.
+                std_qk = 1.0 / hidden_size ** 0.5
+                self.W_Q.weight.copy_(torch.empty_like(self.W_Q.weight).normal_(0.0, std_qk, generator=gen))
+                self.W_K.weight.copy_(torch.empty_like(self.W_K.weight).normal_(0.0, std_qk, generator=gen))
+                self.W_V.weight.copy_(torch.eye(hidden_size) * 0.5)
 
-        # Null slot. Initialized small-random so it competes weakly at first.
-        self.K_null = nn.Parameter(
-            torch.empty(hidden_size).normal_(0.0, 0.02, generator=gen)
-        )
-        self.V_null = nn.Parameter(
-            torch.empty(hidden_size).normal_(0.0, 0.02, generator=gen)
-        )
-        # Learned scalar that biases the null logit (higher → less abstain).
-        self.null_bias = nn.Parameter(torch.tensor(float(null_temperature)))
+        # Null slot — only kept for v1 backward compat. v2 omits it entirely;
+        # abstention becomes a learned direction in real-key V-space.
+        if arch_version == "v1":
+            self.K_null = nn.Parameter(
+                torch.empty(hidden_size).normal_(0.0, 0.02, generator=gen)
+            )
+            self.V_null = nn.Parameter(
+                torch.empty(hidden_size).normal_(0.0, 0.02, generator=gen)
+            )
+            self.null_bias = nn.Parameter(torch.tensor(float(null_temperature)))
+        else:
+            # LayerNorm on Q and K before dot product. Strips norm-magnitude
+            # games (W_K(prey).norm() = 3024 vs K_null.norm() = 1.04 in v1
+            # made the dot-product argument about norm, not direction); LN
+            # forces the dot product to be about angular alignment.
+            self.q_ln = nn.LayerNorm(hidden_size)
+            self.k_ln = nn.LayerNorm(hidden_size)
 
         # Output projection: small MLP from attended hidden → out_seq_len
         # distinct vectors. A single linear ⇒ all out_seq_len positions are
@@ -166,23 +187,39 @@ class Channel(nn.Module):
             K_real = torch.zeros(0, H, device=Q_in.device, dtype=Q_in.dtype)
             V_real = torch.zeros(0, H, device=Q_in.device, dtype=Q_in.dtype)
 
-        # Append null slot.
-        K_all = torch.cat([K_real, self.K_null.to(Q_in).unsqueeze(0)], dim=0)  # [M+1, H]
-        V_all = torch.cat([V_real, self.V_null.to(Q_in).unsqueeze(0)], dim=0)  # [M+1, H]
-
-        # Multi-head attention.
-        Q_h = self._split_heads(Q)        # [n_heads, 1, head_dim]
-        K_h = self._split_heads(K_all)    # [n_heads, M+1, head_dim]
-        V_h = self._split_heads(V_all)    # [n_heads, M+1, head_dim]
-
-        scores = torch.einsum("hqd,hkd->hqk", Q_h, K_h) / math.sqrt(self.head_dim)  # [heads,1,M+1]
-        # Bias the null logit (last index) by the learned scalar, averaged
-        # across heads to keep semantics interpretable.
-        scores[..., -1] = scores[..., -1] + self.null_bias
-
-        weights = F.softmax(scores, dim=-1)           # [heads, 1, M+1]
-        attended = torch.einsum("hqk,hkd->hqd", weights, V_h)  # [heads, 1, head_dim]
-        merged = self._merge_heads(attended)          # [1, hidden]
+        if self.arch_version == "v1":
+            # v1: append learnable null slot, softmax over (real + null).
+            K_all = torch.cat([K_real, self.K_null.to(Q_in).unsqueeze(0)], dim=0)
+            V_all = torch.cat([V_real, self.V_null.to(Q_in).unsqueeze(0)], dim=0)
+            Q_h = self._split_heads(Q)
+            K_h = self._split_heads(K_all)
+            V_h = self._split_heads(V_all)
+            scores = torch.einsum("hqd,hkd->hqk", Q_h, K_h) / math.sqrt(self.head_dim)
+            scores[..., -1] = scores[..., -1] + self.null_bias
+            weights = F.softmax(scores, dim=-1)
+            attended = torch.einsum("hqk,hkd->hqd", weights, V_h)
+            merged = self._merge_heads(attended)
+        else:
+            # v2: NO null slot. LayerNorm on Q and K before dot product so the
+            # similarity is angular, not norm-dominated. With M=0 (no prey),
+            # we synthesize a single all-zeros real key — Q attends to it with
+            # softmax mass = 1, output is W_V(0) = 0 + bias-free. Calling code
+            # uses null_prob from selected_weights to decide whether to skip.
+            if M == 0:
+                K_real = torch.zeros(1, H, device=Q_in.device, dtype=Q_in.dtype)
+                V_real = torch.zeros(1, H, device=Q_in.device, dtype=Q_in.dtype)
+                M_eff = 1
+            else:
+                M_eff = M
+            Q_n = self.q_ln(Q)
+            K_n = self.k_ln(K_real)
+            Q_h = self._split_heads(Q_n)
+            K_h = self._split_heads(K_n)
+            V_h = self._split_heads(V_real)
+            scores = torch.einsum("hqd,hkd->hqk", Q_h, K_h) / math.sqrt(self.head_dim)
+            weights = F.softmax(scores, dim=-1)         # [heads, 1, M_eff]
+            attended = torch.einsum("hqk,hkd->hqd", weights, V_h)
+            merged = self._merge_heads(attended)
 
         # MLP projects to out_seq_len distinct vectors so the model has
         # multiple positions of bandwidth to anchor on, not a single
@@ -192,9 +229,21 @@ class Channel(nn.Module):
         output = out.view(self.out_seq_len, self.hidden_size)  # [out_seq_len, hidden]
 
         # Aggregate weights across heads for reporting / capacity selection.
-        avg_w = weights.mean(dim=0).squeeze(0)         # [M+1]
-        null_prob = float(avg_w[-1].item())
-        real_w = avg_w[:-1] if M > 0 else torch.zeros(0)
+        avg_w = weights.mean(dim=0).squeeze(0)
+        if self.arch_version == "v1":
+            # v1 layout: weights = [M_real..., null]
+            null_prob = float(avg_w[-1].item())
+            real_w = avg_w[:-1] if M > 0 else torch.zeros(0)
+        else:
+            # v2: no null slot. weights span only real keys (or the synthesized
+            # zero key when M=0). Treat M=0 as 100% null for backward-compat
+            # with calling code that uses null_prob to decide skip.
+            if M == 0:
+                null_prob = 1.0
+                real_w = torch.zeros(0)
+            else:
+                null_prob = 0.0
+                real_w = avg_w  # [M]
 
         if M > 0:
             sorted_w, sorted_idx = torch.sort(real_w, descending=True)
