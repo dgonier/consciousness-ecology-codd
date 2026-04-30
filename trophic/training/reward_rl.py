@@ -154,7 +154,10 @@ class RewardRLRunner:
             if c.agent_kind in by_kind:
                 by_kind[c.agent_kind].append(c)
         outs = []
-        hunter_state = self.predator.role_prefix.mean(dim=0).to(
+        # Issue #6 fix: hunter_state must depend on input.
+        # Issue #12 fix: normalize role_q to fixed reference norm.
+        from ..agents.base import normalize_role_q
+        role_q = normalize_role_q(self.predator.role_prefix).to(
             device=self.host.device, dtype=self.host.dtype
         )
         for source_kind, _tags in diet_map:
@@ -165,11 +168,14 @@ class RewardRLRunner:
                     [p.channel_embedding for p in prey],
                     dtype=self.host.dtype, device=self.host.device,
                 )
+                input_q = prey_t.mean(dim=0)
+                hunter_state = role_q + input_q
             else:
                 prey_t = torch.zeros(
                     0, self.host.hidden_size,
                     dtype=self.host.dtype, device=self.host.device,
                 )
+                hunter_state = role_q
             out = ch(hunter_state, prey_t)
             outs.append(out.output)
         result = torch.cat(outs, dim=0)

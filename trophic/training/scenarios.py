@@ -42,6 +42,14 @@ class Scenario:
         return self.name.startswith("eval_")
 
 
+# NOTE: The inline format-conversion helpers below (_ri + the per-source
+# payload builders: _ohlcv_payload, _trade_payload, _options_payload,
+# _filing_payload, _press_payload, _quote_series_payload) drive the
+# *synthetic* training scenarios. They are intentionally NOT routed
+# through `trophic/adapters/` because they're not adapting an external
+# format — they're pseudo-random fixtures that imply a target direction
+# from a seed. Real-data adapters live in `trophic/adapters/stocknet/`
+# (phase2-C) and feed the StockNet loader (`stocknet_loader.py`).
 def _ri(source: str, payload: dict, seed: int) -> RawInput:
     return RawInput(
         id=f"{source}.{seed:04d}.{uuid.UUID(int=seed).hex[:8]}",

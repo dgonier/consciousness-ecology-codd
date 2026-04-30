@@ -9,7 +9,7 @@ The system is hidden-state-native. Each broadcast carries:
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Any, Literal
+from typing import Any, Final, Literal
 
 from pydantic import BaseModel, Field
 
@@ -18,12 +18,44 @@ def _now() -> datetime:
     return datetime.now(timezone.utc)
 
 
+# ---------- wavelength registry ----------
+#
+# Controlled vocabulary of source tags that any Adapter is allowed to emit
+# (and that any Producer is allowed to subscribe to via WAVELENGTHS). This
+# is the single source of truth — `trophic.adapters.base` imports this
+# constant rather than redefining it.
+#
+# Adding a new wavelength: add it here, then define an Adapter subclass
+# whose SOURCE_TAGS contains it. The Adapter ABC's __init_subclass__ hook
+# enforces this at class-definition time.
+#
+# `RawInput.source` stays typed as `str` (not Literal) for backward compat
+# with the existing scenario builders and tests; the controlled vocabulary
+# is advisory at the data-class level and enforced at the adapter level.
+SOURCE_TAGS_VOCAB: Final[set[str]] = {
+    "ohlcv",         # OHLCV bars (any granularity)
+    "trades",        # tick-level trade prints
+    "book",          # depth-of-book snapshots
+    "filing",        # SEC filings (8-K, 10-Q, S-1, 13D)
+    "press",         # press releases / news headlines
+    "options",       # options activity
+    "halt",          # trading halts
+    "quote_series",  # multi-bar quote time series for forecasting
+    "tweets",        # tokenized social media text (NEW for ENVSTREAM)
+}
+
+
 # ---------- raw input ----------
 
 class RawInput(BaseModel):
-    """A single observation from the outside world (synthetic feed in v1)."""
+    """A single observation from the outside world (synthetic feed in v1).
+
+    `source` is free-form `str` for backward compat. New code SHOULD use a
+    tag from `SOURCE_TAGS_VOCAB`; new Adapter subclasses are validated
+    against this vocabulary at class-definition time.
+    """
     id: str
-    source: str  # "ohlcv" | "trades" | "book" | "filing" | "press" | "options" | "halt" | ...
+    source: str  # SHOULD be a member of SOURCE_TAGS_VOCAB (advisory at this level)
     payload: dict[str, Any]
     created_at: datetime = Field(default_factory=_now)
 

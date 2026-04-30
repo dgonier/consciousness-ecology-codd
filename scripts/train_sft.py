@@ -48,6 +48,19 @@ async def main() -> None:
     host = ModelHost.get(cfg.model)
     print(f"[init] hidden_size={host.hidden_size} dtype={host.dtype} device={host.device}")
 
+    # Issue #10 phase 1: optionally attach a LoRA adapter to the base model
+    # BEFORE Channel training, so Channels learn against the LoRA-modified
+    # hidden-state distribution (otherwise Channels and base drift apart —
+    # see #12, and the schema-collapse finding from the partial integration
+    # test). Co-training is the architecturally correct approach.
+    _lora_dir = os.environ.get("TROPHIC_LORA_DIR", "")
+    if _lora_dir:
+        from peft import PeftModel
+        print(f"[init] attaching LoRA from {_lora_dir}")
+        host._model = PeftModel.from_pretrained(host._model, _lora_dir, is_trainable=False)
+        host._model.eval()  # adapter frozen; we're training Channels, not the LoRA
+        print(f"[init] LoRA active (frozen for SFT — only Channels train)")
+
     # Agents — one of each kind
     producers = [Producer.make(k) for k in ("tickdelta", "disclosure", "anomaly")]
     herbivores = [Herbivore.make(k, capacity=cfg.population.intake_budget)

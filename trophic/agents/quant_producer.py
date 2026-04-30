@@ -7,11 +7,16 @@ since the forecaster path bypasses Channel attention on the producer→herb
 edge (the herbivore reads payloads directly).
 
 Diet tag: `from_quant_series`. Forecaster herbivore eats this.
+
+Wavelength contract (post phase2-D refactor): declares
+`WAVELENGTHS = {"quote_series"}` and uses `inp.source in self.WAVELENGTHS`
+for attraction, matching the Producer-family convention.
 """
 from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass
+from typing import ClassVar
 
 from ..types import Broadcast, RawInput
 from .base import BaseAgent, new_agent_id
@@ -20,26 +25,20 @@ from .base import BaseAgent, new_agent_id
 QUANT_PRODUCER_KINDS = ("quote_series",)
 
 
-def attracts_quote_series(inp: RawInput) -> bool:
-    return inp.source == "quote_series"
-
-
-ATTRACTION = {
-    "quote_series": attracts_quote_series,
-}
-
-
 @dataclass
 class QuantitativeProducer(BaseAgent):
     role: str = "producer"
 
+    WAVELENGTHS: ClassVar[set[str]] = {"quote_series"}
+    KIND: ClassVar[str] = "quote_series"
+
     @classmethod
-    def make(cls, kind: str) -> "QuantitativeProducer":
+    def make(cls, kind: str = "quote_series") -> "QuantitativeProducer":
         assert kind in QUANT_PRODUCER_KINDS, kind
         return cls(id=new_agent_id("producer", kind), kind=kind)
 
     def attracts(self, inp: RawInput) -> bool:
-        return ATTRACTION[self.kind](inp)
+        return inp.source in self.WAVELENGTHS
 
     async def produce(self, inp: RawInput, tick: int, host=None) -> Broadcast | None:
         if not self.attracts(inp):

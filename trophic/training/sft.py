@@ -22,12 +22,23 @@ from dataclasses import dataclass, field
 
 import torch
 
+import os
+
 from ..agents.herbivore import DIETS as HERB_DIETS, Herbivore
 from ..agents.predator import DIETS as PRED_DIETS, Predator
 from ..agents.producer import Producer
 from ..model_host import ModelHost
 from ..trough_attention import TroughAttention
 from ..types import Broadcast
+
+
+def _tier_transport() -> str:
+    """Phase 1 of #8 fix: env-var gate for which inter-tier transport
+    mechanism is active. "channel" (default) = legacy per-Channel
+    point-to-point; "trough" = shared K/V trough at each tier with E_in
+    projection + diet-mask attend + gated residual output.
+    """
+    return os.environ.get("TROPHIC_TIER_TRANSPORT", "channel").lower()
 from .channel_trainer import ChannelTrainer
 from .scenarios import Scenario
 from .tau_schedule import cosine_tau
@@ -70,6 +81,12 @@ class SFTRunner:
     # scenarios share producers but the trough's V_store is content-
     # addressed per scenario.
     _producer_trough: TroughAttention | None = None
+    # Phase 1 of #8 fix: herb-trough. New tier substrate that holds
+    # herbivore broadcasts; predator attends it per-diet in trough mode.
+    # Built lazily on first _pred_loss call. Only used when
+    # TROPHIC_TIER_TRANSPORT=trough (else None and predator uses per-Channel
+    # point-to-point as before — backward compat with seed1..seed20).
+    _herb_trough: TroughAttention | None = None
     # τ used for the most recent step — exposed for diagnostic logging.
     _last_tau: float = 1.0
 
@@ -102,6 +119,105 @@ class SFTRunner:
             f" over {self.cfg.steps} steps"
         )
 
+    # ---------- #8 phase-1 trough mode helpers ----------
+
+    def _trough_extras(self) -> list:
+        """Modules whose parameters should join the optimizer in trough mode."""
+        extras = []
+        if self._producer_trough is not None:
+            extras.append(self._producer_trough)
+        if self._herb_trough is not None:
+            extras.append(self._herb_trough)
+        return extras
+
+    def _ensure_herb_trough(self, herb_broadcasts: list[Broadcast]) -> TroughAttention | None:
+        """Phase 1 of #8 fix: lazily build the herb→pred trough.
+
+        Reset-and-redeposit each scenario, same lifecycle as producer-trough.
+        Active only when TROPHIC_TIER_TRANSPORT=trough.
+        """
+        if _tier_transport() != "trough" or not herb_broadcasts:
+            return None
+        if self._herb_trough is None:
+            n_slots = max(32, len(herb_broadcasts) * 4)
+            self._herb_trough = TroughAttention(
+                hidden_size=self.host.hidden_size,
+                n_slots=n_slots,
+                n_heads=8 if self.host.hidden_size % 8 == 0 else 4,
+                out_seq_len=8,
+                seed=self.cfg.seed + 9002,
+                use_E_in=True,
+                gated_residual=True,
+            ).to(device=self.host.device, dtype=self.host.dtype)
+            self.trainer.attach(
+                self.herbivores, [self.predator],
+                extra_modules=self._trough_extras(),
+            )
+        trough = self._herb_trough
+        alive_ids = trough.alive.nonzero(as_tuple=False).flatten().tolist()
+        if alive_ids:
+            trough.evict(alive_ids)
+        deposit_n = min(len(herb_broadcasts), trough.n_slots)
+        trough.deposit(herb_broadcasts[:deposit_n])
+        return trough
+
+    def _herb_output(self, herb: Herbivore, candidates: list[Broadcast]):
+        """Dispatch herb's cross-tier consumption: per-Channel (channel mode)
+        vs producer-trough attend (trough mode). Returns (ch_out, nulls)."""
+        if _tier_transport() == "trough":
+            trough = self._ensure_producer_trough(candidates)
+            if trough is not None:
+                from ..agents.base import ROLE_Q_REF_NORM
+                _rq = self._role_prefix_mean.to(self.host.device, self.host.dtype)
+                role_q = _rq * (ROLE_Q_REF_NORM / (_rq.norm() + 1e-6))
+                return self._trough_output_for(
+                    herb.kind, HERB_DIETS[herb.kind], trough, role_q
+                )
+        return self._channel_output_for(
+            herb.kind, HERB_DIETS[herb.kind], herb.channels, candidates
+        )
+
+    def _pred_output(self, herb_for_pred: list[Broadcast]):
+        """Dispatch predator's cross-tier consumption."""
+        if _tier_transport() == "trough":
+            trough = self._ensure_herb_trough(herb_for_pred)
+            if trough is not None:
+                from ..agents.base import ROLE_Q_REF_NORM
+                _rq = self._role_prefix_mean.to(self.host.device, self.host.dtype)
+                role_q = _rq * (ROLE_Q_REF_NORM / (_rq.norm() + 1e-6))
+                return self._trough_output_for(
+                    self.predator.kind, PRED_DIETS[self.predator.kind],
+                    trough, role_q,
+                )
+        return self._channel_output_for(
+            self.predator.kind, PRED_DIETS[self.predator.kind],
+            self.predator.channels, herb_for_pred
+        )
+
+    def _trough_output_for(
+        self,
+        agent_kind: str,
+        diet_map: list[tuple[str, list[str]]],
+        trough: TroughAttention,
+        role_q: torch.Tensor,
+    ) -> tuple[torch.Tensor, list[float]]:
+        """Trough-mode analog of `_channel_output_for`. For each (source_kind,
+        diet_tags) entry in diet_map, query the shared trough with
+        allowed_tag_strs=diet_tags. Concat outputs in the same shape the
+        per-Channel path produces so downstream code is unchanged.
+        """
+        outs = []
+        nulls = []
+        for source_kind, tags in diet_map:
+            out = trough.attend(
+                role_q,
+                tau=self._last_tau,
+                allowed_tag_strs=tags,
+            )
+            outs.append(out.output)
+            nulls.append(out.null_prob)
+        return torch.cat(outs, dim=0), nulls
+
     # ---------- Mission 06: producer trough + skip path ----------
 
     def _ensure_producer_trough(self, candidates: list[Broadcast]) -> TroughAttention | None:
@@ -115,13 +231,25 @@ class SFTRunner:
             return None
         if self._producer_trough is None:
             n_slots = max(64, len(candidates) * 4)
+            # Trough-mode (#8 phase 1): identity-init E_in + gated residual
+            # (α=0 + zero-init readout). Day-0 output is zero so the
+            # consumer's baseline behavior is unchanged; SFT opens the gate.
+            _trough_mode = _tier_transport() == "trough"
             self._producer_trough = TroughAttention(
                 hidden_size=self.host.hidden_size,
                 n_slots=n_slots,
                 n_heads=8 if self.host.hidden_size % 8 == 0 else 4,
                 out_seq_len=8,
                 seed=self.cfg.seed + 9001,
+                use_E_in=_trough_mode,
+                gated_residual=_trough_mode,
             ).to(device=self.host.device, dtype=self.host.dtype)
+            if _trough_mode:
+                # Re-attach trainer with the trough as an extra trainable module.
+                self.trainer.attach(
+                    self.herbivores, [self.predator],
+                    extra_modules=self._trough_extras(),
+                )
         # Reset the trough each scenario — evict everything, re-deposit.
         trough = self._producer_trough
         alive_ids = trough.alive.nonzero(as_tuple=False).flatten().tolist()
@@ -154,13 +282,30 @@ class SFTRunner:
         channels: dict,
         candidates: list[Broadcast],
     ) -> tuple[torch.Tensor, list[float]]:
-        """Run each per-source-kind Channel and concat outputs. Returns (channel_seq, null_probs)."""
+        """Run each per-source-kind Channel and concat outputs. Returns (channel_seq, null_probs).
+
+        Issue #6 fix: hunter_state must depend on input. Q is built from
+        `self._role_prefix_mean` (set by callers to the agent's role prefix
+        pooled mean) + the pooled mean of the candidate broadcasts going
+        into the channel. The role prefix is fixed per agent; the input
+        pool changes per scenario, which restores input conditioning of
+        the cross-attention. Without this, Q is constant across all
+        scenarios for a given agent and the channel output collapses.
+        """
         by_kind: dict[str, list[Broadcast]] = {pk: [] for pk, _ in diet_map}
         for c in candidates:
             if c.agent_kind in by_kind:
                 by_kind[c.agent_kind].append(c)
         outs = []
         nulls = []
+        # Issue #12 fix: normalize role_q to a fixed reference norm (1.0) so the
+        # cross-attention Q geometry doesn't shift when role_prefix length
+        # changes (e.g., a longer prompt at inference). Trained Channel weights
+        # learned against the original norm; without this normalization any
+        # prompt edit at inference time produces gibberish (#11 surfaced this).
+        from ..agents.base import ROLE_Q_REF_NORM
+        _role_q = self._role_prefix_mean.to(self.host.device, self.host.dtype)
+        role_q = _role_q * (ROLE_Q_REF_NORM / (_role_q.norm() + 1e-6))
         for source_kind, _tags in diet_map:
             ch = channels[source_kind]
             prey = by_kind[source_kind]
@@ -170,12 +315,13 @@ class SFTRunner:
                     dtype=self.host.dtype,
                     device=self.host.device,
                 )
+                input_q = prey_t.mean(dim=0)
+                hs = role_q + input_q
             else:
                 prey_t = torch.zeros(0, self.host.hidden_size,
                                      dtype=self.host.dtype, device=self.host.device)
-            # Hunter state = mean of role prefix (matches the live runner).
-            # We need to fetch the right role prefix; pass through arg.
-            out = ch(self._role_prefix_mean.to(self.host.device, self.host.dtype), prey_t)
+                hs = role_q
+            out = ch(hs, prey_t)
             outs.append(out.output)
             nulls.append(out.null_prob)
         return torch.cat(outs, dim=0), nulls
@@ -184,11 +330,9 @@ class SFTRunner:
         target = sc.technical_target if herb.kind == "technical" else sc.fundamental_target
         if not target:
             return None
-        # set hunter state for _channel_output_for
+        # set hunter state for _channel_output_for / trough dispatch
         self._role_prefix_mean = herb.role_prefix.mean(dim=0)
-        ch_out, _nulls = self._channel_output_for(
-            herb.kind, HERB_DIETS[herb.kind], herb.channels, candidates
-        )
+        ch_out, _nulls = self._herb_output(herb, candidates)
         loss = self.host.teacher_forcing_loss(
             role_prefix=herb.role_prefix,
             channel_output=ch_out,
@@ -208,10 +352,7 @@ class SFTRunner:
         if not sc.predator_target:
             return None
         self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
-        ch_out, _nulls = self._channel_output_for(
-            self.predator.kind, PRED_DIETS[self.predator.kind],
-            self.predator.channels, herb_outputs_for_predator
-        )
+        ch_out, _nulls = self._pred_output(herb_outputs_for_predator)
 
         # Mission 06 (phase3-A): cross-tier skip from the producer trough.
         # The herbivore-side path produces ch_out of shape
@@ -222,9 +363,13 @@ class SFTRunner:
         if producer_candidates:
             trough = self._ensure_producer_trough(producer_candidates)
             if trough is not None:
-                hs = self._role_prefix_mean.to(
+                # Issue #12 fix: normalize role-prefix-derived Q (same fix as
+                # in _channel_output_for above).
+                from ..agents.base import ROLE_Q_REF_NORM
+                _hs = self._role_prefix_mean.to(
                     device=self.host.device, dtype=self.host.dtype
                 )
+                hs = _hs * (ROLE_Q_REF_NORM / (_hs.norm() + 1e-6))
                 skip_out = trough.attend(hs, tau=tau)
                 skip_seq = skip_out.output  # [out_seq_len, hidden]
                 # ch_out length is N_kinds * out_seq_len; tile skip to match.
@@ -399,9 +544,7 @@ class SFTRunner:
                     if not target:
                         continue
                     self._role_prefix_mean = h.role_prefix.mean(dim=0)
-                    ch_out, _ = self._channel_output_for(
-                        h.kind, HERB_DIETS[h.kind], h.channels, candidates
-                    )
+                    ch_out, _ = self._herb_output(h, candidates)
                     loss = self.host.teacher_forcing_loss(
                         role_prefix=h.role_prefix,
                         channel_output=ch_out,
@@ -413,10 +556,7 @@ class SFTRunner:
                 if sc.predator_target:
                     herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
                     self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
-                    ch_out, _ = self._channel_output_for(
-                        self.predator.kind, PRED_DIETS[self.predator.kind],
-                        self.predator.channels, herb_for_pred
-                    )
+                    ch_out, _ = self._pred_output(herb_for_pred)
                     loss = self.host.teacher_forcing_loss(
                         role_prefix=self.predator.role_prefix,
                         channel_output=ch_out,
@@ -431,8 +571,20 @@ class SFTRunner:
 
     # ---------- eval (no_grad decoded sample) ----------
 
-    def eval_decode(self, sc: Scenario, herb_kind: str | None = None) -> dict:
-        """Run a single scenario in inference mode, return decoded outputs."""
+    def eval_decode(self, sc: Scenario, herb_kind: str | None = None,
+                    max_new_tokens: int | None = None) -> dict:
+        """Run a single scenario in inference mode, return decoded outputs.
+
+        Issue #8 / phase3-A finding: greedy decoding on undertrained checkpoints
+        burns the full max_new_tokens budget on gibberish, making in-loop eval
+        the wall-time bottleneck (7-15 min per eval × every-50-steps killed
+        SFT seed 9 twice). The TROPHIC_EVAL_MAX_TOKENS env var caps in-loop
+        eval generation; default 96 (matches IPO target_max_tokens). Set higher
+        only for end-of-training eval where verbose output matters.
+        """
+        import os as _os
+        if max_new_tokens is None:
+            max_new_tokens = int(_os.environ.get("TROPHIC_EVAL_MAX_TOKENS", "96"))
         candidates = self._producer_cache.get(sc.name, [])
         out: dict = {"name": sc.name}
         with torch.no_grad():
@@ -440,31 +592,26 @@ class SFTRunner:
                 if herb_kind and h.kind != herb_kind:
                     continue
                 self._role_prefix_mean = h.role_prefix.mean(dim=0)
-                ch_out, nulls = self._channel_output_for(
-                    h.kind, HERB_DIETS[h.kind], h.channels, candidates
-                )
+                ch_out, nulls = self._herb_output(h, candidates)
                 fr = self.host.forward_with_prefix(
                     role_prefix=h.role_prefix,
                     channel_output=ch_out,
                     query_text="Now produce the SYNTHESIS and CONFIDENCE.",
                     decode=True,
-                    max_new_tokens=192,
+                    max_new_tokens=max_new_tokens,
                 )
                 out[f"herb.{h.kind}"] = (fr.decoded_text or "").strip()[:400]
                 out[f"herb.{h.kind}.null"] = round(sum(nulls) / max(1, len(nulls)), 3)
             # Predator on oracle herb hiddens
             herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
             self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
-            ch_out, nulls = self._channel_output_for(
-                self.predator.kind, PRED_DIETS[self.predator.kind],
-                self.predator.channels, herb_for_pred
-            )
+            ch_out, nulls = self._pred_output(herb_for_pred)
             fr = self.host.forward_with_prefix(
                 role_prefix=self.predator.role_prefix,
                 channel_output=ch_out,
                 query_text="Now produce the PREDICTION and CONFIDENCE.",
                 decode=True,
-                max_new_tokens=192,
+                max_new_tokens=max_new_tokens,
             )
             out["pred.short_horizon"] = (fr.decoded_text or "").strip()[:400]
         return out

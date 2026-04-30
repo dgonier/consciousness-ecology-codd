@@ -441,14 +441,32 @@ class ModelHost:
 
             decoded = None
             if decode:
-                gen = self._model.generate(
-                    inputs_embeds=inputs_embeds,
-                    attention_mask=attention_mask,
-                    max_new_tokens=max_new_tokens or self.cfg.max_new_tokens,
-                    do_sample=False,
-                    repetition_penalty=1.3,
-                    pad_token_id=self._tok.eos_token_id,
-                )
+                # Decode-time temperature controlled by TROPHIC_DECODE_TEMP env var.
+                # Default 0.0 = greedy (legacy behavior). >0 enables sampling at
+                # that temperature; >=1.0 includes top-p=0.95 truncation. Used by
+                # DIAG 2 sweep on issue #8 (direction-collapse investigation).
+                import os as _os
+                _temp = float(_os.environ.get("TROPHIC_DECODE_TEMP", "0.0"))
+                if _temp > 0.0:
+                    gen = self._model.generate(
+                        inputs_embeds=inputs_embeds,
+                        attention_mask=attention_mask,
+                        max_new_tokens=max_new_tokens or self.cfg.max_new_tokens,
+                        do_sample=True,
+                        temperature=_temp,
+                        top_p=0.95,
+                        repetition_penalty=1.3,
+                        pad_token_id=self._tok.eos_token_id,
+                    )
+                else:
+                    gen = self._model.generate(
+                        inputs_embeds=inputs_embeds,
+                        attention_mask=attention_mask,
+                        max_new_tokens=max_new_tokens or self.cfg.max_new_tokens,
+                        do_sample=False,
+                        repetition_penalty=1.3,
+                        pad_token_id=self._tok.eos_token_id,
+                    )
                 # When inputs_embeds is used, generate returns only new tokens.
                 decoded = self._tok.decode(gen[0], skip_special_tokens=True).strip()
                 # Early-stop at the first complete top-level XML close tag

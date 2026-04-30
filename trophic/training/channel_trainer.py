@@ -33,7 +33,18 @@ class ChannelTrainer:
     accum_count: int = 0
     _params: list[torch.nn.Parameter] = field(default_factory=list)
 
-    def attach(self, herbivores: list[Herbivore], predators: list[Predator]) -> int:
+    def attach(
+        self,
+        herbivores: list[Herbivore],
+        predators: list[Predator],
+        extra_modules: list | None = None,
+    ) -> int:
+        """Collect trainable parameters from agents (+ optional extras).
+
+        `extra_modules`: any list of nn.Module-like objects whose
+        `parameters()` should be included. Used in #8-phase-1 trough mode
+        to add the trough's E_in / alpha / proj_in / proj_out / W_Q etc.
+        """
         params: list[torch.nn.Parameter] = []
         for h in herbivores:
             for ch in h.channels.values():
@@ -52,6 +63,19 @@ class ChannelTrainer:
                 holder = p._skip_holder
             if holder is not None:
                 params.extend(pp for pp in holder.parameters() if pp.requires_grad)
+        if extra_modules:
+            for m in extra_modules:
+                params.extend(p for p in m.parameters() if p.requires_grad)
+        # Dedupe by id (a parameter could plausibly appear twice if a module
+        # is in both extras and an agent's channel set).
+        seen: set[int] = set()
+        deduped = []
+        for p in params:
+            if id(p) in seen:
+                continue
+            seen.add(id(p))
+            deduped.append(p)
+        params = deduped
         self._params = params
         if params:
             self.optimizer = torch.optim.Adam(params, lr=self.lr)

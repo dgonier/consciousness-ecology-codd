@@ -69,6 +69,14 @@ async def main() -> None:
 
     host = ModelHost.get(cfg.model)
     print(f"[stocknet-eval] hidden={host.hidden_size} dtype={host.dtype} dev={host.device}")
+
+    _lora_dir = os.environ.get("TROPHIC_LORA_DIR", "")
+    if _lora_dir:
+        from peft import PeftModel
+        print(f"[stocknet-eval] attaching LoRA from {_lora_dir}")
+        host._model = PeftModel.from_pretrained(host._model, _lora_dir, is_trainable=False)
+        host._model.eval()
+
     sft_cfg = SFTConfig(seed=seed)
 
     herbivores = [Herbivore.make(k, capacity=cfg.population.intake_budget)

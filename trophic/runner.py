@@ -27,19 +27,28 @@ from .agents.herbivore import Herbivore
 from .agents.predator import Predator
 from .agents.producer import Producer
 from .agents.quant_producer import QuantitativeProducer
+from .agents.social_signal import SocialSignal
 from .config import DEFAULT_CONFIG, TrophicConfig
 from .decomposer import Decomposer as BiasDecomposer
 from .ecology.metrics import MetricsCollector, TickMetrics
 from .ecology.population import Population
+from .environment_stream import EnvironmentStream
 from .inputs.synthetic import SyntheticFeed
 from .model_host import ModelHost
 from .predators.apex_judge import ApexJudge
 from .substrate import SubstratePool
 from .trough_attention import TroughAttention
-from .types import Broadcast, PredatorJudgment
+from .types import Broadcast, PredatorJudgment, RawInput
 
 
 _DEBUG_DECOMPOSER = os.environ.get("TROPHIC_DEBUG_DECOMPOSER", "0") not in ("", "0", "false", "False")
+# Mission 05 (phase3-A): toggle to route producers through EnvironmentStream
+# (the input-layer K/V substrate). When enabled, raw inputs are first
+# deposited into the stream, then each producer attends with its WAVELENGTHS
+# filter and its broadcast embedding is the attended hidden state. Default
+# off to keep the existing runner regression-free; the SFT/IPO scripts can
+# opt in by setting this env var.
+_USE_ENVSTREAM = os.environ.get("TROPHIC_USE_ENVSTREAM", "0") not in ("", "0", "false", "False")
 
 
 @dataclass
@@ -86,6 +95,14 @@ class Runner:
     # side-effect attends, predator skip-connection attend).
     tau: float = 1.0
 
+    # Mission 05 (phase3-A): EnvironmentStream — input-layer K/V substrate.
+    # Lazily allocated on first use (sized to host.hidden_size). When
+    # enabled (env var TROPHIC_USE_ENVSTREAM=1), the producer pipeline
+    # deposits RawInputs here and producers attend with their WAVELENGTHS
+    # filter. Disabled by default so the existing runner stays unchanged.
+    env_stream: EnvironmentStream | None = None
+    use_env_stream: bool = field(default_factory=lambda: _USE_ENVSTREAM)
+
     def __post_init__(self):
         if self.pool is None:
             # SubstratePool is now an in-memory shim over TroughAttention
@@ -115,6 +132,12 @@ class Runner:
                 self.population.add_producer(Producer.make(kind))
         # Quantitative (numeric) producer for the Chronos path
         self.population.add_producer(QuantitativeProducer.make("quote_series"))
+        # Mission 05 (phase3-A): SocialSignal subscribes to the new "tweets"
+        # wavelength. We seed it unconditionally — even outside envstream
+        # mode it will simply ignore non-tweets RawInputs (attracts() returns
+        # False for source != "tweets"). When envstream is on, it picks up
+        # the tweet deposits via wavelength filter.
+        self.population.add_producer(SocialSignal.make())
         # Qwen-text herbivores
         for kind in ("technical", "fundamental"):
             for _ in range(self.cfg.runner.n_herbivores_per_kind):
@@ -125,6 +148,110 @@ class Runner:
         self.population.add_herbivore(ForecasterHerbivore.make("forecaster", capacity=4))
         # One predator kind for v1.5; eats from all three herbivore kinds.
         self.population.add_predator(Predator.make("short_horizon"))
+
+    # ---------- EnvironmentStream wiring (Mission 05 — phase3-A) ----------
+
+    def _ensure_env_stream(self) -> EnvironmentStream:
+        """Lazily build an EnvironmentStream sized to host.hidden_size.
+
+        Sized for ~128 slots and 8 heads (or 4 if hidden_size%8 != 0). The
+        stream lives on CPU/fp32 since deposits embed via host.text_to_hidden
+        which already returns CPU/fp32; the trough's MultiheadAttention
+        runs there without device transfers.
+        """
+        if self.env_stream is None:
+            n_heads = 8 if self.host.hidden_size % 8 == 0 else 4
+            self.env_stream = EnvironmentStream(
+                hidden_size=self.host.hidden_size,
+                n_slots=128,
+                n_heads=n_heads,
+                out_seq_len=8,
+                seed=self.cfg.runner.seed + 7777,
+            )
+        return self.env_stream
+
+    async def _produce_via_stream(
+        self, inputs: list[RawInput], tick: int
+    ) -> list[tuple[Producer, list[Broadcast]]]:
+        """Deposit-then-attend pipeline.
+
+        For each RawInput, embed it once via the host model and deposit
+        into the stream. Then each producer attends through its
+        wavelength filter and emits at most one broadcast per tick (the
+        attended substrate vector is the broadcast embedding).
+        """
+        stream = self._ensure_env_stream()
+
+        # 1) Deposit. We embed each RawInput once via a minimal text
+        #    rendering; this is the only Qwen forward per input on the
+        #    deposit side. The pooled hidden state is the stream value.
+        deposited_ids: list[str] = []
+        for inp in inputs:
+            text = self._render_minimal(inp)
+            try:
+                emb = self.host.text_to_hidden(text, pool="mean").detach().float()
+            except Exception:
+                continue
+            try:
+                stream.deposit(inp, emb)
+                deposited_ids.append(inp.id)
+            except RuntimeError:
+                # No free slots — let lifecycle catch up next tick.
+                break
+
+        # 2) Attend per-producer with WAVELENGTHS filter.
+        produced: list[tuple[Producer, list[Broadcast]]] = []
+        for prod in self.population.alive_producers():
+            # QuantitativeProducer doesn't run an LM and isn't part of the
+            # text-stream path; let it use the legacy direct path.
+            if not isinstance(prod, Producer) or isinstance(prod, QuantitativeProducer):
+                items = []
+                for inp in inputs:
+                    if prod.attracts(inp):
+                        b = await prod.produce(inp, tick, self.host)
+                        if b is not None:
+                            items.append(b)
+                produced.append((prod, items))
+                continue
+            wavelengths = getattr(prod, "WAVELENGTHS", set())
+            if not wavelengths:
+                produced.append((prod, []))
+                continue
+            try:
+                query = prod.role_q(self.host)
+                attend_out = stream.attend(
+                    query=query,
+                    wavelength_filter=wavelengths,
+                    tau=self.tau,
+                )
+            except Exception:
+                produced.append((prod, []))
+                continue
+            br = prod.produce_from_stream(
+                attend_out, tick=tick, host=self.host,
+                parent_input_ids=list(deposited_ids),
+            )
+            produced.append((prod, [br] if br is not None else []))
+
+        # 3) Step the stream's lifecycle once per tick.
+        try:
+            stream.step_lifecycle()
+        except Exception:
+            pass
+        return produced
+
+    @staticmethod
+    def _render_minimal(inp: RawInput) -> str:
+        """Cheap, deterministic text rendering for stream-deposit. Same shape
+        as the producer's `_render` but kind-agnostic.
+        """
+        bits = [f"src={inp.source}"]
+        for k, v in (inp.payload or {}).items():
+            sv = str(v)
+            if len(sv) > 200:
+                sv = sv[:200]
+            bits.append(f"{k}={sv}")
+        return "INPUT " + "; ".join(bits)
 
     # ---------- skip-connection helper (Mission 06 / phase3-A) ----------
 
@@ -261,19 +388,25 @@ class Runner:
         inputs = self.feed.emit(self.cfg.runner.inputs_per_tick)
 
         # ---- 1. Producers ----
-        async def _produce_for(p: Producer):
-            made = []
-            for inp in inputs:
-                if not p.attracts(inp):
-                    continue
-                br = await p.produce(inp, tick, self.host)
-                if br is not None:
-                    made.append(br)
-            return p, made
+        # Mission 05 (phase3-A): when TROPHIC_USE_ENVSTREAM=1, route raw
+        # inputs through the input-layer K/V substrate; producers attend
+        # with wavelength filter rather than receiving RawInputs directly.
+        if self.use_env_stream:
+            produced = await self._produce_via_stream(list(inputs), tick)
+        else:
+            async def _produce_for(p: Producer):
+                made = []
+                for inp in inputs:
+                    if not p.attracts(inp):
+                        continue
+                    br = await p.produce(inp, tick, self.host)
+                    if br is not None:
+                        made.append(br)
+                return p, made
 
-        produced = await asyncio.gather(
-            *[_produce_for(p) for p in self.population.alive_producers()]
-        )
+            produced = await asyncio.gather(
+                *[_produce_for(p) for p in self.population.alive_producers()]
+            )
         for prod, items in produced:
             for it in items:
                 self.pool.add_broadcast(it)

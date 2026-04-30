@@ -54,6 +54,17 @@ async def main() -> None:
     host = ModelHost.get(cfg.model)
     print(f"[init] hidden_size={host.hidden_size} dtype={host.dtype} device={host.device}")
 
+    # Issue #10 phase 1: optionally attach a LoRA adapter (frozen) before
+    # IPO so Channels see the LoRA-modified hidden-state distribution they
+    # were SFT-trained against. Must match the LoRA used during SFT.
+    _lora_dir = os.environ.get("TROPHIC_LORA_DIR", "")
+    if _lora_dir:
+        from peft import PeftModel
+        print(f"[init] attaching LoRA from {_lora_dir}")
+        host._model = PeftModel.from_pretrained(host._model, _lora_dir, is_trainable=False)
+        host._model.eval()
+        print(f"[init] LoRA active (frozen for IPO — only Channels train)")
+
     herbivores = [Herbivore.make(k, capacity=cfg.population.intake_budget)
                   for k in ("technical", "fundamental")]
     predator = Predator.make("short_horizon")

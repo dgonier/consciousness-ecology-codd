@@ -42,6 +42,14 @@ async def main() -> None:
     host = ModelHost.get(cfg.model)
     print(f"[eval] hidden_size={host.hidden_size} dtype={host.dtype} device={host.device}")
 
+    _lora_dir = os.environ.get("TROPHIC_LORA_DIR", "")
+    if _lora_dir:
+        from peft import PeftModel
+        print(f"[eval] attaching LoRA from {_lora_dir}")
+        host._model = PeftModel.from_pretrained(host._model, _lora_dir, is_trainable=False)
+        host._model.eval()
+        print(f"[eval] LoRA active (frozen)")
+
     herbivores = [Herbivore.make(k, capacity=cfg.population.intake_budget)
                   for k in ("technical", "fundamental")]
     predator = Predator.make("short_horizon")

@@ -17,13 +17,13 @@ Conventions:
 """
 from __future__ import annotations
 
-import json
 import os
 import urllib.request
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Iterator, Literal
 
+from ..adapters.stocknet import OhlcvNormalizedAdapter, TokenizedTweetAdapter
 from ..types import RawInput
 from .scenarios import Scenario
 from .xml_schema import emit_prediction, emit_synthesis
@@ -67,10 +67,12 @@ def _http_get(url: str, cache_dir: Path | None = None) -> str | None:
 
 
 def _read_price_file(ticker: str, cache_dir: Path | None = None) -> dict[str, dict]:
-    """Returns {date_str: {"movement_pct": float, "open": ..., "high": ..., ...}}.
+    """Returns {date_str: payload_dict} for a single ticker's preprocessed
+    OHLCV file. Routes the raw text through `OhlcvNormalizedAdapter` so
+    the format-conversion logic lives in exactly one place
+    (`trophic/adapters/stocknet/ohlcv_normalized.py`).
 
-    Uses preprocessed (normalized) price file. Per the paper's convention,
-    the columns after movement_pct are normalized OHLC, then volume raw.
+    HTTP fetch + caching stay here (they're not adapter responsibilities).
     """
     url = f"{REPO_RAW}/price/preprocessed/{ticker}.txt"
     text = _http_get(url, cache_dir)
@@ -78,43 +80,29 @@ def _read_price_file(ticker: str, cache_dir: Path | None = None) -> dict[str, di
         raise FileNotFoundError(f"price file missing for {ticker}: {url}")
 
     rows: dict[str, dict] = {}
-    for line in text.strip().split("\n"):
-        if not line.strip():
-            continue
-        parts = line.split("\t")
-        if len(parts) < 7:
-            continue
-        d = parts[0]
-        rows[d] = {
-            "movement_pct": float(parts[1]),
-            "open_norm": float(parts[2]),
-            "high_norm": float(parts[3]),
-            "low_norm": float(parts[4]),
-            "close_norm": float(parts[5]),
-            "volume": float(parts[6]),
-        }
+    for ri in OhlcvNormalizedAdapter(ticker).adapt(text):
+        rows[ri.payload["date"]] = ri.payload
     return rows
 
 
 def _read_tweets(ticker: str, day: str, cache_dir: Path | None = None) -> list[str]:
-    """Returns a list of tokenized tweet texts for (ticker, day). Tokens are
-    space-joined; URLs/at-mentions are preserved as 'URL' / 'AT_USER'.
+    """Returns the tokenized-tweet text bodies for (ticker, day) by routing
+    the raw JSONL through `TokenizedTweetAdapter`. The adapter aggregates
+    a day's tweets into a single RawInput payload[`body`] (newline-joined).
+
+    For backward compatibility we return a `list[str]` (one per tweet line);
+    callers downstream just check truthiness and pass it to
+    `_press_payload_from_tweets`.
     """
     url = f"{REPO_RAW}/tweet/preprocessed/{ticker}/{day}"
     text = _http_get(url, cache_dir)
     if text is None:
         return []
     out: list[str] = []
-    for line in text.strip().split("\n"):
-        if not line.strip():
-            continue
-        try:
-            obj = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        tokens = obj.get("text", [])
-        if isinstance(tokens, list):
-            out.append(" ".join(tokens))
+    for ri in TokenizedTweetAdapter(ticker, day).adapt(text):
+        body = ri.payload.get("body", "") or ""
+        if body:
+            out.extend(body.split("\n"))
     return out
 
 

@@ -48,6 +48,20 @@ class TroughAttendOutput:
     rejected_slot_ids: list[int]
 
 
+def _diet_tag_to_id(tag_str: str, n_diet_tags: int) -> int:
+    """Hash a diet-tag string to a small int id in [0, n_diet_tags).
+
+    Deterministic: same string → same id across runs/processes. Empty string
+    or "" → -1 (universal slot, never filtered out by diet mask). Used by
+    deposit() to label slots and by attend() to match consumer's allowed set.
+    """
+    if not tag_str:
+        return -1
+    import hashlib as _hashlib
+    h = int(_hashlib.sha256(tag_str.encode()).hexdigest(), 16)
+    return h % n_diet_tags
+
+
 class TroughAttention(nn.Module):
     """Stateful K/V container at one tier boundary.
 
@@ -69,6 +83,9 @@ class TroughAttention(nn.Module):
         out_seq_len: int = 8,
         target_norm: float = 1.0,
         seed: int | None = None,
+        n_diet_tags: int = 16,
+        use_E_in: bool = False,
+        gated_residual: bool = False,
     ):
         super().__init__()
         if hidden_size % n_heads != 0:
@@ -81,6 +98,17 @@ class TroughAttention(nn.Module):
         self.head_dim = hidden_size // n_heads
         self.out_seq_len = out_seq_len
         self.target_norm = target_norm
+        # Phase 1 of #8 architectural fix: per-tier-pair E_in matrix that
+        # projects deposited broadcasts into the destination tier's expected
+        # latent space. Identity-initialized, single linear matrix (per
+        # second-opinion convergent advice — not an MLP, since both endpoints
+        # share the Qwen3-4B hidden distribution).
+        self.use_E_in = use_E_in
+        # Gated residual (per GPT-5.2 landmine): trough's contribution to
+        # consumer prefix enters with α=0 + zero-init readout, so day-0 output
+        # is identical to no-trough baseline; SFT opens the gate.
+        self.gated_residual = gated_residual
+        self.n_diet_tags = n_diet_tags
 
         gen = torch.Generator()
         if seed is not None:
@@ -122,17 +150,45 @@ class TroughAttention(nn.Module):
         self.proj_in = nn.Linear(hidden_size, inner, bias=False)
         self.proj_out = nn.Linear(inner, hidden_size * out_seq_len, bias=False)
         with torch.no_grad():
-            self.proj_in.weight.copy_(
-                torch.empty_like(self.proj_in.weight).normal_(0.0, 1.0 / hidden_size ** 0.5, generator=gen)
-            )
-            self.proj_out.weight.copy_(
-                torch.empty_like(self.proj_out.weight).normal_(0.0, 1.0 / inner ** 0.5, generator=gen)
-            )
+            if gated_residual:
+                # Zero-init readout per GPT-5.2 landmine: keeps trough output
+                # at zero on day 0 so consumer baseline behavior is unchanged.
+                self.proj_in.weight.zero_()
+                self.proj_out.weight.zero_()
+            else:
+                self.proj_in.weight.copy_(
+                    torch.empty_like(self.proj_in.weight).normal_(0.0, 1.0 / hidden_size ** 0.5, generator=gen)
+                )
+                self.proj_out.weight.copy_(
+                    torch.empty_like(self.proj_out.weight).normal_(0.0, 1.0 / inner ** 0.5, generator=gen)
+                )
+
+        # Gated residual scale α — initialized to 0 so trough contribution
+        # starts disabled. Open via SFT gradient.
+        if gated_residual:
+            self.alpha = nn.Parameter(torch.zeros(1))
+        else:
+            self.register_parameter("alpha", None)
+
+        # E_in: per-tier-pair latent translator. Single matrix, identity init.
+        # Applied at deposit time: V_store[slot] = E_in(emb).
+        if use_E_in:
+            self.E_in = nn.Linear(hidden_size, hidden_size, bias=False)
+            with torch.no_grad():
+                self.E_in.weight.copy_(torch.eye(hidden_size))
+        else:
+            self.register_module("E_in", None)
 
         # K/V slot store. Buffers (not parameters) — broadcasts come from
         # outside the module, are not gradient-trained.
         self.register_buffer("V_store", torch.zeros(n_slots, hidden_size))
         self.register_buffer("alive", torch.zeros(n_slots, dtype=torch.bool))
+        # Per-slot diet tag id. -1 = no tag (universal). Used by attend()
+        # to mask out slots whose tag isn't in the consumer's allowed set.
+        # Phase 1 of #8 fix.
+        self.register_buffer(
+            "slot_tag_id", torch.full((n_slots,), -1, dtype=torch.long)
+        )
 
         # Per-slot bookkeeping for ecological lifecycle (Mission 02).
         # `cumulative_attention` is an EMA (not a raw sum, despite the
@@ -293,13 +349,29 @@ class TroughAttention(nn.Module):
                     f"broadcast {getattr(br, 'id', '?')} has channel_embedding of shape "
                     f"{tuple(emb.shape)}, expected ({self.hidden_size},)"
                 )
-            self.V_store[slot_id] = emb
+            # Phase 1 of #8 fix: store raw embedding in V_store (a non-grad
+            # buffer). E_in is applied at attend() time so gradient flows
+            # cleanly through E_in's parameters once per attend, not once
+            # per deposit. (Earlier draft applied E_in here; that broke
+            # autograd because multiple consumers in the same step would
+            # try to backward through the shared deposit-time computation.)
+            self.V_store[slot_id] = emb.detach()
             self.alive[slot_id] = True
             self.cumulative_attention[slot_id] = 0.0
             self.age[slot_id] = 0
             self.under_threshold_ticks[slot_id] = 0
             self.dead[slot_id] = False
             self.broadcast_ids[slot_id] = br.id
+            # Set diet tag from the broadcast's diet_tags list (use first
+            # tag; multi-tag slots are a v2 concern). Tag is stored as a
+            # hashed int id; runner-level mapping diet_tag_str → id lives in
+            # caller code that prepares allowed_tag_ids for attend().
+            tag_str = ""
+            tags = getattr(br, "diet_tags", None)
+            if tags:
+                tag_str = tags[0]
+            tag_id = _diet_tag_to_id(tag_str, self.n_diet_tags)
+            self.slot_tag_id[slot_id] = tag_id
 
         return slot_ids
 
@@ -352,8 +424,9 @@ class TroughAttention(nn.Module):
         query: torch.Tensor,
         tau: float = 1.0,
         external_bias: torch.Tensor | None = None,
+        allowed_tag_strs: Sequence[str] | None = None,
     ) -> TroughAttendOutput:
-        """Standard cross-attention with a null gate.
+        """Standard cross-attention with a null gate and optional diet mask.
 
         - `query`: shape `[hidden]` or `[Q, hidden]` (collapsed to one
           query vector by mean-pool — multi-query consumers are a future
@@ -363,6 +436,14 @@ class TroughAttention(nn.Module):
         - Softmax over `Q·K / sqrt(head_dim) / tau`, with optional
           `external_bias` of shape `[n_slots]` added to scores for alive
           slots (Mission 05 hooks in here for decomposer feedback).
+        - `allowed_tag_strs` (#8 phase-1 fix): if provided, slots whose
+          stored `slot_tag_id` does NOT match any of the allowed tags
+          (after hashing through `_diet_tag_to_id`) get a -inf bias added
+          to their attention score, so they're zero-weighted in softmax.
+          Slots with tag_id=-1 (universal) match any allowed set. Critical
+          landmine fix per both reviewers: `cumulative_attention` is only
+          updated for slots that were in the consumer's allowed set —
+          incompatible consumers don't penalize a slot's fitness.
         - Output is the MLP-projected attended context, expanded to
           `[out_seq_len, hidden]`, norm-matched to `target_norm`.
         - `cumulative_attention` is incremented by the per-slot attention
@@ -392,6 +473,12 @@ class TroughAttention(nn.Module):
 
         if N_alive > 0:
             V_alive_raw = self.V_store.index_select(0, alive_idx).to(dtype=dtype, device=device)
+            # Phase 1 of #8 fix: project through E_in into the destination
+            # tier's latent space at attend time (was deposit-time, but that
+            # broke autograd when multiple consumers share a trough). E_in
+            # is identity at init so this is a no-op; SFT learns it.
+            if self.E_in is not None:
+                V_alive_raw = self.E_in(V_alive_raw)
             K_alive = self.W_K(V_alive_raw)
             V_alive = self.W_V(V_alive_raw)
         else:
@@ -433,6 +520,39 @@ class TroughAttention(nn.Module):
             # broadcast over heads and the singleton query position.
             scores[..., :N_alive] = scores[..., :N_alive] + bias_alive
 
+        # Phase 1 of #8 fix: diet mask. If the consumer specified an allowed
+        # set of diet tags, slots whose tag is NOT in that set get -inf
+        # added to their score (zero softmax weight). Slots tagged -1
+        # (universal) match any allowed set. Tracked separately so the
+        # cumulative_attention update below can skip masked-out slots.
+        diet_mask_alive: torch.Tensor | None = None  # bool [N_alive]
+        if allowed_tag_strs is not None and N_alive > 0:
+            allowed_ids = {
+                _diet_tag_to_id(t, self.n_diet_tags)
+                for t in allowed_tag_strs if t
+            }
+            slot_tags_alive = self.slot_tag_id.index_select(0, alive_idx)  # [N_alive]
+            # universal slots (-1) always match; otherwise tag must be in allowed set.
+            allowed_tensor = torch.tensor(
+                list(allowed_ids), device=device, dtype=slot_tags_alive.dtype,
+            ) if allowed_ids else torch.zeros(0, device=device, dtype=slot_tags_alive.dtype)
+            if allowed_tensor.numel() == 0:
+                # Empty allowed set means no slots match → all real slots blocked.
+                diet_mask_alive = torch.zeros(N_alive, dtype=torch.bool, device=device)
+            else:
+                in_allowed = (slot_tags_alive.unsqueeze(-1) == allowed_tensor.unsqueeze(0)).any(dim=-1)
+                universal = slot_tags_alive == -1
+                diet_mask_alive = in_allowed | universal  # True = compatible (keep)
+            # Inject -inf on the score for incompatible slots (still alive but wrong-diet).
+            block_alive = ~diet_mask_alive
+            if block_alive.any():
+                neg_inf = torch.full(
+                    (N_alive,), float("-inf"), device=device, dtype=dtype,
+                )
+                # Add 0 where compatible, -inf where blocked. Broadcast across heads/query.
+                bias = torch.where(block_alive, neg_inf, torch.zeros_like(neg_inf))
+                scores[..., :N_alive] = scores[..., :N_alive] + bias
+
         weights = F.softmax(scores, dim=-1)  # [n_heads, 1, N_alive+1]
         attended = torch.einsum("hqk,hkd->hqd", weights, V_h)  # [n_heads, 1, head_dim]
         merged = self._merge_heads(attended)  # [1, hidden]
@@ -442,10 +562,24 @@ class TroughAttention(nn.Module):
         out = self.proj_out(z)                           # [1, hidden*out_seq_len]
         output = out.view(self.out_seq_len, self.hidden_size)
 
-        # Norm match each output position to target_norm so the spliced
-        # vectors live in the same range Qwen's input embeddings do.
-        cur_norm = output.norm(dim=-1, keepdim=True).clamp_min(1e-6)
-        output = output / cur_norm * self.target_norm
+        if self.gated_residual:
+            # Phase 1 of #8 fix: identity-baseline + zero-init MLP residual.
+            # Day-0 output is just the attended V repeated across out_seq_len
+            # positions, unit-renormed. proj_in/proj_out start at zero so
+            # the MLP contributes 0 at init — SFT grows it from gradient as
+            # a residual on top of the identity baseline. This avoids the
+            # "zeros in the prefix = OOD chimera" failure mode while still
+            # preserving GPT-5.2's safety property (no untrained MLP can
+            # produce OOD directions on day 0).
+            baseline = merged.expand(self.out_seq_len, self.hidden_size)
+            cur_norm = baseline.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+            baseline = baseline / cur_norm * self.target_norm
+            output = baseline + output  # residual; output is 0 at init
+        else:
+            # Norm match each output position to target_norm so the spliced
+            # vectors live in the same range Qwen's input embeddings do.
+            cur_norm = output.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+            output = output / cur_norm * self.target_norm
 
         # ------------------------------------------------------------------
         # Bookkeeping + diagnostics.
@@ -477,8 +611,21 @@ class TroughAttention(nn.Module):
             per_slot_buf = per_slot.detach().to(self.cumulative_attention.dtype)
             alive_f = self.alive.to(self.cumulative_attention.dtype)
             alpha = float(self.alpha_decay)
+            # #8 phase-1 landmine fix (per both reviewers): if a diet mask
+            # was applied, slots NOT in the allowed set should not have
+            # their cumulative_attention EMA updated this tick — incompatible
+            # consumers shouldn't penalize a slot's fitness for being
+            # ignored when they weren't allowed to look at it. Build a
+            # full-size eligibility mask aligned to slot ids.
+            update_mask = alive_f
+            if allowed_tag_strs is not None and N_alive > 0 and diet_mask_alive is not None:
+                eligible = torch.zeros_like(alive_f)
+                eligible.index_copy_(
+                    0, alive_idx, diet_mask_alive.to(alive_f.dtype)
+                )
+                update_mask = update_mask * eligible
             self.cumulative_attention.mul_(alpha)
-            self.cumulative_attention.add_((1.0 - alpha) * per_slot_buf * alive_f)
+            self.cumulative_attention.add_((1.0 - alpha) * per_slot_buf * update_mask)
             self.cumulative_attention.mul_(alive_f)  # zero out dead slots
             self.age.add_(self.alive.long())
 
