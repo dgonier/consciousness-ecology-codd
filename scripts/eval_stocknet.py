@@ -91,14 +91,6 @@ async def main() -> None:
     for ch in predator.channels.values():
         ch.to(device=host.device, dtype=host.dtype)
 
-    meta = load_channels(ckpt_path, herbivores=herbivores, predators=[predator])
-    print(f"[stocknet-eval] loaded: {meta}")
-    for ch in predator.channels.values():
-        ch.to(device=host.device, dtype=host.dtype)
-    for h in herbivores:
-        for ch in h.channels.values():
-            ch.to(device=host.device, dtype=host.dtype)
-
     # Load StockNet scenarios.
     print(f"[stocknet-eval] loading scenarios...")
     scenarios = build_stocknet_scenarios(
@@ -109,7 +101,8 @@ async def main() -> None:
     )
     print(f"[stocknet-eval] {len(scenarios)} scenarios")
 
-    # Producer cache via SFTRunner.
+    # Build runner BEFORE load — runner's __post_init__ creates phi_mlp on
+    # each agent (hooks mode), which load_channels then writes into.
     from trophic.agents.quant_producer import QuantitativeProducer
     producers = [Producer.make(k) for k in ("tickdelta", "disclosure", "anomaly")]
     producers.append(QuantitativeProducer.make("quote_series"))
@@ -118,6 +111,26 @@ async def main() -> None:
         herbivores=herbivores, predator=predator,
         train=[], eval_=scenarios,
     )
+
+    meta = load_channels(ckpt_path, herbivores=herbivores, predators=[predator], runner=runner)
+    print(f"[stocknet-eval] loaded: {meta}")
+    for ch in predator.channels.values():
+        ch.to(device=host.device, dtype=host.dtype)
+    for h in herbivores:
+        for ch in h.channels.values():
+            ch.to(device=host.device, dtype=host.dtype)
+    # phi_mlp + troughs may have been re-loaded onto CPU by load_channels;
+    # move them back to host device.
+    if getattr(predator, "phi_mlp", None) is not None:
+        predator.phi_mlp.to(device=host.device, dtype=host.dtype)
+    for h in herbivores:
+        if getattr(h, "phi_mlp", None) is not None:
+            h.phi_mlp.to(device=host.device, dtype=host.dtype)
+    if getattr(runner, "_producer_trough", None) is not None:
+        runner._producer_trough.to(device=host.device, dtype=host.dtype)
+    if getattr(runner, "_herb_trough", None) is not None:
+        runner._herb_trough.to(device=host.device, dtype=host.dtype)
+
     await runner._cache_producer_broadcasts()
 
     # Eval loop: directional accuracy + MCC.

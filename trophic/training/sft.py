@@ -89,6 +89,10 @@ class SFTRunner:
     _herb_trough: TroughAttention | None = None
     # τ used for the most recent step — exposed for diagnostic logging.
     _last_tau: float = 1.0
+    # phase3-A:05 — d* loaded from TROPHIC_DSTAR_PATH at runtime; passed into
+    # _hooks_orpo_loss_for_predator alongside M hooks. None unless hooks mode
+    # is active and the env var points at a valid checkpoint.
+    _dstar: object = None
 
     def __post_init__(self):
         self.host.freeze_base_model()
@@ -111,13 +115,216 @@ class SFTRunner:
             self.predator._skip_holder.to(
                 device=self.host.device, dtype=self.host.dtype
             )
-        # Re-attach (parameters() now refers to the moved tensors).
-        self.trainer.attach(self.herbivores, [self.predator])
+        # phase2-D:04 — in hooks mode include phi_mlp params in the optimizer.
+        # Each agent (each herbivore + predator) has its own phi_mlp built by
+        # ensure_initialized when TROPHIC_CONSUMER_INTERFACE=hooks.
+        extra_modules: list = []
+        if self._consumer_interface() == "hooks":
+            for h in self.herbivores:
+                if getattr(h, "phi_mlp", None) is not None:
+                    extra_modules.append(h.phi_mlp)
+            if getattr(self.predator, "phi_mlp", None) is not None:
+                extra_modules.append(self.predator.phi_mlp)
+        # Re-attach (parameters() now refers to the moved tensors, and any
+        # phi_mlp modules are included in hooks mode).
+        n_params = self.trainer.attach(
+            self.herbivores, [self.predator],
+            extra_modules=extra_modules if extra_modules else None,
+        )
         print(f"[sft] Channel parameter tensors: {n_params}")
         print(
             f"[sft] tau schedule: cosine {self.cfg.tau_start} → {self.cfg.tau_end}"
             f" over {self.cfg.steps} steps"
         )
+        if extra_modules:
+            print(f"[sft] consumer interface: hooks ({len(extra_modules)} phi_mlp module(s) attached)")
+        else:
+            print(f"[sft] consumer interface: {self._consumer_interface()}")
+        # phase3-A:05 — load d* if the env var points at a checkpoint and
+        # we're running in hooks mode. Guarded to preserve prefix-mode
+        # backward compat (seed1..seed22 don't load d*).
+        if self._consumer_interface() == "hooks":
+            from pathlib import Path as _Path
+            dstar_path = os.environ.get("TROPHIC_DSTAR_PATH", "")
+            if dstar_path and _Path(dstar_path).exists():
+                from ..dstar import DStar
+                self._dstar = DStar.load(dstar_path).to(
+                    device=self.host.device, dtype=self.host.dtype
+                )
+                print(
+                    f"[sft] loaded d* from {dstar_path}: "
+                    f"{len(self._dstar.directions)} layers, scale={self._dstar.scale}"
+                )
+
+    # ---------- phase2-D:04 hooks-mode helpers ----------
+
+    def _consumer_interface(self) -> str:
+        """Return TROPHIC_CONSUMER_INTERFACE in {prefix, hooks}, default prefix.
+
+        `prefix` (default) = legacy forward_with_prefix path; bit-identical to
+        seed1..seed22 checkpoints. `hooks` = phase2-D path: phi-MLP compiles
+        per-layer M+E perturbations applied via install_M_hooks; the model's
+        primary context is `[role_text + curated_slot + query]` text only —
+        no synthesized channel_output prefix.
+        """
+        return os.environ.get("TROPHIC_CONSUMER_INTERFACE", "prefix").lower()
+
+    def _build_curated_slot(self, sc, candidates: list) -> str:
+        """Render the consumer's curated-slot text from producer broadcasts.
+
+        For phase 2 this is a placeholder: concatenate up to the first 8
+        broadcasts' decoded_text fields (truncated to 200 chars each).
+        Phase 3 may upgrade this to a learnable role-conditioned summarizer.
+        """
+        parts = []
+        for b in candidates[:8]:
+            text = getattr(b, "decoded_text", None)
+            if text:
+                parts.append(text[:200])
+        return "\n".join(parts)
+
+    def _trough_pooled_hidden(self, trough: TroughAttention, role_q: torch.Tensor) -> torch.Tensor:
+        """Single trough.attend() returning a single pooled hidden vector [H].
+
+        The trough produces `[out_seq_len, H]`; we mean-pool to `[H]` so it
+        can feed phi-MLP (which takes a 1-D vector).
+        """
+        out = trough.attend(role_q, tau=self._last_tau)
+        return out.output.mean(dim=0)
+
+    def _hooks_orpo_loss_for_predator(
+        self,
+        sc: Scenario,
+        herb_outputs_for_predator: list[Broadcast],
+        lambda_or: float = 0.5,
+        dstar=None,
+    ) -> tuple[torch.Tensor | None, dict]:
+        """Hooks-mode predator loss using ORPO + per-layer M hooks.
+
+        Pipeline:
+          1. Build a herb-trough from the (oracle) herbivore broadcasts.
+          2. Attend the trough with the predator's role_q to produce a
+             single pooled hidden [H].
+          3. Compile that into per-layer M+E modulation tensors via
+             predator.phi_mlp.
+          4. Build the prefix text (role + curated slot + query).
+          5. Sample a rejected response from the BARE host (no hooks)
+             so the negative is contrastive.
+          6. Install M hooks (and optionally d* hooks via `dstar` arg) on
+             host._model and call compute_orpo_loss; remove hooks after.
+
+        Phase 3 hook: the optional `dstar` arg lets the runner-level d*
+        state install d* hooks alongside M hooks. install_M_hooks uses
+        forward_pre_hook and the d* installer uses forward_hook, so they
+        coexist without conflict.
+
+        Returns (loss_tensor_with_grad, diagnostics_dict). If no
+        predator_target on the scenario or no usable trough state, returns
+        (None, {}).
+        """
+        if not sc.predator_target:
+            return None, {}
+        if getattr(self.predator, "phi_mlp", None) is None:
+            # Hooks mode requires phi_mlp; should have been built in
+            # ensure_initialized when env var was set.
+            return None, {}
+
+        from ..training.orpo import compute_orpo_loss, sample_rejected_response
+
+        # 1. Build pooled hidden from the herb-trough using the predator's role_q.
+        self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
+        # Reuse _ensure_herb_trough only if tier_transport==trough; else
+        # build a fresh one inline since the herb-trough is the natural
+        # substrate for compiling M tensors regardless of tier transport.
+        from ..agents.base import ROLE_Q_REF_NORM
+        rq_raw = self._role_prefix_mean.to(self.host.device, self.host.dtype)
+        role_q = rq_raw * (ROLE_Q_REF_NORM / (rq_raw.norm() + 1e-6))
+
+        # Inline herb-trough build (independent of TROPHIC_TIER_TRANSPORT).
+        if not herb_outputs_for_predator:
+            return None, {}
+        if self._herb_trough is None:
+            n_slots = max(32, len(herb_outputs_for_predator) * 4)
+            self._herb_trough = TroughAttention(
+                hidden_size=self.host.hidden_size,
+                n_slots=n_slots,
+                n_heads=8 if self.host.hidden_size % 8 == 0 else 4,
+                out_seq_len=8,
+                seed=self.cfg.seed + 9002,
+                use_E_in=True,
+                gated_residual=True,
+            ).to(device=self.host.device, dtype=self.host.dtype)
+            # Attach trough + phi_mlp params (idempotent if already attached).
+            extras = self._trough_extras()
+            for h in self.herbivores:
+                if getattr(h, "phi_mlp", None) is not None:
+                    extras.append(h.phi_mlp)
+            if getattr(self.predator, "phi_mlp", None) is not None:
+                extras.append(self.predator.phi_mlp)
+            self.trainer.attach(
+                self.herbivores, [self.predator],
+                extra_modules=extras,
+            )
+        trough = self._herb_trough
+        alive_ids = trough.alive.nonzero(as_tuple=False).flatten().tolist()
+        if alive_ids:
+            trough.evict(alive_ids)
+        deposit_n = min(len(herb_outputs_for_predator), trough.n_slots)
+        trough.deposit(herb_outputs_for_predator[:deposit_n])
+
+        pooled = self._trough_pooled_hidden(trough, role_q)
+
+        # 2. Compile per-layer M tensors via predator's phi_mlp.
+        m_tensors = self.predator.phi_mlp(pooled)
+
+        # 3. Build prefix text.
+        role_text = "You are a short-horizon market direction predictor."
+        curated = self._build_curated_slot(sc, herb_outputs_for_predator)
+        query = "Now produce the PREDICTION and CONFIDENCE."
+        prefix_text = f"{role_text}\n\n{curated}\n\n{query}" if curated else f"{role_text}\n\n{query}"
+
+        # 4. Sample rejected from the BARE host (no hooks active).
+        rejected = sample_rejected_response(
+            self.host, prefix_text, max_new_tokens=64,
+        )
+        if not rejected.strip():
+            rejected = "UNKNOWN"
+
+        # 5. Install M hooks (prefill_active=False since compute_log_probs
+        #    runs a single teacher-forced forward which we treat as
+        #    "generate" — that's where the M hooks should fire).
+        from ..m_hooks import install_M_hooks
+        # Optionally install d* hooks too (phase 3 will pass them in).
+        dstar_handles = []
+        if dstar is not None:
+            try:
+                from ..dstar import install_dstar_hooks  # type: ignore
+                dstar_handles = install_dstar_hooks(self.host._model, dstar)
+            except Exception:
+                dstar_handles = []
+        handles = install_M_hooks(
+            self.host._model, m_tensors, prefill_active=False,
+        )
+        try:
+            out = compute_orpo_loss(
+                self.host,
+                prefix_text=prefix_text,
+                preferred_target=sc.predator_target,
+                rejected_target=rejected,
+                lambda_or=lambda_or,
+            )
+        finally:
+            for h in handles:
+                h.remove()
+            for h in dstar_handles:
+                try:
+                    h.remove()
+                except Exception:
+                    pass
+
+        diag = {k: (float(v.item()) if hasattr(v, "item") else v)
+                for k, v in out.items() if k != "loss"}
+        return out["loss"], diag
 
     # ---------- #8 phase-1 trough mode helpers ----------
 
@@ -458,7 +665,7 @@ class SFTRunner:
             tau_end=self.cfg.tau_end,
         )
         self._last_tau = tau
-        # Herbivore losses
+        # Herbivore losses (always prefix-mode for phase 2; phase 3 may extend).
         total = None
         per_loss = {}
         for h in self.herbivores:
@@ -466,12 +673,22 @@ class SFTRunner:
             if l is not None:
                 per_loss[f"herb.{h.kind}"] = float(l.detach().item())
                 total = l if total is None else total + l
-        # Predator loss (oracle herb broadcasts, decoupled)
+        # Predator loss — dispatch on consumer interface.
         herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
-        l = self._pred_loss(sc, herb_for_pred, producer_candidates=candidates, tau=tau)
-        if l is not None:
-            per_loss["pred.short_horizon"] = float(l.detach().item())
-            total = l if total is None else total + l
+        if self._consumer_interface() == "hooks":
+            l, diag = self._hooks_orpo_loss_for_predator(
+                sc, herb_for_pred, dstar=self._dstar,
+            )
+            if l is not None:
+                per_loss["pred.short_horizon"] = float(l.detach().item())
+                if diag:
+                    per_loss["pred.short_horizon.diag"] = diag
+                total = l if total is None else total + l
+        else:
+            l = self._pred_loss(sc, herb_for_pred, producer_candidates=candidates, tau=tau)
+            if l is not None:
+                per_loss["pred.short_horizon"] = float(l.detach().item())
+                total = l if total is None else total + l
         if total is None:
             return {"loss": 0.0, "per_loss": per_loss, "n": 0, "tau": tau}
         self.trainer.add_loss(total)
@@ -555,15 +772,29 @@ class SFTRunner:
                 # Predator (oracle herb hiddens)
                 if sc.predator_target:
                     herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
-                    self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
-                    ch_out, _ = self._pred_output(herb_for_pred)
-                    loss = self.host.teacher_forcing_loss(
-                        role_prefix=self.predator.role_prefix,
-                        channel_output=ch_out,
-                        query_text="Now produce the PREDICTION and CONFIDENCE.",
-                        target_text=sc.predator_target,
-                    )
-                    per_kind_totals.setdefault("pred.short_horizon", []).append(float(loss.item()))
+                    if self._consumer_interface() == "hooks":
+                        # Hooks mode: ORPO loss is the natural eval scalar.
+                        # _hooks_orpo_loss_for_predator allocates internally so
+                        # we briefly exit no_grad — it's still purely forward
+                        # (we do not call backward), so this is gradient-safe.
+                        with torch.enable_grad():
+                            l, _ = self._hooks_orpo_loss_for_predator(
+                                sc, herb_for_pred, dstar=self._dstar,
+                            )
+                        if l is not None:
+                            per_kind_totals.setdefault("pred.short_horizon", []).append(
+                                float(l.detach().item())
+                            )
+                    else:
+                        self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
+                        ch_out, _ = self._pred_output(herb_for_pred)
+                        loss = self.host.teacher_forcing_loss(
+                            role_prefix=self.predator.role_prefix,
+                            channel_output=ch_out,
+                            query_text="Now produce the PREDICTION and CONFIDENCE.",
+                            target_text=sc.predator_target,
+                        )
+                        per_kind_totals.setdefault("pred.short_horizon", []).append(float(loss.item()))
         per_kind = {k: round(sum(v) / len(v), 4) for k, v in per_kind_totals.items()}
         flat = [vv for v in per_kind_totals.values() for vv in v]
         mean = sum(flat) / max(1, len(flat))
@@ -604,14 +835,103 @@ class SFTRunner:
                 out[f"herb.{h.kind}.null"] = round(sum(nulls) / max(1, len(nulls)), 3)
             # Predator on oracle herb hiddens
             herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
-            self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
-            ch_out, nulls = self._pred_output(herb_for_pred)
-            fr = self.host.forward_with_prefix(
-                role_prefix=self.predator.role_prefix,
-                channel_output=ch_out,
-                query_text="Now produce the PREDICTION and CONFIDENCE.",
-                decode=True,
-                max_new_tokens=max_new_tokens,
-            )
-            out["pred.short_horizon"] = (fr.decoded_text or "").strip()[:400]
+            if self._consumer_interface() == "hooks":
+                # Hooks-mode decode: build prefix text + install M hooks +
+                # call host._model.generate directly (no forward_with_prefix).
+                decoded = self._hooks_eval_decode_predator(
+                    sc, herb_for_pred, max_new_tokens=max_new_tokens,
+                )
+                out["pred.short_horizon"] = (decoded or "").strip()[:400]
+            else:
+                self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
+                ch_out, nulls = self._pred_output(herb_for_pred)
+                fr = self.host.forward_with_prefix(
+                    role_prefix=self.predator.role_prefix,
+                    channel_output=ch_out,
+                    query_text="Now produce the PREDICTION and CONFIDENCE.",
+                    decode=True,
+                    max_new_tokens=max_new_tokens,
+                )
+                out["pred.short_horizon"] = (fr.decoded_text or "").strip()[:400]
         return out
+
+    # ---------- phase2-D:04 hooks-mode decode helper ----------
+
+    def _hooks_eval_decode_predator(
+        self,
+        sc: Scenario,
+        herb_outputs_for_predator: list,
+        max_new_tokens: int = 96,
+    ) -> str:
+        """Hooks-mode decode for the predator. Mirrors _hooks_orpo_loss_for_predator
+        through step 4, then calls host._model.generate directly under the
+        installed M hooks.
+        """
+        if getattr(self.predator, "phi_mlp", None) is None:
+            return ""
+        # Build pooled hidden (same as in the loss path).
+        from ..agents.base import ROLE_Q_REF_NORM
+        self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
+        rq_raw = self._role_prefix_mean.to(self.host.device, self.host.dtype)
+        role_q = rq_raw * (ROLE_Q_REF_NORM / (rq_raw.norm() + 1e-6))
+        if not herb_outputs_for_predator:
+            return ""
+        if self._herb_trough is None:
+            n_slots = max(32, len(herb_outputs_for_predator) * 4)
+            self._herb_trough = TroughAttention(
+                hidden_size=self.host.hidden_size,
+                n_slots=n_slots,
+                n_heads=8 if self.host.hidden_size % 8 == 0 else 4,
+                out_seq_len=8,
+                seed=self.cfg.seed + 9002,
+                use_E_in=True,
+                gated_residual=True,
+            ).to(device=self.host.device, dtype=self.host.dtype)
+        trough = self._herb_trough
+        alive_ids = trough.alive.nonzero(as_tuple=False).flatten().tolist()
+        if alive_ids:
+            trough.evict(alive_ids)
+        deposit_n = min(len(herb_outputs_for_predator), trough.n_slots)
+        trough.deposit(herb_outputs_for_predator[:deposit_n])
+        with torch.no_grad():
+            pooled = self._trough_pooled_hidden(trough, role_q)
+            m_tensors = self.predator.phi_mlp(pooled)
+        role_text = "You are a short-horizon market direction predictor."
+        curated = self._build_curated_slot(sc, herb_outputs_for_predator)
+        query = "Now produce the PREDICTION and CONFIDENCE."
+        prefix_text = f"{role_text}\n\n{curated}\n\n{query}" if curated else f"{role_text}\n\n{query}"
+
+        from ..m_hooks import install_M_hooks
+        # phase3-A:05 — install d* hooks during decode too if available so
+        # the eval distribution matches training.
+        dstar_handles = []
+        if self._dstar is not None:
+            try:
+                from ..dstar import install_dstar_hooks  # type: ignore
+                dstar_handles = install_dstar_hooks(self.host._model, self._dstar)
+            except Exception:
+                dstar_handles = []
+        handles = install_M_hooks(
+            self.host._model, m_tensors, prefill_active=False,
+        )
+        try:
+            tok = self.host._tok
+            ids = tok(prefix_text, return_tensors="pt").input_ids.to(self.host.device)
+            am = torch.ones_like(ids)
+            gen = self.host._model.generate(
+                input_ids=ids,
+                attention_mask=am,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+                pad_token_id=tok.eos_token_id,
+            )
+            new = gen[0, ids.shape[1]:]
+            return tok.decode(new, skip_special_tokens=True)
+        finally:
+            for h in handles:
+                h.remove()
+            for h in dstar_handles:
+                try:
+                    h.remove()
+                except Exception:
+                    pass

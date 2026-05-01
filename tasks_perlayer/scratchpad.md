@@ -5,11 +5,11 @@
 ## STATUS
 
 ```
-phase1-A:01:PENDING
-phase2-B:02:BLOCKED  (needs phase1-A:01)
-phase2-C:03:BLOCKED  (needs phase1-A:01)
-phase2-D:04:BLOCKED  (needs phase1-A:01)
-phase3-A:05:BLOCKED  (needs phase2-B:02, phase2-C:03, phase2-D:04)
+phase1-A:01:DONE
+phase2-B:02:DONE
+phase2-C:03:DONE
+phase2-D:04:DONE
+phase3-A:05:DONE
 ```
 
 ## PHASE MAP
@@ -181,3 +181,13 @@ def compute_orpo_loss(
 (append-only — most recent at bottom)
 
 [2026-04-29 21:00] orchestrator > @phase1-A: kickoff. Read /home/dgonier/debaterhub/hexis/paper/sections/hexis_architecture.tex eq 1 first, then `/home/dgonier/experiments/scripts/train_action_m.py` lines 50 (DirectM) and 126 (install_hooks). Match the rank=16 / stride-3 / 11-of-32-layers parameters from the paper. Your output is the foundation everyone in phase 2 depends on.
+
+[2026-04-29 21:16] phase1-A > @phase2: PhiMLP at trophic/phi_mlp.py, install_M_hooks at trophic/m_hooks.py. Contracts unchanged from scratchpad INTERFACE CONTRACTS section — keys ('M_A','M_B','E_A','E_B','s_M','s_E') and HookHandle methods (.set_prefill_active(bool), .remove()) are exact. Tests in tests/test_phi_mlp.py (6) and tests/test_m_hooks.py (6) — 101 total passing (89 baseline + 12 new). Smoke check on real Qwen3-4B: zero-init Phi gives identity-mod (diff = 0.00). Phase 2 unblocked.
+
+[2026-04-29 21:20] phase2-C > @phase3-A: ORPO loss landed at trophic/training/orpo.py. compute_orpo_loss(host, prefix_text, preferred_target, rejected_target, lambda_or=0.5) returns dict with 'loss' for backward + diagnostic fields (ntp_pref, ntp_rej, log_odds_pref, log_odds_rej, win). Hook-agnostic — install M/d* before calling, remove after. Also exported: compute_log_probs, sample_rejected_response. Tests at tests/test_orpo.py (8). 109 total passing. Real-Qwen smoke: loss=4.9375, ntp_pref=4.6250, ntp_rej=4.7188, win=True, grad norm 2.58e-01.
+
+[2026-04-29 21:26] phase2-B > @phase3-A: d* extraction landed at trophic/dstar.py. Saved checkpoint at checkpoints/dstar_stocknet.pt (11 layers, unit-norm, scale=10.0). Use install_dstar_hooks(host._model, dstar, active=True) before generation; remove handles after. Smoke verified: scale=10 yields logit diff 13.59 on Qwen3-4B prefix. 114 total tests passing.
+
+[2026-04-28 12:00] phase2-D > @phase3-A: Consumer rewire landed. TROPHIC_CONSUMER_INTERFACE=hooks activates per-layer M hook path with ORPO loss for predator. Herbivores still on prefix mode (phase 3 can extend if needed). Each agent has self.phi_mlp in hooks mode; trainer optimizes phi_mlp params via extra_modules. NOTE: phase2-C's compute_orpo_loss landed hook-agnostic — signature is (host, prefix_text, preferred_target, rejected_target, lambda_or, max_ctx) returning a dict {loss, ntp_pref, ntp_rej, log_odds_pref, log_odds_rej, win}. Caller installs M+d* hooks before the call and removes them after; that's exactly what _hooks_orpo_loss_for_predator does. Phase 3: pass DStar via the optional `dstar` arg of _hooks_orpo_loss_for_predator (it tries to import install_dstar_hooks from trophic.dstar — wire that on phase 2-B's side if not already there).
+
+[2026-04-30 07:25] phase3-A > @all: Per-layer refactor landed end-to-end. Training crashed at step 75/200 with CUDA OOM during eval-decode (18.6/24 GB on 4090, hooks-mode 96-token gen × 14 scenarios × 11 patched layers blew the budget). Best checkpoint at step 75 (eval=8.30). StockNet smoke on undertrained ckpt: ACC=0.000, MCC=0.000, abstained 50/50 — predator never learned to emit parseable XML in 75 steps. Predator ORPO eval flat (21.893 ×4) suggests d*@scale=10 dominates M-hook gradient. Decision: pivot. Architecture is wired right but two follow-ups before declaring it failed: (1) TROPHIC_EVAL_EVERY=200 to bypass eval OOM, (2) anneal d* scale 10→1. One contract drift fixed: phase 2-D's per_loss['pred.short_horizon.diag'] is a dict; train_sft.py:125 formatter only handles floats, fixed by filtering numerics. GitHub issue: https://github.com/dgonier/consciousness-ecology-codd/issues/13. CHANGELOG/EXPERIMENTS updated. Swarm complete.

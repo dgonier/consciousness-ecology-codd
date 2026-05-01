@@ -84,6 +84,11 @@ class Herbivore(BaseAgent):
     channels: dict[str, Channel] = field(default_factory=dict)
     role_prefix: Optional[torch.Tensor] = None  # cached frozen prefix
     _diet_tags: list[str] = field(default_factory=list)
+    # phase2-D:04 — per-consumer phi-MLP that compiles a trough-attended
+    # hidden vector into per-layer M+E modulation tensors. Lazily built in
+    # ensure_initialized when TROPHIC_CONSUMER_INTERFACE=hooks; stays None
+    # in default `prefix` mode for backward compat with seed1..seed22.
+    phi_mlp: Optional[object] = None
 
     @classmethod
     def make(cls, kind: str, capacity: int = 6, abstain_threshold: float = 0.6) -> "Herbivore":
@@ -119,6 +124,16 @@ class Herbivore(BaseAgent):
                     target_norm=tn,
                     seed=ch_seed,
                     arch_version=_arch,
+                )
+        # phase2-D:04 — Optional per-consumer phi-MLP (hooks mode only).
+        # Default `prefix` mode keeps phi_mlp = None so trainer parameter
+        # enumeration is bit-identical to seed1..seed22 checkpoints.
+        import os as _os
+        if _os.environ.get("TROPHIC_CONSUMER_INTERFACE", "prefix").lower() == "hooks":
+            if self.phi_mlp is None:
+                from ..phi_mlp import PhiMLP
+                self.phi_mlp = PhiMLP(hidden_size=host.hidden_size).to(
+                    device=host.device, dtype=host.dtype
                 )
 
     @property

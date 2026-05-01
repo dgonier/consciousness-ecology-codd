@@ -88,6 +88,11 @@ class Predator(BaseAgent):
     # non-zero from step 0.
     _skip_holder: Optional["_SkipWeightHolder"] = None
     skip_weight_init: float = 0.1
+    # phase2-D:04 — per-consumer phi-MLP that compiles a trough-attended
+    # hidden vector into per-layer M+E modulation tensors. Lazily built in
+    # ensure_initialized when TROPHIC_CONSUMER_INTERFACE=hooks; stays None
+    # in default `prefix` mode (backward compat with seed1..seed22).
+    phi_mlp: Optional[object] = None
 
     @classmethod
     def make(cls, kind: str, capacity: int = 4, abstain_threshold: float = 0.6) -> "Predator":
@@ -132,6 +137,15 @@ class Predator(BaseAgent):
         # any `parameters()` enumeration the trainer does at attach time.
         if self._skip_holder is None:
             self._skip_holder = _SkipWeightHolder(self.skip_weight_init)
+        # phase2-D:04 — Optional per-consumer phi-MLP (hooks mode only).
+        # Default `prefix` mode keeps phi_mlp = None.
+        import os as _os
+        if _os.environ.get("TROPHIC_CONSUMER_INTERFACE", "prefix").lower() == "hooks":
+            if self.phi_mlp is None:
+                from ..phi_mlp import PhiMLP
+                self.phi_mlp = PhiMLP(hidden_size=host.hidden_size).to(
+                    device=host.device, dtype=host.dtype
+                )
 
     @property
     def diet_tags(self) -> list[str]:
