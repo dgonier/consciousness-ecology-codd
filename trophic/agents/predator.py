@@ -49,16 +49,23 @@ ROLE_PROMPTS = {
 }
 
 QUERIES = {
-    # Issue #99 v2: previous prompt with placeholders made the model
-    # explain the schema instead of fill it. New approach: give a worked
-    # example with CONCRETE made-up values, then ask for the prediction
-    # in the same shape. Few-shot teaches structure better than meta-
-    # instructions about how to fill it.
+    # 2026-05-02: trained-model schema-echo bug. Previous XML few-shot
+    # made seed34 emit "The PREDIION is the direction of the market in
+    # the next 1-2 business days..." — meta-explanation instead of
+    # prediction (74% abstain rate at apex). Two changes to break the
+    # echo loop:
+    #   1. Drop the XML wrapper. Plain "DIRECTION: up" can't be re-
+    #      explained as a type signature.
+    #   2. End the query with "DIRECTION:" so the next token must be a
+    #      value (up/down) — the model can't restart by describing the
+    #      schema because it's mid-sentence.
+    # The parser already accepts both XML and "DIRECTION: up" forms.
     "short_horizon": (
-        "Predict next-day direction. Example output for some other stock:\n"
-        "<prediction><ticker>NVDA</ticker><direction>up</direction>"
-        "<horizon_min>1440</horizon_min><confidence>0.6</confidence></prediction>\n"
-        "Now produce ONE prediction for the stock above:"
+        "Decide the next-day direction for the stock above based on the"
+        " upstream signals. Reply on one line with exactly:\n"
+        "DIRECTION: up   or   DIRECTION: down\n"
+        "Then on the next line: CONFIDENCE: <number between 0 and 1>\n\n"
+        "DIRECTION:"
     ),
 }
 

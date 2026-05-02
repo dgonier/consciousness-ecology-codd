@@ -304,22 +304,27 @@ def parse_prediction(text: str) -> Prediction:
             if idx >= 0:
                 lower = lower[idx + len(echo):]
 
-        # Strong patterns first.
-        for pattern, value in [
-            (r'direction\s*[:=is]+\s*\bup\b', 'up'),
-            (r'direction\s*[:=is]+\s*\bdown\b', 'down'),
-            (r'\bpredict(?:ion|ed|s)?\s+(?:is|will|of|that)\s+\w*\s*\bup\b', 'up'),
-            (r'\bpredict(?:ion|ed|s)?\s+(?:is|will|of|that)\s+\w*\s*\bdown\b', 'down'),
-            (r'\bbullish\b', 'up'),
-            (r'\bbearish\b', 'down'),
-            (r'\bdowntrend\b', 'down'),
-            (r'\buptrend\b', 'up'),
-            (r':\s*up\s*:', 'up'),
-            (r':\s*down\s*:', 'down'),
-        ]:
-            if re.search(pattern, lower):
-                direction = value
-                break
+        # 2026-05-02: when the apex prompt ends with "DIRECTION:" (force-
+        # prefix), the model response is just " up\n..." or " down\n...".
+        # Match this leading-token shape — it's the canonical format under
+        # the new prompt.
+        leading = (text or "").lstrip()
+        if leading[:5].lower().startswith("up") and (
+            len(leading) <= 2 or not leading[2:3].isalpha()
+        ):
+            direction = "up"
+        elif leading[:5].lower().startswith("down") and (
+            len(leading) <= 4 or not leading[4:5].isalpha()
+        ):
+            direction = "down"
+
+        # NOTE: previously had loose patterns like `direction\s*[:=is]+\s*up`
+        # and `\bbullish\b` as natural-language fallbacks. Those patterns
+        # over-fire on the trained model's schema-echo output ("DIRECTION
+        # is up or down", "the price will go up or down", "bullish or
+        # bearish"), turning every abstain into a false-positive 'up'.
+        # On seed35 this drove MCC from 0 (correct: abstains everywhere)
+        # to -0.12 (35 'up' false-positives out of 36 decisions). Removed.
 
     pred = Prediction(
         ticker=_extract_inner(text, "ticker"),

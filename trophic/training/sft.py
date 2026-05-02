@@ -25,7 +25,12 @@ import torch
 import os
 
 from ..agents.herbivore import DIETS as HERB_DIETS, Herbivore
-from ..agents.predator import DIETS as PRED_DIETS, Predator
+from ..agents.predator import (
+    DIETS as PRED_DIETS,
+    Predator,
+    ROLE_PROMPTS as PREDATOR_ROLE_PROMPTS,
+    QUERIES as PREDATOR_QUERIES,
+)
 from ..agents.producer import Producer
 from ..model_host import ModelHost
 from ..trough_attention import TroughAttention
@@ -285,9 +290,9 @@ class SFTRunner:
         m_tensors = self.predator.phi_mlp(pooled)
 
         # 3. Build prefix text.
-        role_text = "You are a short-horizon market direction predictor."
+        role_text = PREDATOR_ROLE_PROMPTS["short_horizon"]
         curated = self._build_curated_slot(sc, herb_outputs_for_predator)
-        query = "Now produce the PREDICTION and CONFIDENCE."
+        query = PREDATOR_QUERIES["short_horizon"]
         prefix_text = f"{role_text}\n\n{curated}\n\n{query}" if curated else f"{role_text}\n\n{query}"
 
         # 4. Sample rejected from the BARE host (no hooks active).
@@ -983,7 +988,7 @@ class SFTRunner:
         loss = self.host.teacher_forcing_loss(
             role_prefix=self.predator.role_prefix,
             channel_output=ch_out,
-            query_text="Now produce the PREDICTION and CONFIDENCE.",
+            query_text=PREDATOR_QUERIES["short_horizon"],
             target_text=sc.predator_target,
             content_token_weight=self.cfg.content_token_weight,
         )
@@ -1148,9 +1153,17 @@ class SFTRunner:
 
         Returns {'mean': float, 'per_kind': {...}}. Uses no_grad so it
         doesn't contaminate the training gradient or step the optimizer.
+
+        2026-05-02: under hooks-mode, the ORPO loss path opens torch.enable_grad
+        even inside this no_grad block (required for ORPO computation), which
+        keeps autograd graphs around. On 143-scenario dev sets this can OOM
+        the GPU near step 150. Empty CUDA allocator cache between scenarios
+        to release fragmented blocks. The .detach().item() ensures no graph
+        carries forward; empty_cache just reclaims allocator-held memory.
         """
         per_kind_totals: dict[str, list[float]] = {}
         is_hooks = self._consumer_interface() == "hooks"
+        eval_oom_hygiene = os.environ.get("TROPHIC_EVAL_OOM_HYGIENE", "1") == "1"
         with torch.no_grad():
             for sc in self.eval_:
                 candidates = self._producer_cache.get(sc.name, [])
@@ -1204,10 +1217,12 @@ class SFTRunner:
                         loss = self.host.teacher_forcing_loss(
                             role_prefix=self.predator.role_prefix,
                             channel_output=ch_out,
-                            query_text="Now produce the PREDICTION and CONFIDENCE.",
+                            query_text=PREDATOR_QUERIES["short_horizon"],
                             target_text=sc.predator_target,
                         )
                         per_kind_totals.setdefault("pred.short_horizon", []).append(float(loss.item()))
+                if eval_oom_hygiene and torch.cuda.is_available():
+                    torch.cuda.empty_cache()
         per_kind = {k: round(sum(v) / len(v), 4) for k, v in per_kind_totals.items()}
         flat = [vv for v in per_kind_totals.values() for vv in v]
         mean = sum(flat) / max(1, len(flat))
@@ -1272,7 +1287,7 @@ class SFTRunner:
                 fr = self.host.forward_with_prefix(
                     role_prefix=self.predator.role_prefix,
                     channel_output=ch_out,
-                    query_text="Now produce the PREDICTION and CONFIDENCE.",
+                    query_text=PREDATOR_QUERIES["short_horizon"],
                     decode=True,
                     max_new_tokens=max_new_tokens,
                 )
@@ -1320,9 +1335,9 @@ class SFTRunner:
         with torch.no_grad():
             pooled = self._trough_pooled_hidden(trough, role_q)
             m_tensors = self.predator.phi_mlp(pooled)
-        role_text = "You are a short-horizon market direction predictor."
+        role_text = PREDATOR_ROLE_PROMPTS["short_horizon"]
         curated = self._build_curated_slot(sc, herb_outputs_for_predator)
-        query = "Now produce the PREDICTION and CONFIDENCE."
+        query = PREDATOR_QUERIES["short_horizon"]
         prefix_text = f"{role_text}\n\n{curated}\n\n{query}" if curated else f"{role_text}\n\n{query}"
 
         from ..m_hooks import install_M_hooks
@@ -1342,6 +1357,43 @@ class SFTRunner:
             tok = self.host._tok
             ids = tok(prefix_text, return_tensors="pt").input_ids.to(self.host.device)
             am = torch.ones_like(ids)
+            # 2026-05-02: constrained decode — force the apex to commit to a
+            # direction at the first generated token rather than spinning
+            # into a meta-explanation that never makes a decision. Single
+            # forward, restrict next-token logits to {up, down} ids, read
+            # argmax. Toggle: TROPHIC_CONSTRAINED_DECODE=0 → free generate.
+            constrained = os.environ.get("TROPHIC_CONSTRAINED_DECODE", "1") == "1"
+            if constrained:
+                cand_strs = [" up", "up", " UP", "UP", " down", "down", " DOWN", "DOWN"]
+                up_ids: set[int] = set()
+                down_ids: set[int] = set()
+                for s in cand_strs:
+                    enc = tok(s, add_special_tokens=False).input_ids
+                    if not enc:
+                        continue
+                    tid = enc[0]
+                    if "up" in s.lower():
+                        up_ids.add(tid)
+                    else:
+                        down_ids.add(tid)
+                allowed = sorted(up_ids | down_ids)
+                with torch.no_grad():
+                    out = self.host._model(
+                        input_ids=ids, attention_mask=am, use_cache=False,
+                    )
+                    logits = out.logits[0, -1]
+                    masked = torch.full_like(logits, float("-inf"))
+                    masked[allowed] = logits[allowed]
+                    pick = int(masked.argmax().item())
+                    direction = "up" if pick in up_ids else "down"
+                    sub = torch.tensor(
+                        [logits[i].item() for i in allowed],
+                        device=logits.device,
+                    )
+                    p = torch.softmax(sub.float(), dim=0)
+                    pick_idx = allowed.index(pick)
+                    conf = float(p[pick_idx])
+                return f" {direction}\nCONFIDENCE: {conf:.3f}\n"
             gen = self.host._model.generate(
                 input_ids=ids,
                 attention_mask=am,
