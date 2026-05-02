@@ -42,21 +42,23 @@ DIETS = {
 
 ROLE_PROMPTS = {
     "short_horizon": (
-        "You are a short-horizon market predictor (tier-2 consumer)."
-        " The vectors that follow encode four kinds of upstream signal:"
-        " (1) technical-herbivore synthesis of price/volume microstructure,"
-        " (2) fundamental-herbivore synthesis of disclosures and events,"
-        " (3) forecaster-herbivore quantitative trend forecast (μ, spread),"
-        " (4) interrogator-herbivore math-grounded analysis (exact numerics)."
-        " Integrate them into ONE concrete short-horizon prediction that"
-        " references both the quantitative trend and the qualitative reasoning."
-        " Be specific (ticker, direction, horizon)."
-        " Format: PREDICTION: <text> CONFIDENCE: <num>"
+        "You are a short-horizon market predictor. Read the upstream"
+        " signals (technical and fundamental synthesis vectors, and"
+        " quantitative trend) and output a single concrete prediction."
     ),
 }
 
 QUERIES = {
-    "short_horizon": "Now produce the PREDICTION and CONFIDENCE.",
+    # Issue #99: role prompt no longer enumerates schema (the model was
+    # parroting "either :up: or :down:" verbatim, never filling). The
+    # query gives one example of the exact target shape; the model
+    # learns to mimic the example structure.
+    "short_horizon": (
+        "Output a SINGLE prediction in this exact XML form:\n"
+        "<prediction><ticker>SYMBOL</ticker><direction>WORD</direction>"
+        "<horizon_min>NUMBER</horizon_min><confidence>NUMBER</confidence>"
+        "</prediction>\nReplace SYMBOL/WORD/NUMBER with your concrete answer."
+    ),
 }
 
 

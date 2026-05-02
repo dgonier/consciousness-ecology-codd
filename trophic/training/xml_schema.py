@@ -289,17 +289,33 @@ def parse_prediction(text: str) -> Prediction:
     if not direction:
         # Fallback: scan for clear up/down direction markers in plain text.
         # Prefer explicit phrasing over single-word matches to avoid noise.
+        # Issue #99: strip the "schema enumeration" prefix the model often
+        # parrots ("PREDICTION is either :up: or :down:.") because both
+        # tokens appear there as schema description, not prediction.
         lower = (text or "").lower()
-        # Strong patterns first
+        # Drop everything up to the first sentence after schema-enumeration phrases.
+        for echo in [
+            "either :up: or :down:",
+            "either up or down",
+            "up|down",
+            "(up|down|flat)",
+        ]:
+            idx = lower.find(echo)
+            if idx >= 0:
+                lower = lower[idx + len(echo):]
+
+        # Strong patterns first.
         for pattern, value in [
             (r'direction\s*[:=is]+\s*\bup\b', 'up'),
             (r'direction\s*[:=is]+\s*\bdown\b', 'down'),
-            (r':\s*up\s*:', 'up'),
-            (r':\s*down\s*:', 'down'),
-            (r'\bpredict(?:ion|ed|s)?\s+\w*\s*\bup\b', 'up'),
-            (r'\bpredict(?:ion|ed|s)?\s+\w*\s*\bdown\b', 'down'),
+            (r'\bpredict(?:ion|ed|s)?\s+(?:is|will|of|that)\s+\w*\s*\bup\b', 'up'),
+            (r'\bpredict(?:ion|ed|s)?\s+(?:is|will|of|that)\s+\w*\s*\bdown\b', 'down'),
             (r'\bbullish\b', 'up'),
             (r'\bbearish\b', 'down'),
+            (r'\bdowntrend\b', 'down'),
+            (r'\buptrend\b', 'up'),
+            (r':\s*up\s*:', 'up'),
+            (r':\s*down\s*:', 'down'),
         ]:
             if re.search(pattern, lower):
                 direction = value

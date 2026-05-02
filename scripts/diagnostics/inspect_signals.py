@@ -166,19 +166,30 @@ async def main():
         print(f"    logit-lens: {fmt_lens(lens)}")
         print(f"    raw render: {text!r}")
 
-    # ---- TIER 2: producer-trough state ----
+    # ---- TIER 3: herbivores attend producer-trough → herb broadcasts ----
+    # (Tier 2 trough state is checked AFTER Tier 3 runs, since the deposit
+    # only happens when herbs forward through _hooks_compile_M_for_herb.)
+    print(f"\n--- Tier 3: HERBIVORES (attend producer-trough, emit herb broadcasts) ---")
+    herb_for_pred = runner._real_herb_broadcasts_for_predator(sc, candidates)
+
+    # ---- TIER 2: producer-trough state (POST-deposit) ----
     if runner._producer_trough is not None:
         t = runner._producer_trough
         n_alive = int(t.alive.sum().item())
         cum = t.cumulative_attention[:n_alive].tolist() if n_alive > 0 else []
-        print(f"\n--- Tier 2: PRODUCER-TROUGH ---")
+        print(f"\n--- Tier 2: PRODUCER-TROUGH (after Tier 3 deposit) ---")
         print(f"  alive_slots={n_alive}/{t.n_slots}")
         if cum:
             print(f"  cumulative_attention[:n_alive]={[round(x, 3) for x in cum]}")
+        if n_alive > 0:
+            # Logit-lens the most-attended slot's V_store
+            most_att = t.cumulative_attention[:n_alive].argmax().item() if cum else 0
+            v = t.V_store[most_att].to(host.dtype).to(host.device)
+            v_lens = logit_lens(host, v, top_k=args.top_k)
+            print(f"  most-attended-slot V_store (slot {most_att}) logit-lens: {fmt_lens(v_lens)}")
 
-    # ---- TIER 3: herbivores attend producer-trough → herb broadcasts ----
-    print(f"\n--- Tier 3: HERBIVORES (attend producer-trough, emit herb broadcasts) ---")
-    herb_for_pred = runner._real_herb_broadcasts_for_predator(sc, candidates)
+    # ---- Tier 3 herb broadcasts ----
+    print(f"\n--- Tier 3 (continued): HERB BROADCASTS ---")
     for b in herb_for_pred:
         emb = torch.tensor(b.channel_embedding, dtype=host.dtype, device=host.device)
         finite = torch.isfinite(emb).all().item()
