@@ -49,15 +49,16 @@ ROLE_PROMPTS = {
 }
 
 QUERIES = {
-    # Issue #99: role prompt no longer enumerates schema (the model was
-    # parroting "either :up: or :down:" verbatim, never filling). The
-    # query gives one example of the exact target shape; the model
-    # learns to mimic the example structure.
+    # Issue #99 v2: previous prompt with placeholders made the model
+    # explain the schema instead of fill it. New approach: give a worked
+    # example with CONCRETE made-up values, then ask for the prediction
+    # in the same shape. Few-shot teaches structure better than meta-
+    # instructions about how to fill it.
     "short_horizon": (
-        "Output a SINGLE prediction in this exact XML form:\n"
-        "<prediction><ticker>SYMBOL</ticker><direction>WORD</direction>"
-        "<horizon_min>NUMBER</horizon_min><confidence>NUMBER</confidence>"
-        "</prediction>\nReplace SYMBOL/WORD/NUMBER with your concrete answer."
+        "Predict next-day direction. Example output for some other stock:\n"
+        "<prediction><ticker>NVDA</ticker><direction>up</direction>"
+        "<horizon_min>1440</horizon_min><confidence>0.6</confidence></prediction>\n"
+        "Now produce ONE prediction for the stock above:"
     ),
 }
 
