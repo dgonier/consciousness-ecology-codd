@@ -151,6 +151,13 @@ class SFTRunner:
                 self._dstar = DStar.load(dstar_path).to(
                     device=self.host.device, dtype=self.host.dtype
                 )
+                # Issue #15 P1 (seed26/seed28 NaN diagnosis): d* at scale=10
+                # composes with trained M tensors at deploy time and pushes
+                # Qwen activations to NaN on out-of-distribution inputs.
+                # Allow runtime override via TROPHIC_DSTAR_SCALE_OVERRIDE.
+                _scale_override = os.environ.get("TROPHIC_DSTAR_SCALE_OVERRIDE", "")
+                if _scale_override:
+                    self._dstar.scale = float(_scale_override)
                 print(
                     f"[sft] loaded d* from {dstar_path}: "
                     f"{len(self._dstar.directions)} layers, scale={self._dstar.scale}"

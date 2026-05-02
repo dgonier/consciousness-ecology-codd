@@ -278,10 +278,36 @@ def parse_synthesis(text: str) -> Synthesis:
 
 
 def parse_prediction(text: str) -> Prediction:
-    """Parse a predator prediction. Tolerant of missing/extra tags."""
+    """Parse a predator prediction. Tolerant of missing/extra tags.
+
+    Issue #15 P1: also matches loose direction signals (e.g. "direction is up",
+    ":up:" colons, "I predict UP") since trained models sometimes emit
+    coherent natural-language predictions outside the strict XML schema.
+    Strict XML wins if present; loose match is a fallback.
+    """
+    direction = _extract_inner(text, "direction")
+    if not direction:
+        # Fallback: scan for clear up/down direction markers in plain text.
+        # Prefer explicit phrasing over single-word matches to avoid noise.
+        lower = (text or "").lower()
+        # Strong patterns first
+        for pattern, value in [
+            (r'direction\s*[:=is]+\s*\bup\b', 'up'),
+            (r'direction\s*[:=is]+\s*\bdown\b', 'down'),
+            (r':\s*up\s*:', 'up'),
+            (r':\s*down\s*:', 'down'),
+            (r'\bpredict(?:ion|ed|s)?\s+\w*\s*\bup\b', 'up'),
+            (r'\bpredict(?:ion|ed|s)?\s+\w*\s*\bdown\b', 'down'),
+            (r'\bbullish\b', 'up'),
+            (r'\bbearish\b', 'down'),
+        ]:
+            if re.search(pattern, lower):
+                direction = value
+                break
+
     pred = Prediction(
         ticker=_extract_inner(text, "ticker"),
-        direction=_extract_inner(text, "direction"),
+        direction=direction,
         pct_move=_parse_float(_extract_inner(text, "pct_move")),
         horizon_min=_parse_int(_extract_inner(text, "horizon_min")),
         sigma_pct=_parse_float(_extract_inner(text, "sigma_pct")),

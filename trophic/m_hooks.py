@@ -125,6 +125,13 @@ def apply_M_perturbation(x: torch.Tensor, mod_dict: dict) -> torch.Tensor:
         x' = x + s_M · (x M_A) M_B^T  +  s_E · (x E_A) E_B^T
 
     Tensors in mod_dict are cast to x's dtype and device on the fly.
+
+    Issue #15 P1 (seed26/28 NaN diagnosis): channel-head matrices grow during
+    training to magnitudes where (x M_A) M_B^T can produce per-element values
+    >> ||x||, even with bounded s_M ~ 0.005. The cumulative effect across 11
+    patched layers cascades to NaN at deploy time on out-of-distribution inputs.
+    Fix: re-normalize the perturbation per-token to be at most a fraction of
+    x's norm — clip || pert ||_∞ ≤ MAX_PERT_FRAC × ||x||_∞ per-token.
     """
     M_A = mod_dict["M_A"].to(dtype=x.dtype, device=x.device)
     M_B = mod_dict["M_B"].to(dtype=x.dtype, device=x.device)
@@ -135,7 +142,18 @@ def apply_M_perturbation(x: torch.Tensor, mod_dict: dict) -> torch.Tensor:
 
     m_pert = s_M * torch.matmul(torch.matmul(x, M_A), M_B.transpose(-1, -2))
     e_pert = s_E * torch.matmul(torch.matmul(x, E_A), E_B.transpose(-1, -2))
-    return x + m_pert + e_pert
+    pert = m_pert + e_pert
+
+    # Clamp perturbation magnitude per-token to MAX_PERT_FRAC × x's per-token
+    # norm. Stable under any phi_mlp parameter scale.
+    MAX_PERT_FRAC = 0.1
+    # Per-token norms (last dim is hidden); shape [...,]
+    x_norm = x.norm(dim=-1, keepdim=True).clamp_min(1e-6)
+    pert_norm = pert.norm(dim=-1, keepdim=True).clamp_min(1e-12)
+    scale_factor = (MAX_PERT_FRAC * x_norm / pert_norm).clamp_max(1.0)
+    pert = pert * scale_factor
+
+    return x + pert
 
 
 def _resolve_layers(model: nn.Module) -> list[nn.Module]:

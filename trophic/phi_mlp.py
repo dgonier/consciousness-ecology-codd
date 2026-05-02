@@ -179,7 +179,13 @@ class PhiMLP(nn.Module):
             for ch in self._CHANNELS:
                 # template [H, r] @ G_layer [r, r] -> [H, r]
                 layer_dict[ch] = templates[ch] @ self.layer_mods[ch][i]
-            layer_dict["s_M"] = self.s_M[i]
-            layer_dict["s_E"] = self.s_E[i]
+            # Issue #15 P1 (seed26/seed28 NaN fix): bound s_M / s_E so
+            # the multiplicative path s * (x A) B^T can't push Qwen
+            # hidden states to NaN at deploy time on out-of-distribution
+            # inputs. tanh(s) ∈ (-1, 1) keeps the perturbation magnitude
+            # finite; the unconstrained scalar is used by gradient flow,
+            # the bounded scalar is what hooks see.
+            layer_dict["s_M"] = torch.tanh(self.s_M[i]) * 0.5
+            layer_dict["s_E"] = torch.tanh(self.s_E[i]) * 0.5
             out[layer_idx] = layer_dict
         return out

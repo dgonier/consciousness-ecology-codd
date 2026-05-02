@@ -167,6 +167,18 @@ def load_channels(
                     setattr(runner, runner_attr, cur)
                 if cur is not None:
                     cur.load_state_dict(troughs[key], strict=False)
+                    # Issue #15 P1: evict the loaded slot content. The
+                    # TROUGH WEIGHTS (E_in, W_Q/K/V, proj_in/out, alpha,
+                    # null_bias) carry the learning; the V_store BUFFER is
+                    # scenario-specific content from the last training
+                    # step. Loading stale V_store + querying it on a fresh
+                    # scenario produces a stale-pooled-hidden that drives
+                    # phi_mlp into out-of-distribution outputs and Qwen
+                    # into NaN. Reset the alive mask so callers re-deposit
+                    # cleanly per-scenario.
+                    alive_ids = cur.alive.nonzero(as_tuple=False).flatten().tolist()
+                    if alive_ids:
+                        cur.evict(alive_ids)
 
     return state.get("meta", {})
 
