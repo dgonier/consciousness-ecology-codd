@@ -283,6 +283,43 @@ Extend hooks-mode to herbivores so they consume **real producer broadcasts** (wh
 - If herbivore output starts varying with input → predator output varies → MCC moves off zero
 - If herbivore output stays constant despite real producer variance → bottleneck is elsewhere (Channel-style routing collapse one tier down)
 
+## Per-layer M+E refactor v6 — herbivore hooks-mode (seed26, 2026-05-01)
+
+Hooks-mode extended to herbivores. Each gets its own phi_mlp + producer-trough + ORPO loop. Predator's `_real_herb_broadcasts_for_predator` runs herbivore forward (with hooks) instead of pulling oracle-derived broadcasts.
+
+### Training trajectory
+
+| Step | Total dev | herb.tech | herb.fund | pred.short_horizon |
+|---|---|---|---|---|
+| 25 | 3.83 | 3.66 | 3.60 | 4.18 |
+| 50 | 2.12 | 2.02 | 2.14 | 2.20 |
+| 75 | 1.31 | 1.54 | 1.25 | 1.15 |
+| 100 | 1.01 | 0.90 | 1.06 | 1.06 |
+| 125 | 0.59 | 0.47 | 0.69 | 0.62 |
+| 150 | **0.38** | 0.30 | 0.21 | 0.60 |
+| 175 | 0.45 | 0.57 | 0.24 | 0.54 |
+| 190 | **NaN** | NaN | NaN | NaN |
+
+6 monotonic improvements. Best dev 0.38 — lowest hooks-mode dev ever, and lower than seed24 v5 (0.61) by step 125. Mid-training decodes are real XML: `<prediction><ticker>AMD</ticker><direction>up</direction>...`. Then NaN at step 190 — gradient explosion.
+
+### StockNet smoke verdict
+`_best.pt` (step 150, dev 0.3795): **100% abstain.** Predator output = `!!!!!!!!!!` — Qwen's NaN-in-activations signature. The checkpoint contains finite weights (verified via direct inspection); but at decode-time on out-of-distribution StockNet inputs, phi_mlp produces M tensors that push Qwen hidden states to NaN.
+
+Same checkpoint, same code: in-distribution → real XML; out-of-distribution → NaN.
+
+### Failure shape catalog (now 7 trophic StockNet runs)
+1. **Constant-up collapse** (seed8/12/14/18/24 v5): TP=36 TN=0 FP=14 FN=0, MCC 0.000. Well-formed XML, every prediction "up". Architecture matches no-LoRA baseline.
+2. **OOD-prefix gibberish** (seed20/22): 100% abstain, predator emits Cyrillic transliteration. Channel v2 / trough mode produces hidden vectors Qwen never saw at pretraining.
+3. **Distribution-shift NaN** (seed26): 100% abstain, predator emits `!!!!!!!!!!`. M tensors that work in-distribution destabilize Qwen at decode-time on out-of-distribution inputs.
+
+### Diagnosis
+The architectural primitive **mechanically works** — best dev 0.38 is real, on-distribution decoding is real, herbivore broadcasts are now genuinely input-conditioned. The bottleneck is now **generalization**: trophic stack overfits to training scenarios and produces M tensors that don't transfer. Same overfitting as #10 paths A/B (LoRA on FinCoT/SocialSignal: dev gains, held-out and StockNet flat).
+
+### Three plausible directions
+1. **Train on StockNet directly** — 1167 train days available; aligning training distribution with test would resolve the gap.
+2. **Gradient clipping on phi_mlp + smaller LR + longer training** to avoid the step-190 NaN.
+3. **Smaller phi_mlp + weight regularization toward identity.** Hexis: 500 epochs on 62 topics. Trophic: 200 steps on 285 toy scenarios — undertrained for the architecture's complexity.
+
 ## Methodology notes
 
 - **Dev set**: 14 scenarios, named `eval_*` in `trophic/training/scenarios.py`. Same tickers as training (16 large-caps).

@@ -122,7 +122,13 @@ async def main() -> None:
         result = runner.step(sc, train_step=step)
         loss_after = runner.maybe_step(step)
         if step % sft_cfg.log_every == 0:
-            ploss = " ".join(f"{k}={v:.3f}" for k, v in result["per_loss"].items())
+            # phase3-A:05 — hooks-mode predator emits a nested 'diag' dict
+            # alongside the float per-loss values; filter to floats before
+            # the f"{v:.3f}" formatter.
+            ploss = " ".join(
+                f"{k}={v:.3f}" for k, v in result["per_loss"].items()
+                if isinstance(v, (int, float))
+            )
             tau = result.get("tau", 1.0)
             # Mission 06: per-epoch ecology snapshot.
             snap = runner.ecology_snapshot()
@@ -152,6 +158,7 @@ async def main() -> None:
                     herbivores=herbivores, predators=[predator],
                     meta={"sft_seed": sft_cfg.seed, "step": step,
                           "eval_loss": elr["mean"]},
+                    runner=runner,
                 )
                 print(f"  [ckpt] new best ({elr['mean']:.4f}) → {ckpt_best.name}")
             for sc_eval in eval_:
@@ -168,6 +175,7 @@ async def main() -> None:
         str(ckpt_final),
         herbivores=herbivores, predators=[predator],
         meta={"sft_seed": sft_cfg.seed, "step": n, "eval_loss": best_eval},
+        runner=runner,
     )
     print(f"[ckpt] final → {ckpt_final.name}; best eval={best_eval:.4f}")
 

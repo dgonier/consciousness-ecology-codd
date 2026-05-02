@@ -326,6 +326,336 @@ class SFTRunner:
                 for k, v in out.items() if k != "loss"}
         return out["loss"], diag
 
+    # ---------- phase 4 hooks-mode HERBIVORE helpers ----------
+
+    def _herb_role_text(self, herb_kind: str) -> str:
+        """Plain-text role descriptor for the herb's hooks-mode prefix.
+        Mirrors `_hooks_orpo_loss_for_predator` (which hard-codes the
+        predator role text); we don't reuse the agent's ROLE_PROMPTS dict
+        because the role-prefix tensor is still injected as `role_prefix`
+        for legacy paths, and here we just want a short text role tag."""
+        if herb_kind == "technical":
+            return (
+                "You are a technical-analysis primary consumer. Synthesize a"
+                " short-horizon signal from the substrate vectors and report"
+                " a confidence in [0,1]. Format: SYNTHESIS: <text> CONFIDENCE: <num>"
+            )
+        if herb_kind == "fundamental":
+            return (
+                "You are a fundamental-analysis primary consumer. Synthesize"
+                " an event-driven thesis from the substrate vectors and"
+                " report a confidence in [0,1]. Format: SYNTHESIS: <text>"
+                " CONFIDENCE: <num>"
+            )
+        # forecaster / interrogator / unknown — generic
+        return f"You are a {herb_kind}-analysis primary consumer."
+
+    def _herb_target_for(self, herb, sc: Scenario) -> str | None:
+        if herb.kind == "technical":
+            return sc.technical_target
+        if herb.kind == "fundamental":
+            return sc.fundamental_target
+        # phase 4: only technical+fundamental herbivores currently in
+        # self.herbivores; forecaster/interrogator are oracle-only.
+        return None
+
+    def _hooks_compile_M_for_herb(
+        self,
+        herb,
+        candidates: list[Broadcast],
+    ):
+        """Build per-layer M+E tensors for a herbivore from the producer trough.
+
+        Returns (m_tensors_per_layer dict | None, prefix_text str). Reuses the
+        runner's `_producer_trough` (built lazily by `_ensure_producer_trough`).
+        Caller is responsible for installing/removing the hooks.
+        """
+        if getattr(herb, "phi_mlp", None) is None:
+            return None, ""
+        if not candidates:
+            return None, ""
+        from ..agents.base import ROLE_Q_REF_NORM
+        # Use the herbivore's role prefix to form Q.
+        rq_raw = herb.role_prefix.mean(dim=0).to(self.host.device, self.host.dtype)
+        role_q = rq_raw * (ROLE_Q_REF_NORM / (rq_raw.norm() + 1e-6))
+
+        # Fresh producer-trough (or reuse if already created); deposit
+        # current scenario's producer broadcasts.
+        prod_trough = self._ensure_producer_trough(candidates)
+        if prod_trough is None:
+            return None, ""
+        # If `_ensure_producer_trough` had to build the trough fresh
+        # (use_E_in/gated_residual based on tier_transport) we want to make
+        # sure phi_mlp params + prod_trough are in the optimizer. Re-attach
+        # idempotently in hooks mode.
+        if self._consumer_interface() == "hooks":
+            extras = self._trough_extras()
+            for h in self.herbivores:
+                if getattr(h, "phi_mlp", None) is not None:
+                    extras.append(h.phi_mlp)
+            if getattr(self.predator, "phi_mlp", None) is not None:
+                extras.append(self.predator.phi_mlp)
+            if extras:
+                self.trainer.attach(
+                    self.herbivores, [self.predator],
+                    extra_modules=extras,
+                )
+
+        pooled = self._trough_pooled_hidden(prod_trough, role_q)
+        m_tensors = herb.phi_mlp(pooled)
+
+        # Prefix text = role + curated_slot (from producer decoded_text) + query.
+        role_text = self._herb_role_text(herb.kind)
+        curated = self._build_curated_slot(sc=None, candidates=candidates)  # type: ignore[arg-type]
+        query = "Now produce the SYNTHESIS and CONFIDENCE."
+        prefix_text = (
+            f"{role_text}\n\n{curated}\n\n{query}" if curated
+            else f"{role_text}\n\n{query}"
+        )
+        return m_tensors, prefix_text
+
+    def _hooks_orpo_loss_for_herb(
+        self,
+        herb,
+        sc: Scenario,
+        candidates: list[Broadcast],
+        lambda_or: float = 0.5,
+        dstar=None,
+    ) -> tuple[torch.Tensor | None, dict]:
+        """Hooks-mode herbivore loss using ORPO + per-layer M hooks.
+
+        Mirror of `_hooks_orpo_loss_for_predator` but:
+          - Source trough is the PRODUCER trough (not the herb trough).
+          - Q is the herbivore's role_prefix.
+          - Compiled via the herbivore's own phi_mlp.
+          - Target is `sc.technical_target` or `sc.fundamental_target`.
+
+        Returns (loss_tensor_with_grad, diag_dict). If no target on the
+        scenario / no producer candidates / no phi_mlp, returns (None, {}).
+        """
+        target = self._herb_target_for(herb, sc)
+        if not target:
+            return None, {}
+        m_tensors, prefix_text = self._hooks_compile_M_for_herb(herb, candidates)
+        if m_tensors is None:
+            return None, {}
+
+        from ..training.orpo import compute_orpo_loss, sample_rejected_response
+
+        # Sample rejected from BARE host (no hooks) — contrastive negative.
+        rejected = sample_rejected_response(
+            self.host, prefix_text, max_new_tokens=64,
+        )
+        if not rejected.strip():
+            rejected = "UNKNOWN"
+
+        from ..m_hooks import install_M_hooks
+        dstar_handles = []
+        if dstar is not None:
+            try:
+                from ..dstar import install_dstar_hooks  # type: ignore
+                dstar_handles = install_dstar_hooks(self.host._model, dstar)
+            except Exception:
+                dstar_handles = []
+        handles = install_M_hooks(
+            self.host._model, m_tensors, prefill_active=False,
+        )
+        try:
+            out = compute_orpo_loss(
+                self.host,
+                prefix_text=prefix_text,
+                preferred_target=target,
+                rejected_target=rejected,
+                lambda_or=lambda_or,
+            )
+        finally:
+            for h in handles:
+                h.remove()
+            for h in dstar_handles:
+                try:
+                    h.remove()
+                except Exception:
+                    pass
+        diag = {k: (float(v.item()) if hasattr(v, "item") else v)
+                for k, v in out.items() if k != "loss"}
+        return out["loss"], diag
+
+    def _hooks_eval_decode_herb(
+        self,
+        herb,
+        sc: Scenario,
+        candidates: list[Broadcast],
+        max_new_tokens: int = 96,
+    ) -> str:
+        """Hooks-mode decode for a herbivore. Mirrors
+        `_hooks_eval_decode_predator` but uses the producer-trough +
+        herb's phi_mlp."""
+        if getattr(herb, "phi_mlp", None) is None:
+            return ""
+        if not candidates:
+            return ""
+        from ..agents.base import ROLE_Q_REF_NORM
+        rq_raw = herb.role_prefix.mean(dim=0).to(self.host.device, self.host.dtype)
+        role_q = rq_raw * (ROLE_Q_REF_NORM / (rq_raw.norm() + 1e-6))
+        prod_trough = self._ensure_producer_trough(candidates)
+        if prod_trough is None:
+            return ""
+        with torch.no_grad():
+            pooled = self._trough_pooled_hidden(prod_trough, role_q)
+            m_tensors = herb.phi_mlp(pooled)
+
+        role_text = self._herb_role_text(herb.kind)
+        curated = self._build_curated_slot(sc=None, candidates=candidates)  # type: ignore[arg-type]
+        query = "Now produce the SYNTHESIS and CONFIDENCE."
+        prefix_text = (
+            f"{role_text}\n\n{curated}\n\n{query}" if curated
+            else f"{role_text}\n\n{query}"
+        )
+
+        from ..m_hooks import install_M_hooks
+        dstar_handles = []
+        if self._dstar is not None:
+            try:
+                from ..dstar import install_dstar_hooks  # type: ignore
+                dstar_handles = install_dstar_hooks(self.host._model, self._dstar)
+            except Exception:
+                dstar_handles = []
+        handles = install_M_hooks(
+            self.host._model, m_tensors, prefill_active=False,
+        )
+        try:
+            tok = self.host._tok
+            ids = tok(prefix_text, return_tensors="pt").input_ids.to(self.host.device)
+            am = torch.ones_like(ids)
+            gen = self.host._model.generate(
+                input_ids=ids,
+                attention_mask=am,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+                pad_token_id=tok.eos_token_id,
+            )
+            new = gen[0, ids.shape[1]:]
+            return tok.decode(new, skip_special_tokens=True)
+        finally:
+            for h in handles:
+                h.remove()
+            for h in dstar_handles:
+                try:
+                    h.remove()
+                except Exception:
+                    pass
+
+    def _real_herb_broadcasts_for_predator(
+        self,
+        sc: Scenario,
+        candidates: list[Broadcast],
+    ) -> list[Broadcast]:
+        """Hooks-mode replacement for `_herb_broadcasts_for_predator`.
+
+        For each herbivore in `self.herbivores`, run its actual hooks-mode
+        forward (producer broadcasts → producer-trough attend → phi_mlp →
+        install M hooks → forward Qwen on the herb's prefix_text → pool the
+        last hidden state). The pooled hidden becomes the broadcast's
+        `channel_embedding`, which the predator's herb-trough subsequently
+        consumes. This is the input-varying signal that breaks the constant-
+        oracle-broadcast collapse seen in seed24 v5.
+
+        Forecaster / interrogator broadcasts (which have no real herbivore
+        in self.herbivores) still come from the oracle path (target text →
+        Qwen → pool) because there's no agent to run them through.
+        """
+        out: list[Broadcast] = []
+        # Real herbs (technical, fundamental).
+        for h in self.herbivores:
+            target = self._herb_target_for(h, sc)
+            if not target:
+                continue
+            if getattr(h, "phi_mlp", None) is None or not candidates:
+                # Fall back to oracle for this herb if we can't run hooks.
+                pooled = self.host.text_to_hidden(target, pool="mean")
+                emb = pooled.detach().cpu().tolist()
+            else:
+                # Hooks-mode forward → pooled last-hidden as broadcast.
+                m_tensors, prefix_text = self._hooks_compile_M_for_herb(h, candidates)
+                if m_tensors is None:
+                    pooled = self.host.text_to_hidden(target, pool="mean")
+                    emb = pooled.detach().cpu().tolist()
+                else:
+                    from ..m_hooks import install_M_hooks
+                    dstar_handles = []
+                    if self._dstar is not None:
+                        try:
+                            from ..dstar import install_dstar_hooks  # type: ignore
+                            dstar_handles = install_dstar_hooks(
+                                self.host._model, self._dstar
+                            )
+                        except Exception:
+                            dstar_handles = []
+                    handles = install_M_hooks(
+                        self.host._model, m_tensors, prefill_active=False,
+                    )
+                    try:
+                        # Forward through Qwen on prefix_text under hooks,
+                        # take last hidden state mean-pool. Use no_grad to
+                        # detach the broadcast from the herb's loss path
+                        # (predator gradient flows through its own phi_mlp +
+                        # herb-trough only). The herb's phi_mlp is trained
+                        # via _hooks_orpo_loss_for_herb in the same step.
+                        with torch.no_grad():
+                            tok = self.host._tok
+                            ids = tok(
+                                prefix_text, return_tensors="pt", truncation=True,
+                                max_length=512,
+                            ).input_ids.to(self.host.device)
+                            am = torch.ones_like(ids)
+                            mout = self.host._model(
+                                input_ids=ids, attention_mask=am,
+                                output_hidden_states=True, use_cache=False,
+                            )
+                            seq = mout.hidden_states[-1][0]  # [seq, hidden]
+                            pooled = seq.mean(dim=0).float().cpu()
+                        emb = pooled.detach().cpu().tolist()
+                    finally:
+                        for hh in handles:
+                            hh.remove()
+                        for hh in dstar_handles:
+                            try:
+                                hh.remove()
+                            except Exception:
+                                pass
+            out.append(Broadcast(
+                id=f"real.{sc.name}.{h.kind}",
+                tier="herbivore_broadcast",
+                agent_id=h.id,
+                agent_kind=h.kind,
+                diet_tags=[f"from_{h.kind}_herbivore"],
+                channel_embedding=emb,
+            ))
+        # Forecaster / interrogator — no agent in self.herbivores, fall back
+        # to oracle target-derived broadcasts so the predator's diet still
+        # has those tag families populated when the scenario provides them.
+        if sc.forecaster_target:
+            pooled = self.host.text_to_hidden(sc.forecaster_target, pool="mean")
+            out.append(Broadcast(
+                id=f"oracle.{sc.name}.forecaster",
+                tier="herbivore_broadcast",
+                agent_id="oracle.forecaster",
+                agent_kind="forecaster",
+                diet_tags=["from_forecaster_herbivore"],
+                channel_embedding=pooled.detach().cpu().tolist(),
+            ))
+        if sc.interrogator_target:
+            pooled = self.host.text_to_hidden(sc.interrogator_target, pool="mean")
+            out.append(Broadcast(
+                id=f"oracle.{sc.name}.interrogator",
+                tier="herbivore_broadcast",
+                agent_id="oracle.interrogator",
+                agent_kind="interrogator",
+                diet_tags=["from_interrogator_herbivore"],
+                channel_embedding=pooled.detach().cpu().tolist(),
+            ))
+        return out
+
     # ---------- #8 phase-1 trough mode helpers ----------
 
     def _trough_extras(self) -> list:
@@ -534,6 +864,15 @@ class SFTRunner:
         return torch.cat(outs, dim=0), nulls
 
     def _herb_loss(self, herb: Herbivore, sc: Scenario, candidates: list[Broadcast]) -> torch.Tensor | None:
+        # Phase 4 (herb-hooks): in hooks mode, dispatch to ORPO loss with
+        # per-layer M hooks driven by the herb's own phi_mlp + producer
+        # trough. The legacy teacher-forcing path is preserved for the
+        # default `prefix` mode (seed1..seed25 backward compat).
+        if self._consumer_interface() == "hooks":
+            l, _diag = self._hooks_orpo_loss_for_herb(
+                herb, sc, candidates, dstar=self._dstar,
+            )
+            return l
         target = sc.technical_target if herb.kind == "technical" else sc.fundamental_target
         if not target:
             return None
@@ -674,7 +1013,13 @@ class SFTRunner:
                 per_loss[f"herb.{h.kind}"] = float(l.detach().item())
                 total = l if total is None else total + l
         # Predator loss — dispatch on consumer interface.
-        herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
+        # Phase 4: in hooks mode, source predator's herb input from the
+        # REAL hooks-mode herb forwards (input-varying) instead of the
+        # oracle-target-derived broadcasts (which are constant per scenario).
+        if self._consumer_interface() == "hooks":
+            herb_for_pred = self._real_herb_broadcasts_for_predator(sc, candidates)
+        else:
+            herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
         if self._consumer_interface() == "hooks":
             l, diag = self._hooks_orpo_loss_for_predator(
                 sc, herb_for_pred, dstar=self._dstar,
@@ -752,6 +1097,7 @@ class SFTRunner:
         doesn't contaminate the training gradient or step the optimizer.
         """
         per_kind_totals: dict[str, list[float]] = {}
+        is_hooks = self._consumer_interface() == "hooks"
         with torch.no_grad():
             for sc in self.eval_:
                 candidates = self._producer_cache.get(sc.name, [])
@@ -759,6 +1105,20 @@ class SFTRunner:
                 for h in self.herbivores:
                     target = sc.technical_target if h.kind == "technical" else sc.fundamental_target
                     if not target:
+                        continue
+                    if is_hooks:
+                        # Phase 4: dispatch to herb-hooks ORPO eval. Like
+                        # the predator path, _hooks_orpo_loss_for_herb does
+                        # forward-only allocation so briefly enabling grad
+                        # is safe — we never call backward on this scalar.
+                        with torch.enable_grad():
+                            l, _ = self._hooks_orpo_loss_for_herb(
+                                h, sc, candidates, dstar=self._dstar,
+                            )
+                        if l is not None:
+                            per_kind_totals.setdefault(f"herb.{h.kind}", []).append(
+                                float(l.detach().item())
+                            )
                         continue
                     self._role_prefix_mean = h.role_prefix.mean(dim=0)
                     ch_out, _ = self._herb_output(h, candidates)
@@ -769,14 +1129,13 @@ class SFTRunner:
                         target_text=target,
                     )
                     per_kind_totals.setdefault(f"herb.{h.kind}", []).append(float(loss.item()))
-                # Predator (oracle herb hiddens)
+                # Predator
                 if sc.predator_target:
-                    herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
-                    if self._consumer_interface() == "hooks":
-                        # Hooks mode: ORPO loss is the natural eval scalar.
-                        # _hooks_orpo_loss_for_predator allocates internally so
-                        # we briefly exit no_grad — it's still purely forward
-                        # (we do not call backward), so this is gradient-safe.
+                    if is_hooks:
+                        # Phase 4: real input-varying herb broadcasts.
+                        herb_for_pred = self._real_herb_broadcasts_for_predator(
+                            sc, candidates,
+                        )
                         with torch.enable_grad():
                             l, _ = self._hooks_orpo_loss_for_predator(
                                 sc, herb_for_pred, dstar=self._dstar,
@@ -786,6 +1145,7 @@ class SFTRunner:
                                 float(l.detach().item())
                             )
                     else:
+                        herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
                         self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
                         ch_out, _ = self._pred_output(herb_for_pred)
                         loss = self.host.teacher_forcing_loss(
@@ -818,9 +1178,17 @@ class SFTRunner:
             max_new_tokens = int(_os.environ.get("TROPHIC_EVAL_MAX_TOKENS", "96"))
         candidates = self._producer_cache.get(sc.name, [])
         out: dict = {"name": sc.name}
+        is_hooks = self._consumer_interface() == "hooks"
         with torch.no_grad():
             for h in self.herbivores:
                 if herb_kind and h.kind != herb_kind:
+                    continue
+                if is_hooks:
+                    decoded = self._hooks_eval_decode_herb(
+                        h, sc, candidates, max_new_tokens=max_new_tokens,
+                    )
+                    out[f"herb.{h.kind}"] = (decoded or "").strip()[:400]
+                    out[f"herb.{h.kind}.null"] = 0.0
                     continue
                 self._role_prefix_mean = h.role_prefix.mean(dim=0)
                 ch_out, nulls = self._herb_output(h, candidates)
@@ -833,9 +1201,11 @@ class SFTRunner:
                 )
                 out[f"herb.{h.kind}"] = (fr.decoded_text or "").strip()[:400]
                 out[f"herb.{h.kind}.null"] = round(sum(nulls) / max(1, len(nulls)), 3)
-            # Predator on oracle herb hiddens
-            herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
-            if self._consumer_interface() == "hooks":
+            # Predator: phase 4 — in hooks mode, pull real input-varying
+            # herb broadcasts from herb forwards under hooks. In prefix
+            # mode, fall back to oracle-target-derived broadcasts.
+            if is_hooks:
+                herb_for_pred = self._real_herb_broadcasts_for_predator(sc, candidates)
                 # Hooks-mode decode: build prefix text + install M hooks +
                 # call host._model.generate directly (no forward_with_prefix).
                 decoded = self._hooks_eval_decode_predator(
@@ -843,6 +1213,7 @@ class SFTRunner:
                 )
                 out["pred.short_horizon"] = (decoded or "").strip()[:400]
             else:
+                herb_for_pred = self._herb_broadcasts_for_predator(sc, candidates)
                 self._role_prefix_mean = self.predator.role_prefix.mean(dim=0)
                 ch_out, nulls = self._pred_output(herb_for_pred)
                 fr = self.host.forward_with_prefix(
