@@ -143,6 +143,17 @@ async def main() -> None:
         else:
             nan_streak = 0
 
+        # Over-fit guard: train loss collapsing below 0.3 reliably triggers
+        # gradient explosion within the next 10-20 steps (seed32 abort@100,
+        # seed33 abort@95). Abort early so we keep the last good ckpt
+        # before the cascade. The stable best ckpt is already saved every
+        # eval_every steps; this just stops digging deeper.
+        underfit_floor = float(os.environ.get("TROPHIC_LOSS_FLOOR", "0.3"))
+        if isinstance(result.get("loss"), (int, float)) and result["loss"] < underfit_floor:
+            print(f"\n[ABORT] train_loss {result['loss']:.4f} < floor {underfit_floor}; "
+                  f"over-fit cascade imminent. Bailing at step {step}.")
+            break
+
         if step % sft_cfg.log_every == 0:
             ploss = " ".join(
                 f"{k}={v:.3f}" for k, v in result["per_loss"].items()

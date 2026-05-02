@@ -337,24 +337,25 @@ class SFTRunner:
 
     def _herb_role_text(self, herb_kind: str) -> str:
         """Plain-text role descriptor for the herb's hooks-mode prefix.
-        Mirrors `_hooks_orpo_loss_for_predator` (which hard-codes the
-        predator role text); we don't reuse the agent's ROLE_PROMPTS dict
-        because the role-prefix tensor is still injected as `role_prefix`
-        for legacy paths, and here we just want a short text role tag."""
+        Note: do NOT include angle-bracket placeholders or XML schema in
+        this text. The herb broadcast is mean-pooled over the last hidden
+        state; placeholder tokens like '<text>' or '<num>' bias that pool
+        toward '<' regardless of input content (verified via logit-lens
+        on seed32, 2026-05-02)."""
         if herb_kind == "technical":
             return (
-                "You are a technical-analysis primary consumer. Synthesize a"
-                " short-horizon signal from the substrate vectors and report"
-                " a confidence in [0,1]. Format: SYNTHESIS: <text> CONFIDENCE: <num>"
+                "You read short-horizon technical signals from the upstream"
+                " substrate and produce a single concise paragraph summarizing"
+                " what direction the recent price action implies, with a"
+                " numeric confidence between 0 and 1."
             )
         if herb_kind == "fundamental":
             return (
-                "You are a fundamental-analysis primary consumer. Synthesize"
-                " an event-driven thesis from the substrate vectors and"
-                " report a confidence in [0,1]. Format: SYNTHESIS: <text>"
-                " CONFIDENCE: <num>"
+                "You read fundamental and news signals from the upstream"
+                " substrate and produce a single concise paragraph summarizing"
+                " the event-driven thesis, with a numeric confidence between"
+                " 0 and 1."
             )
-        # forecaster / interrogator / unknown — generic
         return f"You are a {herb_kind}-analysis primary consumer."
 
     def _herb_target_for(self, herb, sc: Scenario) -> str | None:
@@ -598,16 +599,36 @@ class SFTRunner:
                             )
                         except Exception:
                             dstar_handles = []
-                    handles = install_M_hooks(
-                        self.host._model, m_tensors, prefill_active=False,
-                    )
+                    # Diagnostic: when TROPHIC_BARE_HERB=1, skip M hook installation
+                    # so the herb broadcast is bare-Qwen mean-pooled hidden. Used
+                    # by inspect_signals_jsonl.py --bare-herb to isolate whether
+                    # the herb's '<' collapse comes from the trained M tensors.
+                    if os.environ.get("TROPHIC_BARE_HERB") == "1":
+                        handles = []
+                    else:
+                        handles = install_M_hooks(
+                            self.host._model, m_tensors, prefill_active=False,
+                        )
                     try:
-                        # Forward through Qwen on prefix_text under hooks,
-                        # take last hidden state mean-pool. Use no_grad to
-                        # detach the broadcast from the herb's loss path
-                        # (predator gradient flows through its own phi_mlp +
-                        # herb-trough only). The herb's phi_mlp is trained
-                        # via _hooks_orpo_loss_for_herb in the same step.
+                        # Forward through Qwen on prefix_text under hooks.
+                        # Pooling: role_q-conditioned attention pool by default.
+                        # Mean-pool washed out per-scenario differences (~80%
+                        # boilerplate prefix); last-token mostly captured the
+                        # boilerplate's last word ('MARK'). role_q-attention
+                        # picks the seq positions that align with what the herb
+                        # is looking for, and weights the pool toward content
+                        # tokens. Then we inject OHLCV numeric features from
+                        # the candidate broadcasts so the herb hidden carries
+                        # the same directional signal the producer broadcast
+                        # has (otherwise numeric features bypass the herb tier
+                        # entirely). Overrides:
+                        #   TROPHIC_HERB_POOL=mean|last|attn  (default attn)
+                        #   TROPHIC_HERB_NUMERIC=0  to disable numeric inject
+                        herb_pool = os.environ.get("TROPHIC_HERB_POOL", "attn")
+                        do_numeric = os.environ.get("TROPHIC_HERB_NUMERIC", "1") == "1"
+                        from ..agents.base import ROLE_Q_REF_NORM
+                        rq = h.role_prefix.mean(dim=0).to(self.host.device, self.host.dtype)
+                        rq = rq * (ROLE_Q_REF_NORM / (rq.norm() + 1e-6))
                         with torch.no_grad():
                             tok = self.host._tok
                             ids = tok(
@@ -620,7 +641,32 @@ class SFTRunner:
                                 output_hidden_states=True, use_cache=False,
                             )
                             seq = mout.hidden_states[-1][0]  # [seq, hidden]
-                            pooled = seq.mean(dim=0).float().cpu()
+                            if herb_pool == "mean":
+                                pooled = seq.mean(dim=0)
+                            elif herb_pool == "last":
+                                pooled = seq[-1]
+                            else:
+                                # attn: softmax(seq @ role_q / sqrt(H)) · seq
+                                scores = (seq @ rq) / (rq.shape[-1] ** 0.5)
+                                weights = torch.softmax(scores.float(), dim=0).to(seq.dtype)
+                                pooled = (weights.unsqueeze(-1) * seq).sum(dim=0)
+                            pooled = pooled.float().cpu()
+                            if do_numeric:
+                                # Inject OHLCV numeric features from any candidate
+                                # broadcast whose payload has `bars`. Mirror the
+                                # producer's _numeric_inject on the herb side so
+                                # the directional signal survives the herb forward.
+                                from ..agents.producer import (
+                                    _numeric_inject as _prod_numeric_inject,
+                                )
+                                for cand in candidates:
+                                    if isinstance(cand.payload, dict) and cand.payload.get("bars"):
+                                        # Use the producer kind's projection so the
+                                        # subspace is shared across tiers.
+                                        pooled = _prod_numeric_inject(
+                                            cand.agent_kind, cand.payload, pooled,
+                                        )
+                                        break
                         emb = pooled.detach().cpu().tolist()
                     finally:
                         for hh in handles:

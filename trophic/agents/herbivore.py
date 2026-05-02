@@ -49,22 +49,21 @@ DIETS = {
 
 ROLE_PROMPTS = {
     "technical": (
-        "You are a technical-analysis primary consumer. The vectors that"
-        " follow encode market-microstructure substrate. Synthesize a"
-        " short-horizon signal from them and report a confidence in [0,1]."
-        " Format: SYNTHESIS: <text> CONFIDENCE: <num>"
+        "You read short-horizon technical signals from the upstream substrate"
+        " and produce a single concise paragraph summarizing what direction"
+        " the recent price action implies, with a numeric confidence between"
+        " 0 and 1."
     ),
     "fundamental": (
-        "You are a fundamental-analysis primary consumer. The vectors that"
-        " follow encode disclosure / event substrate. Synthesize an"
-        " event-driven thesis from them and report a confidence in [0,1]."
-        " Format: SYNTHESIS: <text> CONFIDENCE: <num>"
+        "You read fundamental and news signals from the upstream substrate"
+        " and produce a single concise paragraph summarizing the event-driven"
+        " thesis, with a numeric confidence between 0 and 1."
     ),
 }
 
 QUERIES = {
-    "technical": "Now produce the SYNTHESIS and CONFIDENCE.",
-    "fundamental": "Now produce the SYNTHESIS and CONFIDENCE.",
+    "technical": "Write the synthesis paragraph followed by the confidence.",
+    "fundamental": "Write the synthesis paragraph followed by the confidence.",
 }
 
 
