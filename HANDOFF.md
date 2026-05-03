@@ -55,6 +55,29 @@ even when correct; bare's MCC on disagreement-only is +0.06. Neither is
 a reliable arbiter, so MAJORITY strategies degenerate to the chosen
 arbiter alone. The signal is in the agreement.
 
+**Confidence-gated AGREE**: seed36's binary head softmax confidence
+ranges 0.50–0.66 (narrow). AGREE + conf>0.55 gives MCC +0.212 on
+38/100 — marginally better than plain AGREE (+0.210 on 41/100). Higher
+thresholds (≥0.60) drop too many decisions to be useful. Confidence
+isn't well-graduated enough to be a strong signal.
+
+**Per-ticker heterogeneity is large** (each ticker has 20 scenarios):
+
+| Ticker | bare MCC | seed36 MCC | Best | Notes |
+|--------|----------|-----------|------|-------|
+| AAPL | +0.058 | +0.101 | seed36 | both modest |
+| AMZN | +0.182 | -0.061 | **bare** (big delta) | seed gets confused on AMZN |
+| GOOG | +0.190 | +0.190 | tie | |
+| JPM | +0.000 | +0.287 | **seed36** (big delta) | seed shines |
+| MSFT | +0.153 | +0.171 | seed36 | both moderate |
+
+Per-ticker oracle router (cheating: uses test labels to know which
+system to trust per ticker): MCC +0.159 — only marginally better than
+bare alone. The gains on JPM are partially offset by losses elsewhere
+because individual scenario predictions vary even within tickers.
+Useful for a learned router on held-out train data; not actionable
+without extra training infrastructure.
+
 The benchmark XML prompt is at `scripts/diagnostics/baseline_promptonly_stocknet.py`.
 The binary head is at `Predator.binary_head` (gated by
 `TROPHIC_BINARY_HEAD=1`; depth via `TROPHIC_BINARY_HEAD_DEPTH=1|2`).
@@ -171,6 +194,12 @@ the prompt-engineered bare model.
 - ✅ Bare-XML 100-eval — MCC +0.147 (down from 50-scenario +0.292,
   the earlier number was small-sample noise)
 - ✅ seed36 100-eval — MCC +0.117
+- ✅ **AGREE ensemble (bare + seed36) — MCC +0.210 on 41/100 decided.
+  First architectural result that exceeds the bare baseline.**
+- ✅ Per-ticker analysis: large heterogeneity (bare best on AMZN, seed
+  best on JPM); oracle router gives only marginal lift (+0.159).
+- ✅ Confidence-gated AGREE: marginal improvement to +0.212 on 38/100;
+  seed36's confidence isn't graduated enough to be a strong gate.
 
 ## Recommended next steps
 
