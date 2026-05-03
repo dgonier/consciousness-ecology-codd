@@ -78,6 +78,14 @@ def save_channels(
     if phi_state["herb"] or phi_state["pred"]:
         state["phi_mlp"] = phi_state
 
+    # 2026-05-02: predator binary_head state (skip-token classification head).
+    bh_state = {}
+    for p in predators:
+        if getattr(p, "binary_head", None) is not None:
+            bh_state[p.kind] = p.binary_head.state_dict()
+    if bh_state:
+        state["binary_head"] = bh_state
+
     if runner is not None:
         trough_state: dict = {}
         if getattr(runner, "_producer_trough", None) is not None:
@@ -137,6 +145,14 @@ def load_channels(
         for p in predators:
             if getattr(p, "phi_mlp", None) is not None and p.kind in phi.get("pred", {}):
                 p.phi_mlp.load_state_dict(phi["pred"][p.kind])
+
+    # 2026-05-02: predator binary_head state. Silently skipped if either the
+    # ckpt or the agent doesn't have one (forward + backward compat).
+    bh = state.get("binary_head", {})
+    if bh:
+        for p in predators:
+            if getattr(p, "binary_head", None) is not None and p.kind in bh:
+                p.binary_head.load_state_dict(bh[p.kind])
 
     # Trough state. Optional; only loaded if runner is supplied.
     if runner is not None:

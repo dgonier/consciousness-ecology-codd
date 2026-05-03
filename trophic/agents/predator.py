@@ -103,6 +103,12 @@ class Predator(BaseAgent):
     # ensure_initialized when TROPHIC_CONSUMER_INTERFACE=hooks; stays None
     # in default `prefix` mode (backward compat with seed1..seed22).
     phi_mlp: Optional[object] = None
+    # 2026-05-02: optional binary classification head over the predator's
+    # attended-pooled hidden state. Reads the herb-tier signal directly into
+    # P(up) without going through the LM head's prior-dominated single-token
+    # distribution (which we found ignores the M perturbation). Lazily built
+    # in ensure_initialized when TROPHIC_BINARY_HEAD=1.
+    binary_head: Optional[object] = None
 
     @classmethod
     def make(cls, kind: str, capacity: int = 4, abstain_threshold: float = 0.6) -> "Predator":
@@ -156,6 +162,18 @@ class Predator(BaseAgent):
                 self.phi_mlp = PhiMLP(hidden_size=host.hidden_size).to(
                     device=host.device, dtype=host.dtype
                 )
+        # 2026-05-02: binary classification head, gated by env var. Built
+        # eagerly (not deferred to first forward) so the optimizer's attach()
+        # picks up its parameters from step 0.
+        if _os.environ.get("TROPHIC_BINARY_HEAD", "0") == "1":
+            if self.binary_head is None:
+                # Two-class head over hidden_size. Init to small random so
+                # gradient flows but the head doesn't dominate at start.
+                self.binary_head = torch.nn.Linear(host.hidden_size, 2, bias=True).to(
+                    device=host.device, dtype=host.dtype
+                )
+                torch.nn.init.normal_(self.binary_head.weight, std=0.02)
+                torch.nn.init.zeros_(self.binary_head.bias)
 
     @property
     def diet_tags(self) -> list[str]:

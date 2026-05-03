@@ -130,6 +130,9 @@ class SFTRunner:
                     extra_modules.append(h.phi_mlp)
             if getattr(self.predator, "phi_mlp", None) is not None:
                 extra_modules.append(self.predator.phi_mlp)
+        # 2026-05-02: also attach the predator's binary head if present.
+        if getattr(self.predator, "binary_head", None) is not None:
+            extra_modules.append(self.predator.binary_head)
         # Re-attach (parameters() now refers to the moved tensors, and any
         # phi_mlp modules are included in hooks mode).
         n_params = self.trainer.attach(
@@ -285,6 +288,40 @@ class SFTRunner:
         trough.deposit(herb_outputs_for_predator[:deposit_n])
 
         pooled = self._trough_pooled_hidden(trough, role_q)
+
+        # 2026-05-02: binary head fast-path. When the head is attached and
+        # TROPHIC_BINARY_HEAD=1, train the head directly via CE on
+        # {up, down} from the scenario's predator_target. Skips phi_mlp,
+        # M hooks, ORPO, and the LM head entirely — exposes the herb-tier
+        # signal in `pooled` to a 2-class linear projection. This sidesteps
+        # the structural finding (rank-16 M can't override Qwen's first-
+        # token prior) and tests whether the herb signal is actually
+        # discriminative when given a clean readout path.
+        if (
+            os.environ.get("TROPHIC_BINARY_HEAD", "0") == "1"
+            and getattr(self.predator, "binary_head", None) is not None
+        ):
+            from ..training.xml_schema import parse_prediction
+            tgt_dir = parse_prediction(sc.predator_target).direction
+            if tgt_dir not in ("up", "down"):
+                return None, {}
+            label = torch.tensor(
+                [0 if tgt_dir == "up" else 1],
+                device=pooled.device, dtype=torch.long,
+            )
+            # Cast pooled to float32 for stable CE (binary head's params
+            # follow host dtype but logits → CE prefers float32).
+            head = self.predator.binary_head
+            logits = head(pooled.unsqueeze(0))
+            ce = torch.nn.functional.cross_entropy(logits.float(), label)
+            with torch.no_grad():
+                p = torch.softmax(logits.float(), dim=-1)[0]
+            diag = {
+                "p_up": float(p[0].item()),
+                "p_down": float(p[1].item()),
+                "tgt": tgt_dir,
+            }
+            return ce, diag
 
         # 2. Compile per-layer M tensors via predator's phi_mlp.
         m_tensors = self.predator.phi_mlp(pooled)
@@ -1334,6 +1371,19 @@ class SFTRunner:
         trough.deposit(herb_outputs_for_predator[:deposit_n])
         with torch.no_grad():
             pooled = self._trough_pooled_hidden(trough, role_q)
+            # 2026-05-02: if the binary head is on, read the prediction
+            # directly off the herb-tier-pooled hidden. No M, no LM head,
+            # no parsing — the head outputs P(up)/P(down) directly.
+            if (
+                os.environ.get("TROPHIC_BINARY_HEAD", "0") == "1"
+                and getattr(self.predator, "binary_head", None) is not None
+            ):
+                logits = self.predator.binary_head(pooled.unsqueeze(0))
+                p = torch.softmax(logits.float(), dim=-1)[0]
+                pick_idx = int(logits.argmax(dim=-1).item())
+                direction = "up" if pick_idx == 0 else "down"
+                conf = float(p[pick_idx].item())
+                return f" {direction}\nCONFIDENCE: {conf:.3f}\n"
             m_tensors = self.predator.phi_mlp(pooled)
         role_text = PREDATOR_ROLE_PROMPTS["short_horizon"]
         curated = self._build_curated_slot(sc, herb_outputs_for_predator)
