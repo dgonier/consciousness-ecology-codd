@@ -185,6 +185,41 @@ seed36 confirmed there IS some directional signal in the pooled hidden
 (+0.07 MCC > 0), but the herb tier alone doesn't carry enough to beat
 the prompt-engineered bare model.
 
+## Decomposers: KG + evolution manager (architecture, 2026-05-03)
+
+Decomposers reframed per user as **two-headed**: (1) Hexis-style KG
+writer that observes every (scenario, voter_responses, ensemble,
+ground_truth) tuple and writes a structured record for long-term
+memory; (2) Evolutionary population manager that tracks per-voter
+rolling fitness and suggests `reproduce` / `die` / `thin_mutate` /
+`keep` actions. Decomposers do not touch agent weights. They change
+WHO is in the population over time.
+
+`trophic/decomposers/`:
+- `kg_writer.py` — JSONL KG with `KGRecord` schema. Append-mode writer,
+  read-back helper. Default path `external/decomposer_kg/kg.jsonl`.
+- `fitness.py` — `AgentFitness` with two signals: SOLO accuracy and
+  MARGINAL contribution (how often voter's exclusion would have
+  flipped the panel and the voter's vote made the panel correct).
+  Free-rider score = solo - marginal. Rolling window of 200 events.
+- `population_manager.py` — policy: high acc + high marginal → reproduce
+  with `prompt_template_swap`; low acc + low marginal → die; high
+  acc + low marginal (free-rider) → `temperature_shift` thin-mutation.
+  Min-seen gate of 20 events to suppress premature decisions.
+
+`scripts/diagnostics/apex_vote_eval.py --decomposer --kg-path P`:
+runs leave-one-out drop test per voter per scenario, accumulates
+fitness, writes KG records, prints evolution report at end.
+
+**Verified** end-to-end with mock 3-voter ensemble on 60 synthetic
+scenarios:
+- strong voter (acc 0.7, marginal 0.67) → REPRODUCE
+- middle voter (random) → KEEP (in tracker but combined < threshold)
+- garbage voter (acc 0.22, marginal 0.27) → DIE
+
+LoRA-on-E mutation primitive remains future work; gated on accumulating
+enough KG trace data to train per-agent adapters from.
+
 ## Multi-family apex voter ensemble (architecture, 2026-05-03)
 
 The apex tier is reframed: instead of K trained instances of one
