@@ -185,6 +185,38 @@ seed36 confirmed there IS some directional signal in the pooled hidden
 (+0.07 MCC > 0), but the herb tier alone doesn't carry enough to beat
 the prompt-engineered bare model.
 
+## Multi-family apex voter ensemble (architecture, 2026-05-03)
+
+The apex tier is reframed: instead of K trained instances of one
+backbone, the apex is a **panel of frontier-model voters**
+(OpenAI / Anthropic / Gemini / OpenRouter / local Qwen). The trophic
+stack's job is to prepare the evidence packet (producer + herb +
+forecast snapshot) that each voter reads independently. Aggregation is
+plurality / confidence-weighted / perplexity-weighted across voters.
+
+Code shipped:
+- `trophic/apex_voters/base.py` — `ApexVoter`, `VoterResponse`,
+  `EvidencePacket` interfaces.
+- `trophic/apex_voters/evidence.py` — renders Scenario + herb broadcasts
+  into a model-agnostic prompt with structured metadata.
+- `trophic/apex_voters/local_qwen.py` — local Qwen voter, computes
+  self-perplexity from `output_scores` during generate().
+- `trophic/apex_voters/api_voters.py` — OpenAIVoter, AnthropicVoter,
+  GeminiVoter, OpenRouterVoter. Each gated by its env-var key; unavailable
+  voters silently skip. Stubs ready for the day keys are wired.
+- `trophic/apex_voters/aggregate.py` — plurality, confidence_weighted,
+  perplexity_weighted (rank-vote on binary = plurality), and
+  `deliberation_packet()` for round-2 peer-aware re-voting.
+- `scripts/diagnostics/apex_vote_eval.py` — full StockNet eval; auto-skips
+  unavailable voters; writes per-scenario JSONL records.
+
+Today only the local Qwen voter is available; smoke test validates
+plumbing but emits MCC=0 with a single voter (degenerate case).
+Aggregation logic verified with mock voters in unit-test style.
+
+When API keys land, the same eval script picks them up via env-var
+detection — no code change needed.
+
 ## Resolved / done since last handoff
 
 - ✅ Producer-only ablation (seed37) — MCC=0, herb tier IS doing work
