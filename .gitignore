@@ -111,3 +111,4 @@ scratch/
 !README.md
 !LICENSE
 !pyproject.toml
+external/decomposer_kg/

@@ -38,6 +38,9 @@ from trophic.apex_voters import (
     build_evidence_packet, confidence_weighted, deliberation_packet,
     perplexity_weighted, plurality,
 )
+from trophic.decomposers import (
+    FitnessTracker, KGWriter, PopulationManager,
+)
 from trophic.training.stocknet_loader import build_stocknet_scenarios
 from trophic.training.xml_schema import parse_prediction
 
@@ -81,6 +84,9 @@ def main():
     ap.add_argument("--out", default="logs/apex_vote_eval.jsonl")
     ap.add_argument("--max-scenarios", type=int, default=0,
                     help="0 = no cap; otherwise stop after this many")
+    ap.add_argument("--decomposer", action="store_true",
+                    help="Track per-voter fitness, write KG, emit evolution report at end.")
+    ap.add_argument("--kg-path", default="external/decomposer_kg/kg.jsonl")
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
@@ -113,6 +119,15 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fout = out_path.open("w")
 
+    # Decomposer: KG writer + fitness tracker + population manager.
+    kg = None
+    tracker = None
+    if args.decomposer:
+        kg = KGWriter(path=Path(args.kg_path))
+        kg.open()
+        tracker = FitnessTracker(window=200)
+        print(f"[apex_vote] decomposer ON: KG={kg.path}, fitness window=200")
+
     for i, sc in enumerate(scens):
         target = parse_prediction(sc.predator_target or "").direction
         pkt = build_evidence_packet(sc, herb_broadcasts=None)
@@ -131,6 +146,39 @@ def main():
         plur_decs.append((target, plur.direction))
         conf_decs.append((target, cw.direction))
         ppl_decs.append((target, pw.direction))
+
+        # Decomposer: per-voter fitness via leave-one-out drop test.
+        if tracker is not None:
+            for j, r in enumerate(responses):
+                # Panel without voter j
+                without_j = [responses[k] for k in range(len(responses)) if k != j]
+                full_dir = plur.direction
+                drop_dir = plurality(without_j).direction if without_j else None
+                marginal_flip = (full_dir != drop_dir)
+                marginal_correct = marginal_flip and (full_dir == target)
+                voter_correct = (r.direction == target) if r.direction else None
+                tracker.record(
+                    voter_id=r.voter_id,
+                    correct=voter_correct,
+                    decisive=r.direction is not None,
+                    marginal_flip=marginal_flip,
+                    marginal_correct=marginal_correct,
+                )
+            if kg is not None and target in ("up", "down"):
+                kg.write_observation(
+                    scenario_name=sc.name,
+                    ticker=sc.name.split("_")[2] if "_" in sc.name else "?",
+                    target_direction=target,
+                    ensemble_decision=plur,  # use plurality as the recorded decision
+                    signature={
+                        "n_voters": len(responses),
+                        "n_decisive": sum(1 for r in responses if r.direction),
+                        "agreement": (
+                            "all_agree" if len(set(r.direction for r in responses if r.direction)) <= 1
+                            else "split"
+                        ),
+                    },
+                )
 
         # Rolling stats so we can interrupt early and still see data
         rec = {
@@ -177,6 +225,26 @@ def main():
             f"acc={s['acc']:.2%} MCC={s['mcc']:+.4f}"
         )
     print(f"\n[apex_vote] per-scenario records → {out_path}")
+
+    if tracker is not None:
+        print()
+        print("=== PER-VOTER FITNESS ===")
+        for vid, af in tracker.summary().items():
+            print(
+                f"  {vid:30s} seen={af.n_seen} dec={af.n_decisive} "
+                f"acc={af.solo_accuracy:.2f} "
+                f"marginal_flip={af.n_marginal_flip} "
+                f"marginal={af.marginal_contribution:.2f} "
+                f"freerider={af.freerider_score:+.2f}"
+            )
+        mgr = PopulationManager()
+        decisions = mgr.decide(tracker)
+        print()
+        print(mgr.render_report(decisions))
+    if kg is not None:
+        kg.close()
+        print(f"[apex_vote] KG records → {kg.path}")
+
     return 0
 
 
