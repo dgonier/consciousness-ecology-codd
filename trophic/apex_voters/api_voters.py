@@ -21,6 +21,7 @@ from typing import Any
 from ..training.xml_schema import parse_prediction
 from .base import ApexVoter, EvidencePacket, VoterResponse
 from .evidence import SYSTEM
+from .parsing import extract_reasoning, extract_citations
 
 
 def _split_system_user(text: str) -> tuple[str, str]:
@@ -69,12 +70,20 @@ class OpenAIVoter(ApexVoter):
                 ppl = math.exp(-lp)
         except (AttributeError, TypeError):
             pass
+        reasoning = extract_reasoning(msg)
         return VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
             perplexity=ppl,
             raw_text=msg,
+            reasoning=reasoning,
+            evidence_citations=extract_citations(reasoning),
+            provider_meta={
+                "model": self.model,
+                "input_tokens": getattr(resp.usage, "prompt_tokens", None) if resp.usage else None,
+                "output_tokens": getattr(resp.usage, "completion_tokens", None) if resp.usage else None,
+            },
         )
 
 
@@ -115,12 +124,20 @@ class AnthropicVoter(ApexVoter):
             # lower perplexity. Saturate at conf=0.99.
             c = max(min(parsed.confidence, 0.99), 0.01)
             ppl = 1.0 / c
+        reasoning = extract_reasoning(text)
         return VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
             perplexity=ppl,
             raw_text=text,
+            reasoning=reasoning,
+            evidence_citations=extract_citations(reasoning),
+            provider_meta={
+                "model": self.model,
+                "input_tokens": getattr(resp.usage, "input_tokens", None) if hasattr(resp, "usage") else None,
+                "output_tokens": getattr(resp.usage, "output_tokens", None) if hasattr(resp, "usage") else None,
+            },
         )
 
 
@@ -157,12 +174,16 @@ class GeminiVoter(ApexVoter):
         if parsed.confidence is not None:
             c = max(min(parsed.confidence, 0.99), 0.01)
             ppl = 1.0 / c
+        reasoning = extract_reasoning(text)
         return VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
             perplexity=ppl,
             raw_text=text,
+            reasoning=reasoning,
+            evidence_citations=extract_citations(reasoning),
+            provider_meta={"model": self.model},
         )
 
 
@@ -210,10 +231,14 @@ class OpenRouterVoter(ApexVoter):
                 ppl = math.exp(-lp)
         except (AttributeError, TypeError):
             pass
+        reasoning = extract_reasoning(msg)
         return VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
             perplexity=ppl,
             raw_text=msg,
+            reasoning=reasoning,
+            evidence_citations=extract_citations(reasoning),
+            provider_meta={"model": self.model, "via": "openrouter"},
         )

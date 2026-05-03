@@ -21,6 +21,7 @@ from ..config import DEFAULT_CONFIG
 from ..model_host import ModelHost
 from ..training.xml_schema import parse_prediction
 from .base import ApexVoter, EvidencePacket, VoterResponse
+from .parsing import extract_reasoning, extract_citations
 
 
 class LocalQwenVoter(ApexVoter):
@@ -118,10 +119,15 @@ class LocalQwenVoter(ApexVoter):
         # Perplexity = exp(-mean_logprob). Lower = more confident.
         perplexity = math.exp(-chosen_logprob) if chosen_logprob is not None else float("inf")
 
+        reasoning = extract_reasoning(raw_text)
+        citations = extract_citations(reasoning)
         return VoterResponse(
             voter_id=self.voter_id,
             direction=direction,
             confidence=confidence,
             perplexity=perplexity,
             raw_text=raw_text,
+            reasoning=reasoning,
+            evidence_citations=citations,
+            provider_meta={"model": "Qwen3-4B (local)", "max_new_tokens": self.max_new_tokens},
         )

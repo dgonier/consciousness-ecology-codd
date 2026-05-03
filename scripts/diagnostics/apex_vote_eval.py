@@ -40,6 +40,8 @@ from trophic.apex_voters import (
 )
 from trophic.decomposers import (
     FitnessTracker, KGWriter, PopulationManager,
+    Observation, ObservationWriter, DecomposerJudgment,
+    capture_evidence_signals,
 )
 from trophic.training.stocknet_loader import build_stocknet_scenarios
 from trophic.training.xml_schema import parse_prediction
@@ -87,6 +89,8 @@ def main():
     ap.add_argument("--decomposer", action="store_true",
                     help="Track per-voter fitness, write KG, emit evolution report at end.")
     ap.add_argument("--kg-path", default="external/decomposer_kg/kg.jsonl")
+    ap.add_argument("--obs-path", default="external/decomposer_kg/observations.jsonl",
+                    help="Full per-scenario observation: all inter-tier signals + voter reasoning + ensemble + judgments.")
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
@@ -119,14 +123,18 @@ def main():
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fout = out_path.open("w")
 
-    # Decomposer: KG writer + fitness tracker + population manager.
+    # Decomposer: KG writer + fitness tracker + population manager +
+    # full Observation writer (every inter-tier signal + voter reasoning).
     kg = None
+    obs_writer = None
     tracker = None
     if args.decomposer:
         kg = KGWriter(path=Path(args.kg_path))
         kg.open()
+        obs_writer = ObservationWriter(Path(args.obs_path))
+        obs_writer.open()
         tracker = FitnessTracker(window=200)
-        print(f"[apex_vote] decomposer ON: KG={kg.path}, fitness window=200")
+        print(f"[apex_vote] decomposer ON: KG={kg.path}, obs={obs_writer.path}, fitness window=200")
 
     for i, sc in enumerate(scens):
         target = parse_prediction(sc.predator_target or "").direction
@@ -165,11 +173,45 @@ def main():
                     marginal_correct=marginal_correct,
                 )
             if kg is not None and target in ("up", "down"):
+                signature = {
+                    "n_voters": len(responses),
+                    "n_decisive": sum(1 for r in responses if r.direction),
+                    "agreement": (
+                        "all_agree" if len(set(r.direction for r in responses if r.direction)) <= 1
+                        else "split"
+                    ),
+                }
                 kg.write_observation(
                     scenario_name=sc.name,
                     ticker=sc.name.split("_")[2] if "_" in sc.name else "?",
                     target_direction=target,
-                    ensemble_decision=plur,  # use plurality as the recorded decision
+                    ensemble_decision=plur,
+                    signature=signature,
+                )
+            # Full Observation: every inter-tier signal + voter reasoning +
+            # ensemble + per-voter decomposer judgments. Decomposer's
+            # input for KG queries and evolution decisions.
+            if obs_writer is not None:
+                inter_tier = capture_evidence_signals(sc, pkt)
+                judgments = []
+                for j, r in enumerate(responses):
+                    without_j = [responses[k] for k in range(len(responses)) if k != j]
+                    drop_dir = plurality(without_j).direction if without_j else None
+                    mflip = (plur.direction != drop_dir)
+                    judgments.append(DecomposerJudgment(
+                        voter_id=r.voter_id,
+                        correct=(r.direction == target) if r.direction else None,
+                        decisive=r.direction is not None,
+                        marginal_flip=mflip,
+                        marginal_correct=mflip and (plur.direction == target),
+                    ))
+                obs = Observation.from_voter_responses(
+                    scenario_name=sc.name,
+                    ticker=sc.name.split("_")[2] if "_" in sc.name else "?",
+                    target_direction=target,
+                    voters=responses,
+                    ensemble=plur,
+                    inter_tier=inter_tier,
                     signature={
                         "n_voters": len(responses),
                         "n_decisive": sum(1 for r in responses if r.direction),
@@ -179,6 +221,8 @@ def main():
                         ),
                     },
                 )
+                obs.decomposer_judgments = judgments
+                obs_writer.write(obs)
 
         # Rolling stats so we can interrupt early and still see data
         rec = {
@@ -244,6 +288,9 @@ def main():
     if kg is not None:
         kg.close()
         print(f"[apex_vote] KG records → {kg.path}")
+    if obs_writer is not None:
+        obs_writer.close()
+        print(f"[apex_vote] full observations → {obs_writer.path}")
 
     return 0
 

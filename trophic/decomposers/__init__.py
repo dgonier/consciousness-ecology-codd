@@ -21,9 +21,15 @@ mutations are a future extension.
 from .kg_writer import KGWriter, KGRecord
 from .fitness import FitnessTracker, AgentFitness
 from .population_manager import PopulationManager, EvolutionDecision
+from .observation import (
+    Observation, ObservationWriter, NodeSignal, DecomposerJudgment,
+)
+from .capture import capture_evidence_signals
 
 __all__ = [
     "KGWriter", "KGRecord",
     "FitnessTracker", "AgentFitness",
     "PopulationManager", "EvolutionDecision",
+    "Observation", "ObservationWriter", "NodeSignal", "DecomposerJudgment",
+    "capture_evidence_signals",
 ]

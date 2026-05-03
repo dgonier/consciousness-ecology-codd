@@ -40,6 +40,19 @@ class VoterResponse:
     confidence: float | None  # voter's self-reported confidence in [0, 1]
     perplexity: float  # log-perplexity of answer span (lower = more confident)
     raw_text: str  # full response text
+    # 2026-05-03: structured reasoning. The voter's natural-language
+    # justification for its answer, separate from the XML answer span.
+    # Reviewable by humans, visible to the decomposer for KG traces, and
+    # available as round-2 deliberation context.
+    reasoning: str = ""
+    # Pointers into the EvidencePacket that the voter found most
+    # informative. Free-form strings the voter can use to cite specific
+    # bars / tweets / forecast features. Optional; voters that don't
+    # support structured output leave this empty.
+    evidence_citations: list[str] = field(default_factory=list)
+    # Provider-side debug info (model id, latency, tokens used) for
+    # auditability + cost tracking.
+    provider_meta: dict = field(default_factory=dict)
 
 
 class ApexVoter(ABC):
