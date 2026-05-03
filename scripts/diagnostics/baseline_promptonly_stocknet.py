@@ -147,6 +147,8 @@ async def main() -> None:
         per_ticker[sc_ticker]["total"] += 1
         if i < 5:
             sample_decodes.append((sc.name, target_dir, pred_dir, text[:200].replace("\n", " ")))
+        # 2026-05-03: log every scenario for ensemble parsing.
+        print(f"  [{sc.name}] target={target_dir} pred={pred_dir}")
         if pred_dir is None or pred_dir == "abstain":
             abstained += 1
             continue
