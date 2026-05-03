@@ -133,6 +133,9 @@ class SFTRunner:
         # 2026-05-02: also attach the predator's binary head if present.
         if getattr(self.predator, "binary_head", None) is not None:
             extra_modules.append(self.predator.binary_head)
+        # 2026-05-03: forecast projection head (32 → hidden_size MLP).
+        if getattr(self.predator, "forecast_proj", None) is not None:
+            extra_modules.append(self.predator.forecast_proj)
         # Re-attach (parameters() now refers to the moved tensors, and any
         # phi_mlp modules are included in hooks mode).
         n_params = self.trainer.attach(
@@ -288,6 +291,20 @@ class SFTRunner:
         trough.deposit(herb_outputs_for_predator[:deposit_n])
 
         pooled = self._trough_pooled_hidden(trough, role_q)
+
+        # 2026-05-03: ablation toggle. When TROPHIC_BINARY_FROM_PRODUCER=1,
+        # bypass the herb tier entirely and attend the producer trough
+        # directly with the predator's role_q. Tells us whether the herb
+        # tier is adding signal vs subtracting it. Default uses the herb
+        # trough's pool (the standard architecture).
+        if os.environ.get("TROPHIC_BINARY_FROM_PRODUCER", "0") == "1":
+            if self._producer_trough is not None:
+                with torch.no_grad():
+                    n_alive = int(self._producer_trough.alive.sum().item())
+                if n_alive > 0:
+                    pooled = self._trough_pooled_hidden(
+                        self._producer_trough, role_q,
+                    )
 
         # 2026-05-02: binary head fast-path. When the head is attached and
         # TROPHIC_BINARY_HEAD=1, train the head directly via CE on
@@ -729,7 +746,43 @@ class SFTRunner:
         # Forecaster / interrogator — no agent in self.herbivores, fall back
         # to oracle target-derived broadcasts so the predator's diet still
         # has those tag families populated when the scenario provides them.
-        if sc.forecaster_target:
+        # 2026-05-03: prefer the numeric Chronos-feature path when available
+        # (sc.forecaster_features set by the StockNet loader). Two emit
+        # modes:
+        #   1. With forecast_proj head: forward 32→hidden_size via the
+        #      MLP, store the projected vec in the trough. (Note: the
+        #      trough deposit detaches, so the projection's params are
+        #      not learned via the predator's binary-head loss directly;
+        #      rely on it producing a directionally-correlated mapping
+        #      from initialization + the trough's W_q/W_k learning to
+        #      attend to it.)
+        #   2. Without head: zero-pad the 32 features into a hidden_size
+        #      vector so the trough sees raw numeric signal that its
+        #      W_q/W_k can learn to attend to. Simplest valid version.
+        forecast_proj = getattr(self.predator, "forecast_proj", None)
+        feats_raw = getattr(sc, "forecaster_features", None)
+        if feats_raw and len(feats_raw) > 0:
+            feats = torch.tensor(
+                feats_raw, dtype=self.host.dtype, device=self.host.device,
+            )
+            if forecast_proj is not None:
+                with torch.no_grad():
+                    projected = forecast_proj(feats.unsqueeze(0)).squeeze(0)
+                emb_list = projected.float().cpu().tolist()
+            else:
+                # Zero-pad 32 → hidden_size
+                pad = torch.zeros(self.host.hidden_size, dtype=self.host.dtype, device=self.host.device)
+                pad[: feats.shape[0]] = feats
+                emb_list = pad.float().cpu().tolist()
+            out.append(Broadcast(
+                id=f"forecast.{sc.name}.numeric",
+                tier="herbivore_broadcast",
+                agent_id="forecast.numeric",
+                agent_kind="forecaster",
+                diet_tags=["from_forecaster_herbivore"],
+                channel_embedding=emb_list,
+            ))
+        elif sc.forecaster_target:
             pooled = self.host.text_to_hidden(sc.forecaster_target, pool="mean")
             out.append(Broadcast(
                 id=f"oracle.{sc.name}.forecaster",
@@ -1371,6 +1424,16 @@ class SFTRunner:
         trough.deposit(herb_outputs_for_predator[:deposit_n])
         with torch.no_grad():
             pooled = self._trough_pooled_hidden(trough, role_q)
+            # 2026-05-03: ablation — read from producer trough directly
+            # when TROPHIC_BINARY_FROM_PRODUCER=1. Mirrors the training-
+            # path swap so eval distribution matches.
+            if os.environ.get("TROPHIC_BINARY_FROM_PRODUCER", "0") == "1":
+                if self._producer_trough is not None:
+                    n_alive = int(self._producer_trough.alive.sum().item())
+                    if n_alive > 0:
+                        pooled = self._trough_pooled_hidden(
+                            self._producer_trough, role_q,
+                        )
             # 2026-05-02: if the binary head is on, read the prediction
             # directly off the herb-tier-pooled hidden. No M, no LM head,
             # no parsing — the head outputs P(up)/P(down) directly.

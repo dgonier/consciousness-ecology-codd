@@ -154,6 +154,60 @@ def _date_iter(start: str, end: str) -> Iterator[str]:
         s += timedelta(days=1)
 
 
+_FORECAST_FEATURE_CACHE: dict[str, list[float]] | None = None
+_FORECAST_FEATURE_CACHE_PATH: Path | None = None
+
+
+def _load_forecast_feature_cache(cache_dir: Path) -> dict[str, list[float]]:
+    """Lazy-load the per-(ticker,date) Chronos feature cache from disk."""
+    global _FORECAST_FEATURE_CACHE, _FORECAST_FEATURE_CACHE_PATH
+    if _FORECAST_FEATURE_CACHE is not None:
+        return _FORECAST_FEATURE_CACHE
+    p = cache_dir / "forecast_features.json"
+    _FORECAST_FEATURE_CACHE_PATH = p
+    if p.exists():
+        import json
+        try:
+            _FORECAST_FEATURE_CACHE = json.loads(p.read_text())
+        except Exception:
+            _FORECAST_FEATURE_CACHE = {}
+    else:
+        _FORECAST_FEATURE_CACHE = {}
+    return _FORECAST_FEATURE_CACHE
+
+
+def _save_forecast_feature_cache() -> None:
+    if _FORECAST_FEATURE_CACHE is None or _FORECAST_FEATURE_CACHE_PATH is None:
+        return
+    import json
+    _FORECAST_FEATURE_CACHE_PATH.write_text(json.dumps(_FORECAST_FEATURE_CACHE))
+
+
+def _compute_forecast_features(
+    ticker: str, date: str, history: list[dict], cache_dir: Path | None,
+) -> list[float] | None:
+    """Compute (or load) Chronos numeric features for one scenario.
+
+    Returns None if Chronos isn't available or the history is unusable.
+    """
+    if cache_dir is None:
+        return None
+    cache = _load_forecast_feature_cache(cache_dir)
+    key = f"{ticker}|{date}"
+    if key in cache:
+        return cache[key]
+    try:
+        from ..forecast_features import chronos_features_from_bars
+        feats = chronos_features_from_bars(history)
+    except Exception as e:
+        # Don't fail scenario building if Chronos is unavailable; just
+        # leave features=None so the trough oracle path stays in use.
+        print(f"[stocknet_loader] forecast feature compute failed for {key}: {e}")
+        return None
+    cache[key] = feats
+    return feats
+
+
 def build_stocknet_scenarios(
     *,
     split: Literal["train", "dev", "test"] = "test",
@@ -162,6 +216,7 @@ def build_stocknet_scenarios(
     max_per_ticker: int | None = None,
     cache_dir: Path | None = Path("/home/dgonier/ecology_experiment/trophic/external/stocknet_cache"),
     require_tweets: bool = True,
+    compute_forecast: bool | None = None,
 ) -> list[Scenario]:
     """Walk StockNet and emit a list of Scenario objects.
 
@@ -172,7 +227,15 @@ def build_stocknet_scenarios(
       max_per_ticker: cap to keep smoke runs cheap. None = no cap.
       cache_dir: where to cache HTTP responses. None = no cache.
       require_tweets: skip days with zero tweets (matches the paper's filter).
+      compute_forecast: if True, run Chronos on the OHLCV history of each
+        scenario at build time and cache numeric forecast features under
+        cache_dir/forecast_features.json. Defaults to env var
+        TROPHIC_COMPUTE_FORECAST (default 0). Set to 1 to opt-in for
+        seed38+ training that uses the numeric forecaster channel.
     """
+    if compute_forecast is None:
+        import os
+        compute_forecast = os.environ.get("TROPHIC_COMPUTE_FORECAST", "0") == "1"
     if split == "train":
         date_range = TRAIN_DATES
     elif split == "dev":
@@ -225,6 +288,11 @@ def build_stocknet_scenarios(
             # SFT-shaped targets — only the predator target is used at eval
             # time (we score direction). Herbivore targets are placeholders so
             # the existing pipeline doesn't choke.
+            forecast_feats: list[float] | None = None
+            if compute_forecast:
+                forecast_feats = _compute_forecast_features(
+                    ticker, d, history, cache_dir=cache_dir,
+                )
             scenarios.append(
                 Scenario(
                     name=f"stocknet_{split}_{ticker}_{d}",
@@ -243,12 +311,15 @@ def build_stocknet_scenarios(
                         sigma_pct=None,
                         confidence=0.65,
                     ),
+                    forecaster_features=forecast_feats,
                 )
             )
             per_ticker_count += 1
             if max_per_ticker is not None and per_ticker_count >= max_per_ticker:
                 break
 
+    if compute_forecast:
+        _save_forecast_feature_cache()
     return scenarios
 
 

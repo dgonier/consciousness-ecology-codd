@@ -1,4 +1,4 @@
-# Handoff — 2026-05-02 evening
+# Handoff — 2026-05-03 afternoon
 
 Session goal: get the trophic ecology to beat bare prompt-only Qwen3-4B on the
 StockNet ACL-18 next-day binary direction benchmark.
@@ -6,30 +6,63 @@ StockNet ACL-18 next-day binary direction benchmark.
 ## TL;DR
 
 **Bare frozen Qwen3-4B with the benchmark's expected XML prompt scores MCC
-+0.292 on 50 held-out test scenarios.** Every variant of the trophic stack
-attempted in this session (seed28/30/32/33/34/35/36) scored MCC ≤ +0.13
-under strict scoring. **The ecology has not yet justified its existence
-relative to the trivial baseline.**
++0.147 on 100 held-out test scenarios. The trophic stack peaks at MCC
++0.117 (seed36, linear binary head over herb-trough pooled).** The
+architecture is contributing real signal — removing the herbivore tier
+collapses to MCC 0 (seed37) — but it's contributing less than the
+trivial bare prompt baseline. The two systems have very different error
+profiles (bare is bearish-biased: 22/78; seed36 is balanced: 41/59),
+suggesting an ensemble could plausibly help.
 
-The session also discovered that all prior MCC numbers in the project
-(+0.331 prompt-only baseline, +0.358 trained seed34, etc.) were **parser
-hallucinations** — the regex parser was matching schema-echo enumerations
-like "DIRECTION is up or down" inside meta-explanation outputs. Strict
-parser is now in place and all numbers below are real.
+Every architectural extension attempted on top of seed36 has hurt:
+adding numeric Chronos forecaster broadcast (seed38: -0.08), going to
+a deeper MLP head (seed39: -0.01). seed36's simple linear head over
+the herb-tier pool appears to be the high-water mark for this
+architecture / benchmark combination.
 
-## Numbers (strict parser, single source of truth)
+The session also corrected a parser bug from earlier work:
+all prior MCC numbers (+0.331 prompt-only baseline, +0.358 trained
+seed34, etc.) were **parser hallucinations** — the regex parser was
+matching schema-echo enumerations like "DIRECTION is up or down" inside
+meta-explanation outputs. Strict parser is now in place; numbers below
+are real.
 
-| Setup | scenarios | decided | acc | MCC | class output |
-|-------|-----------|---------|-----|-----|--------------|
-| Bare Qwen + benchmark XML prompt | 50 | 50/50 | 46% | **+0.292** | 9 up / 41 down |
-| Bare Qwen + force-prefix `DIRECTION:` + constrained decode | 100 | 100/100 | 36% | 0 | 0 up / 100 down |
-| seed35 trained + free decode | 100 | 0/100 | — | 0 | abstain (schema-echo) |
-| seed35 trained + constrained decode | 100 | 100/100 | 64% | 0 | 100 up / 0 down |
-| seed36 trained (binary head) | 62 (killed) | 62/62 | 52% | +0.07 | 27 up / 35 down |
+## Numbers (strict parser, 100-scenario StockNet test, single source of truth)
+
+| Setup | acc | MCC | up/down | head |
+|-------|-----|-----|---------|------|
+| Bare Qwen + benchmark XML prompt | 48% | **+0.147** | 22 / 78 | n/a (no trophic) |
+| seed36 (linear head, herb tier) | 53% | **+0.117** | 41 / 59 | Linear(H, 2) |
+| seed39 (MLP head, herb tier) | 53% | -0.014 | 63 / 37 | H→H/4→ReLU→Drop→2 |
+| seed38 (linear + Chronos numeric forecaster) | 57% | -0.082 | 85 / 15 | Linear(H, 2) |
+| seed37 (linear, producer-only, no herb) | 37% | 0 | 0 / 100 | Linear(H, 2) |
+| seed35 trained + free decode | — | 0 | abstain (schema-echo) | LM-head |
+| seed35 trained + constrained decode | 64% | 0 | 100 / 0 | LM-head |
 
 The benchmark XML prompt is at `scripts/diagnostics/baseline_promptonly_stocknet.py`.
-The seed36 binary head is at `Predator.binary_head` (gated by
-`TROPHIC_BINARY_HEAD=1` env var).
+The binary head is at `Predator.binary_head` (gated by
+`TROPHIC_BINARY_HEAD=1`; depth via `TROPHIC_BINARY_HEAD_DEPTH=1|2`).
+Forecaster numeric path gated by `TROPHIC_FORECAST_PROJ=1` +
+`TROPHIC_COMPUTE_FORECAST=1`.
+
+## Key new finding 2026-05-03: Chronos doesn't help
+
+Wired ForecasterHost (Chronos-Bolt) properly: cached 32-dim numeric
+features per (ticker, date) at `external/stocknet_cache/forecast_features.json`,
+projected to hidden_size, inserted as a 4th broadcast in the herb-trough.
+seed38 dropped to MCC -0.08.
+
+Investigation: **Chronos's predicted drift sign is constant 'down' on all
+196 test scenarios.** With 5-day OHLCV history × horizon=12, Chronos
+isn't directionally informative. Adding it as input gave the head a
+constant signal to anti-learn from, biasing predictions toward the
+opposite class.
+
+Architecture wiring was correct — the *data* from this Chronos config is
+unusable. Either need much longer history (Chronos-Bolt supports up to
+64 bars; we feed 5) or skip the forecaster path. Cache infrastructure is
+in place (`scripts/cache_chronos_features.py`); just needs the loader to
+emit longer histories before re-running.
 
 ## What landed during this session
 
@@ -113,30 +146,41 @@ seed36 confirmed there IS some directional signal in the pooled hidden
 (+0.07 MCC > 0), but the herb tier alone doesn't carry enough to beat
 the prompt-engineered bare model.
 
+## Resolved / done since last handoff
+
+- ✅ Producer-only ablation (seed37) — MCC=0, herb tier IS doing work
+- ✅ Numeric Chronos forecaster (seed38) — MCC -0.08, hurt the model
+  because Chronos drift sign is constant 'down' on this benchmark
+- ✅ Deeper MLP binary head (seed39) — MCC -0.01, no improvement
+- ✅ Bare-XML 100-eval — MCC +0.147 (down from 50-scenario +0.292,
+  the earlier number was small-sample noise)
+- ✅ seed36 100-eval — MCC +0.117
+
 ## Recommended next steps
 
-In priority order. Each is a real architectural attempt, not a re-skin
-of an exhausted approach.
+In priority order. seed36's +0.117 appears to be a real ceiling for
+this architecture. Further work should focus on either ensemble
+approaches or fundamentally different signal extraction.
 
-### 1. Train seed37 with binary head + longer training
-- 300+ steps with lr=2e-5 + the over-fit floor as a backstop
-- Eval every 25 steps with the binary head — track MCC trajectory
-- Need: does seed36's MCC rise to +0.29+ given more steps, or saturate
-  early and over-fit?
+### 1. Try ensemble of bare + seed36
+Bare predicts 22 up / 78 down (bearish). seed36 predicts 41 / 59
+(balanced). Different error profiles → ensemble could plausibly help:
+- Method A: average softmax probs from bare's first-token logit
+  (constrained to {up, down}) and seed36's binary head output
+- Method B: agreement gating — only commit when both agree, else
+  abstain. With ~50% agreement rate, decided-rate halves but
+  precision should rise.
+- This costs no new training; just an eval script.
 
-### 2. Larger/deeper binary head
-seed36's head is `Linear(hidden_size, 2)` — single layer. Try:
-- `Linear(H, 256) → ReLU → Linear(256, 2)` (small MLP head)
-- Or `Linear(H, H) + LayerNorm → Linear(H, 2)`
+### 2. Per-ticker conditioning
+The bare baseline showed strong per-ticker variance (AAPL 50%, JPM 30%,
+AMZN 60%). Adding a learnable ticker embedding concatenated to the
+head's input might help. Cheap to try (small embedding table + larger
+input dim). seed40 candidate.
 
-The current 1-layer head can only learn linear separations of the
-herb-tier signal. If the signal is non-linearly separable, a deeper
-head might extract it.
-
-### 3. Combine multiple herbivore signals
-seed36 only feeds the predator's `attended_pooled` (one fused signal
-across both herbs) into the head. Try concatenating each herb's
-broadcast directly:
+### 3. Concatenate raw herb broadcasts
+seed36 feeds the trough-pooled hidden into the head. Try concatenating
+each herb's broadcast directly into the head's input:
 ```python
 head_input = torch.cat([
     pooled,
@@ -145,12 +189,15 @@ head_input = torch.cat([
 ], dim=-1)
 binary_head: Linear(3*H, 2)
 ```
+Bypasses the trough's softmax-attention bottleneck, which may be
+losing signal at fusion time.
 
-### 4. Per-ticker conditioning
-The bare baseline showed strong per-ticker variance (AAPL 50%, JPM 30%,
-AMZN 60%). Adding a learnable ticker embedding to the head's input
-might help the model account for ticker-specific patterns in the
-training data.
+### 4. Re-cache Chronos with longer history
+Current StockNet loader passes 5-day OHLCV history; Chronos-Bolt
+supports up to 64 bars. Edit `stocknet_loader.py`'s `history_days`
+default and re-run `scripts/cache_chronos_features.py`. If Chronos
+becomes directionally informative at longer history, seed38's
+architecture (ready to go) will work.
 
 ### 5. Train herbivore phi_mlp for direction-discriminative pool
 Currently the herb's role_q is its mean role_prefix vector — fixed.
@@ -159,58 +206,63 @@ binary head's loss flowing back through the pool. The herb starts
 attending to the parts of its own forward that are most predictive of
 direction.
 
-### 6. Skip the herb tier entirely (sanity check)
-Train a binary head directly on the **producer** trough's pooled
-hidden:
-```python
-prod_pooled = self._trough_pooled_hidden(self._producer_trough, role_q)
-logits = predator.binary_head(prod_pooled)
-```
-If this scores higher than seed36's herb-tier path, the herb tier is
-ablating signal rather than adding it. If lower, the herb is at least
-not hurting. Either way, this isolates whether the herbivore is
-pulling its weight architecturally.
-
-### 7. Don't add apex voting / decomposers (#95 / #96 / #97) yet
+### 6. Don't add apex voting / decomposers (#95 / #96 / #97) yet
 These multiply whatever signal the apex carries. Until the architecture
 beats bare on a single forward, voting just amplifies noise. Pending
-issues should stay pending.
+issues should stay pending. (Exception: ensemble in #1 above is
+*different* — it crosses outputs, doesn't multiply within a stack.)
 
 ## Files / state
 
-- Latest commits on main:
-  - `e466c41` add bare-Qwen constrained-decode baseline
-  - `e0acb02` strict parser + agent-defined prompts + constrained decode
-  - `5f15618` herb attn-pool + OHLCV inject + signal viz
-  - `1a332a8` Loop 2 + Loop 3 iteration ladder
-- Best checkpoints:
-  - `checkpoints/sft_seed36_stable_best.pt` (binary head, dev=1.59)
-  - `checkpoints/sft_seed35_stable_best.pt` (M-hooks ORPO, dev=2.95)
-  - `checkpoints/sft_seed34_stable_best.pt` (similar, dev=3.06)
-- Logs:
-  - `logs/baseline_promptonly_stocknet_v2.log` — bare 50 scenarios MCC +0.292
-  - `logs/loop2_seed36_full.log` — partial 62/100 MCC +0.07
-  - `logs/loop2_seed35_constrained.log` — 100/100 constant 'up' MCC 0
+- Latest commits on main: `git log --oneline -10`
+- Best checkpoints (architecture top to bottom):
+  - `checkpoints/sft_seed36_stable_best.pt` — linear binary head, dev=1.59 — **MCC +0.117**
+  - `checkpoints/sft_seed39_stable_best.pt` — MLP binary head, dev=1.45 — MCC -0.014
+  - `checkpoints/sft_seed38_stable_best.pt` — + numeric Chronos, dev=1.50 — MCC -0.08
+  - `checkpoints/sft_seed37_stable_best.pt` — producer-only ablation — MCC 0
+- Logs (100-scenario evals on StockNet test):
+  - `logs/baseline_promptonly_stocknet_v3.log` — bare Qwen XML — MCC +0.147
+  - `logs/loop2_seed36_full_v2.log` — seed36 (linear head) — MCC +0.117
+  - `logs/loop2_seed39_full.log` — seed39 (MLP head) — MCC -0.014
+  - `logs/loop2_seed38_full.log` — seed38 (+forecaster) — MCC -0.08
+  - `logs/loop2_seed37_full.log` — seed37 (no herb) — MCC 0
+- Cached Chronos features: `external/stocknet_cache/forecast_features.json`
+  (3506 entries: 196 test + 143 dev + 1167 train; ~750 KB)
 - Diagnostic infra:
-  - `scripts/diagnostics/inspect_signals_jsonl.py`
-  - `scripts/diagnostics/compare_signals.py`
-  - `scripts/diagnostics/loop1_constrained.py`
-  - `viz/` (Vite+react-flow)
+  - `scripts/diagnostics/inspect_signals_jsonl.py` — JSONL signal capture
+  - `scripts/diagnostics/compare_signals.py` — side-by-side diff
+  - `scripts/diagnostics/loop1_constrained.py` — bare baseline w/ constrained decode
+  - `scripts/diagnostics/baseline_promptonly_stocknet.py` — bare baseline w/ XML
+  - `scripts/cache_chronos_features.py` — one-shot Chronos cache
+  - `viz/` (Vite+react-flow at http://localhost:5173)
+- Env-var toggles relevant to the binary-head architecture:
+  - `TROPHIC_BINARY_HEAD=1` — read predator pooled into 2-class head
+  - `TROPHIC_BINARY_HEAD_DEPTH=1|2` — single Linear vs MLP
+  - `TROPHIC_FORECAST_PROJ=1` — wire numeric Chronos broadcast (needs cache)
+  - `TROPHIC_COMPUTE_FORECAST=1` — load Chronos cache during scenario build
+  - `TROPHIC_BINARY_FROM_PRODUCER=1` — ablation: skip herb tier
+  - `TROPHIC_HERB_POOL=attn|mean|last` — herb forward pool (default attn)
+  - `TROPHIC_HERB_NUMERIC=1` — OHLCV inject at herb tier (default on)
+  - `TROPHIC_LOSS_FLOOR=0.3` — over-fit abort guard
+  - `TROPHIC_LR`, `TROPHIC_GRAD_CLIP`, `TROPHIC_SEED`, `TROPHIC_EVAL_EVERY`
 
 ## How to verify state on next session
 
 ```bash
 cd /home/dgonier/ecology_experiment/trophic
-git log --oneline -5
-ls -lh checkpoints/sft_seed3{4,5,6}_stable_best.pt
+git log --oneline -10
+ls -lh checkpoints/sft_seed3{6,7,8,9}_stable_best.pt
 
-# Quick sanity check the binary head architecture is wired correctly:
+# Quick sanity check the seed36 ckpt scores +0.117 again:
 TROPHIC_BINARY_HEAD=1 .venv/bin/python -u scripts/diagnostics/loop2_hooks_smoke.py \
-  --ckpt checkpoints/sft_seed36_stable_best.pt --seed 36 --n-per-ticker 1
+  --ckpt checkpoints/sft_seed36_stable_best.pt --seed 36 --n-per-ticker 20
 
-# Re-run the bare benchmark baseline:
-.venv/bin/python -u scripts/diagnostics/baseline_promptonly_stocknet.py
-# Expect: MCC +0.292 on 50 scenarios.
+# Re-run the bare benchmark baseline (~50 min for 100 scenarios):
+STOCKNET_MAX_PER_TICKER=20 .venv/bin/python -u scripts/diagnostics/baseline_promptonly_stocknet.py
+# Expect: MCC +0.147 on 100 scenarios.
+
+# If experimenting with the forecaster again, the cache is ready:
+ls -lh external/stocknet_cache/forecast_features.json
 ```
 
 ## Memory updated

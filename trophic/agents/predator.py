@@ -109,6 +109,12 @@ class Predator(BaseAgent):
     # distribution (which we found ignores the M perturbation). Lazily built
     # in ensure_initialized when TROPHIC_BINARY_HEAD=1.
     binary_head: Optional[object] = None
+    # 2026-05-03: numeric Chronos-forecast projection head. Maps a fixed
+    # 32-dim feature vector (from trophic.forecast_features) to the host's
+    # hidden_size so a forecaster broadcast peer of technical / fundamental
+    # can be inserted into the herb-trough with a real gradient surface.
+    # Built when TROPHIC_FORECAST_PROJ=1.
+    forecast_proj: Optional[object] = None
 
     @classmethod
     def make(cls, kind: str, capacity: int = 4, abstain_threshold: float = 0.6) -> "Predator":
@@ -169,11 +175,48 @@ class Predator(BaseAgent):
             if self.binary_head is None:
                 # Two-class head over hidden_size. Init to small random so
                 # gradient flows but the head doesn't dominate at start.
-                self.binary_head = torch.nn.Linear(host.hidden_size, 2, bias=True).to(
-                    device=host.device, dtype=host.dtype
-                )
-                torch.nn.init.normal_(self.binary_head.weight, std=0.02)
-                torch.nn.init.zeros_(self.binary_head.bias)
+                # 2026-05-03: TROPHIC_BINARY_HEAD_DEPTH=2 makes it a small
+                # MLP (Linear→ReLU→Linear→2) instead of a single linear
+                # projection. The 1-layer head can only learn linear
+                # separations of the herb-tier signal; signal that's
+                # non-linearly separable was being thrown away.
+                depth = int(_os.environ.get("TROPHIC_BINARY_HEAD_DEPTH", "1"))
+                if depth >= 2:
+                    inner = host.hidden_size // 4
+                    self.binary_head = torch.nn.Sequential(
+                        torch.nn.Linear(host.hidden_size, inner, bias=True),
+                        torch.nn.ReLU(),
+                        torch.nn.Dropout(p=0.1),
+                        torch.nn.Linear(inner, 2, bias=True),
+                    ).to(device=host.device, dtype=host.dtype)
+                    for m in self.binary_head.modules():
+                        if isinstance(m, torch.nn.Linear):
+                            torch.nn.init.normal_(m.weight, std=0.02)
+                            torch.nn.init.zeros_(m.bias)
+                else:
+                    self.binary_head = torch.nn.Linear(host.hidden_size, 2, bias=True).to(
+                        device=host.device, dtype=host.dtype
+                    )
+                    torch.nn.init.normal_(self.binary_head.weight, std=0.02)
+                    torch.nn.init.zeros_(self.binary_head.bias)
+        # 2026-05-03: forecast projection head (32 → hidden_size). Maps the
+        # numeric Chronos features into the herb-trough's hidden space so
+        # the forecaster broadcast becomes a real numeric peer of technical
+        # / fundamental. Toggle: TROPHIC_FORECAST_PROJ=1.
+        if _os.environ.get("TROPHIC_FORECAST_PROJ", "0") == "1":
+            if self.forecast_proj is None:
+                from ..forecast_features import N_FORECAST_FEATURES
+                self.forecast_proj = torch.nn.Sequential(
+                    torch.nn.Linear(N_FORECAST_FEATURES, host.hidden_size // 4),
+                    torch.nn.ReLU(),
+                    torch.nn.Linear(host.hidden_size // 4, host.hidden_size),
+                ).to(device=host.device, dtype=host.dtype)
+                # Small init so the new path doesn't overwhelm trained
+                # technical/fundamental signals at step 0.
+                for m in self.forecast_proj.modules():
+                    if isinstance(m, torch.nn.Linear):
+                        torch.nn.init.normal_(m.weight, std=0.02)
+                        torch.nn.init.zeros_(m.bias)
 
     @property
     def diet_tags(self) -> list[str]:

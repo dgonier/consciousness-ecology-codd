@@ -31,6 +31,11 @@ class Scenario:
     predator_target: str | None
     forecaster_target: str | None = None       # multi-modal scenarios only
     interrogator_target: str | None = None     # set when scenario has quant inputs
+    # 2026-05-03: numeric Chronos features extracted from the OHLCV history
+    # at scenario-build time, fed through a learnable projection head into
+    # the predator's herb-trough as a real numeric peer signal. None when
+    # not computed (StockNet scenarios pre-2026-05-03 won't have these).
+    forecaster_features: list[float] | None = None
     expected_abstain_technical: bool = False
     expected_abstain_fundamental: bool = False
     expected_abstain_forecaster: bool = False

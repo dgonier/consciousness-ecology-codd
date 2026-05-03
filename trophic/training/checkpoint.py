@@ -86,6 +86,14 @@ def save_channels(
     if bh_state:
         state["binary_head"] = bh_state
 
+    # 2026-05-03: predator forecast_proj state (32 → hidden_size MLP).
+    fp_state = {}
+    for p in predators:
+        if getattr(p, "forecast_proj", None) is not None:
+            fp_state[p.kind] = p.forecast_proj.state_dict()
+    if fp_state:
+        state["forecast_proj"] = fp_state
+
     if runner is not None:
         trough_state: dict = {}
         if getattr(runner, "_producer_trough", None) is not None:
@@ -153,6 +161,13 @@ def load_channels(
         for p in predators:
             if getattr(p, "binary_head", None) is not None and p.kind in bh:
                 p.binary_head.load_state_dict(bh[p.kind])
+
+    # 2026-05-03: predator forecast_proj state. Same forward+backward compat.
+    fp = state.get("forecast_proj", {})
+    if fp:
+        for p in predators:
+            if getattr(p, "forecast_proj", None) is not None and p.kind in fp:
+                p.forecast_proj.load_state_dict(fp[p.kind])
 
     # Trough state. Optional; only loaded if runner is supplied.
     if runner is not None:
