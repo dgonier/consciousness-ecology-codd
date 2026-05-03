@@ -185,6 +185,40 @@ seed36 confirmed there IS some directional signal in the pooled hidden
 (+0.07 MCC > 0), but the herb tier alone doesn't carry enough to beat
 the prompt-engineered bare model.
 
+## Voter reasoning + full inter-tier observation capture (2026-05-03)
+
+Per user requirement: "models' voting reasoning and justification should
+be reviewable, and decomposers need to see all comms between nodes."
+
+Voter side:
+- `VoterResponse` now carries `reasoning`, `evidence_citations`,
+  `provider_meta` alongside `direction / confidence / perplexity`.
+- System prompt requires `REASONING: <2-4 sentences citing evidence>`
+  before the XML answer block.
+- `apex_voters/parsing.py` splits REASONING from the XML and extracts
+  domain citation tokens (drift, q10, monotonicity, bar, tweet, ...)
+  for KG queries.
+
+Observation side:
+- `decomposers/observation.py` introduces the canonical record:
+  `Observation` = (scenario, target, inter_tier_signals[], voter_responses[]
+  with reasoning, ensemble, decomposer_judgments[]). One JSONL line per
+  scenario. ObservationWriter writes; `read_all` reads back into typed
+  objects.
+- `decomposers/capture.py` builds the inter-tier signal list from a
+  scenario + evidence packet. Today captures producers (OHLCV, press,
+  Chronos forecast) + apex evidence packet text. Hooks for trained
+  herb/predator signals slot in when a trained ckpt is loaded.
+
+`apex_vote_eval.py --decomposer --obs-path P` writes:
+- Slim KG records (legacy KGWriter) at `--kg-path`
+- Full Observation records at `--obs-path` (new canonical format)
+
+Smoke-verified: each Observation captures the producer tier outputs,
+the apex evidence packet, the voter's natural-language REASONING text,
+the structured citations, and the decomposer's per-voter
+correct/decisive/marginal_flip judgments. End-to-end reviewable.
+
 ## Decomposers: KG + evolution manager (architecture, 2026-05-03)
 
 Decomposers reframed per user as **two-headed**: (1) Hexis-style KG
