@@ -417,3 +417,40 @@ ls -lh external/stocknet_cache/forecast_features.json
 - `MEMORY.md` — index updated with the corrected baseline finding
 - `project_signal_flow_2026_05_02.md` — full audit + verdict appended
 - `project_issue_8_diagnosis.md` — path C (SFT on M+E) marked exhausted
+
+## Multi-family apex panel goes live (2026-05-04)
+
+First end-to-end run with 4 frontier voters: gpt-5 + Claude Sonnet 4.6
+(Bedrock) + Gemini 2.5 Flash + local Qwen3-4B. Decomposer + per-agent
+feedback enabled.
+
+Result on 20 StockNet test scenarios:
+
+| Strategy | MCC | acc | output (up/down) |
+|----------|-----|-----|------------------|
+| plurality | +0.115 | 25% | 1 / 19 |
+| confidence_weighted | +0.115 | 25% | 1 / 19 |
+| **perplexity_weighted** | **+0.167** | 30% | 2 / 18 |
+
+Per-voter accuracy: gpt-5 + local Qwen 30%, Bedrock Sonnet + Gemini
+Flash 20-22%. All 4 voters strongly bearish-biased on equities + 5-day
+OHLCV + tweets — same pattern bare-Qwen showed at +0.147 on 100
+scenarios. The panel inherits that bias.
+
+**Per-agent feedback derivation working end-to-end.** Decomposer wrote
+8 feedback files (4 voters + 3 producers + 1 aggregator). Each voter
+sees its own weakest_ticker, bad citations, and confidence_calibration
+in next-session prompts. e.g. gpt-5 gets "weak on MSFT, citations snr/
+drift/volume correlated with wrong answers, your reported confidence
+(0.56) has overshot actual hit rate (0.30)".
+
+**Population manager fired first real evolution decisions:**
+  REPRODUCE: openai_gpt-5, local_qwen3_4b (each marginal_flip = 1 with
+    panel correct because of them; combined acc+marginal = 1.30)
+  DIE: anthropic_bedrock_sonnet-4-6, gemini-2.5-flash (acc<0.4 AND
+    marginal=0; never moved the panel even when right by chance)
+
+20-scenario sample is too small to actually retire voters on; treat as
+infrastructure validation. With a 100-scenario eval (and per-agent
+feedback applied) the decomposer's evolution decisions become real.
+
