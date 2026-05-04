@@ -43,6 +43,9 @@ from trophic.decomposers import (
     Observation, ObservationWriter, DecomposerJudgment,
     capture_evidence_signals,
 )
+from trophic.decomposers.agent_feedback import (
+    FeedbackDeriver, FeedbackStore, AgentFeedback,
+)
 from trophic.training.stocknet_loader import build_stocknet_scenarios
 from trophic.training.xml_schema import parse_prediction
 
@@ -91,6 +94,10 @@ def main():
     ap.add_argument("--kg-path", default="external/decomposer_kg/kg.jsonl")
     ap.add_argument("--obs-path", default="external/decomposer_kg/observations.jsonl",
                     help="Full per-scenario observation: all inter-tier signals + voter reasoning + ensemble + judgments.")
+    ap.add_argument("--feedback-root", default="external/decomposer_kg/feedback",
+                    help="Per-agent feedback store. If files exist for a voter, that voter sees its own feedback in this run's prompts.")
+    ap.add_argument("--no-feedback", action="store_true",
+                    help="Skip reading per-agent feedback into prompts (useful for ablation).")
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
@@ -136,17 +143,40 @@ def main():
         tracker = FitnessTracker(window=200)
         print(f"[apex_vote] decomposer ON: KG={kg.path}, obs={obs_writer.path}, fitness window=200")
 
+    # Per-agent feedback (Hexis-style: each agent gets its own modulation).
+    feedback_store = None
+    feedback_by_agent: dict = {}
+    if not args.no_feedback:
+        feedback_store = FeedbackStore(root=Path(args.feedback_root))
+        feedback_by_agent = feedback_store.read_all()
+        if feedback_by_agent:
+            print(f"[apex_vote] loaded per-agent feedback for: {list(feedback_by_agent.keys())}")
+        else:
+            print(f"[apex_vote] no prior feedback found at {feedback_store.root}; first run")
+
     for i, sc in enumerate(scens):
         target = parse_prediction(sc.predator_target or "").direction
-        pkt = build_evidence_packet(sc, herb_broadcasts=None)
+        # Default packet (no agent feedback) — used for the inter-tier
+        # capture and as a fallback if a voter has no feedback yet.
+        default_pkt = build_evidence_packet(sc, herb_broadcasts=None)
         responses = []
         for v in voters:
+            # Per-agent packet: each voter gets its own decomposer feedback.
+            voter_fb = feedback_by_agent.get(v.voter_id) if feedback_by_agent else None
+            v_pkt = (
+                build_evidence_packet(sc, herb_broadcasts=None, agent_feedback=voter_fb)
+                if voter_fb is not None
+                else default_pkt
+            )
             try:
-                r = v.vote(pkt)
+                r = v.vote(v_pkt)
             except Exception as e:
                 print(f"  [voter {v.voter_id}] error: {e}")
                 continue
             responses.append(r)
+        # `pkt` for the rest of the loop = the default no-feedback packet
+        # (used by capture_evidence_signals and Observation snapshot).
+        pkt = default_pkt
         plur = plurality(responses)
         cw = confidence_weighted(responses)
         pw = perplexity_weighted(responses)
@@ -291,6 +321,29 @@ def main():
     if obs_writer is not None:
         obs_writer.close()
         print(f"[apex_vote] full observations → {obs_writer.path}")
+
+    # Derive per-agent feedback from this run's + prior observations and
+    # write to the feedback store. Next session's voters will see their
+    # own histories. Hexis-style: per-agent modulation, not shared.
+    if feedback_store is not None and obs_writer is not None:
+        from trophic.decomposers import ObservationWriter as _OW
+        all_obs = _OW.read_all(Path(args.obs_path))
+        if all_obs:
+            min_seen = int(os.environ.get("TROPHIC_FEEDBACK_MIN_SEEN", "5"))
+            deriver = FeedbackDeriver(window=200, min_seen=min_seen)
+            new_feedbacks = deriver.derive_all(all_obs)
+            if new_feedbacks:
+                feedback_store.write_all(new_feedbacks)
+                print(f"\n[apex_vote] derived per-agent feedback for {len(new_feedbacks)} voters → {feedback_store.root}")
+                for aid, fb in new_feedbacks.items():
+                    n = fb.derived_from.get("n_observations", 0)
+                    acc = fb.derived_from.get("actual_acc", 0)
+                    print(f"  {aid}: n={n} acc={acc:.2f}")
+                    if fb.prompt_modulation:
+                        for ln in fb.prompt_modulation.splitlines()[:6]:
+                            print(f"    {ln}")
+            else:
+                print(f"\n[apex_vote] not enough data to derive feedback (need >= {deriver.min_seen} per voter)")
 
     return 0
 

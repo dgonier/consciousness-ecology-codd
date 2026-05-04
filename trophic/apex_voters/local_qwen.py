@@ -121,7 +121,7 @@ class LocalQwenVoter(ApexVoter):
 
         reasoning = extract_reasoning(raw_text)
         citations = extract_citations(reasoning)
-        return VoterResponse(
+        response = VoterResponse(
             voter_id=self.voter_id,
             direction=direction,
             confidence=confidence,
@@ -131,3 +131,4 @@ class LocalQwenVoter(ApexVoter):
             evidence_citations=citations,
             provider_meta={"model": "Qwen3-4B (local)", "max_new_tokens": self.max_new_tokens},
         )
+        return self._apply_calibration(response, evidence.agent_feedback)

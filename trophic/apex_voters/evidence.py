@@ -118,12 +118,19 @@ def _render_herb_summaries(herb_broadcasts: Iterable) -> tuple[str, list[dict]]:
 def build_evidence_packet(
     scenario,
     herb_broadcasts: Iterable | None = None,
+    agent_feedback=None,
 ) -> EvidencePacket:
     """Render scenario + (optional) herb broadcasts into an EvidencePacket.
 
     If herb_broadcasts is None, only producer-level evidence (OHLCV,
     tweets) and the forecast snapshot are rendered — that's the "no
     trophic stack" baseline form.
+
+    `agent_feedback` (an AgentFeedback) is the decomposer's per-agent
+    modulation. When present its prompt_modulation block is prepended to
+    the user evidence so this specific voter sees its own history-derived
+    hints. Different voters see different feedback (Hexis: per-agent,
+    not global).
     """
     ticker = scenario.name.split("_")[2] if "_" in scenario.name else "?"
     blocks = [SYSTEM, ""]
@@ -138,6 +145,11 @@ def build_evidence_packet(
         herb_text, herb_meta = _render_herb_summaries(herb_broadcasts)
         if herb_text:
             blocks.append(herb_text)
+    if agent_feedback is not None and getattr(agent_feedback, "prompt_modulation", ""):
+        # Prepend per-agent decomposer feedback right after the SYSTEM
+        # block so the voter sees its own history-derived hints before
+        # the new evidence. Different voters get different feedback.
+        blocks.insert(1, "\n" + agent_feedback.prompt_modulation)
     text = "\n".join([b for b in blocks if b])
     return EvidencePacket(
         scenario_name=scenario.name,
@@ -147,5 +159,7 @@ def build_evidence_packet(
             "has_forecast": bool(fb),
             "has_herb_text": bool(herb_text),
             "herbs": herb_meta,
+            "has_agent_feedback": agent_feedback is not None,
         },
+        agent_feedback=agent_feedback,
     )

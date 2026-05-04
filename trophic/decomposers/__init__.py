@@ -25,6 +25,7 @@ from .observation import (
     Observation, ObservationWriter, NodeSignal, DecomposerJudgment,
 )
 from .capture import capture_evidence_signals
+from .agent_feedback import AgentFeedback, FeedbackDeriver, FeedbackStore
 
 __all__ = [
     "KGWriter", "KGRecord",
@@ -32,4 +33,5 @@ __all__ = [
     "PopulationManager", "EvolutionDecision",
     "Observation", "ObservationWriter", "NodeSignal", "DecomposerJudgment",
     "capture_evidence_signals",
+    "AgentFeedback", "FeedbackDeriver", "FeedbackStore",
 ]

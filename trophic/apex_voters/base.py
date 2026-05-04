@@ -26,11 +26,19 @@ class EvidencePacket:
     Each voter reads `text` (the rendered evidence) and `metadata`
     (machine-readable signals like herb confidences, perplexity).
     Voters can choose to use either or both.
+
+    `agent_feedback` carries per-agent decomposer feedback (Hexis-style:
+    every agent gets its own modulation, not a shared one). Voters that
+    accept feedback prepend `agent_feedback.prompt_modulation` to their
+    user-message and adjust their reported confidence by
+    `agent_feedback.confidence_calibration`. Voters with a learnable
+    weight surface (local trained Qwen) also apply the m_tensor_hint.
     """
     scenario_name: str
     ticker: str
     text: str  # full prompt body for the voter (system + user)
     metadata: dict = field(default_factory=dict)
+    agent_feedback: object | None = None  # AgentFeedback | None
 
 
 @dataclass
@@ -70,3 +78,24 @@ class ApexVoter(ABC):
         """True if the voter can actually be called right now (e.g. API
         key present). Caller skips unavailable voters."""
         return True
+
+    @staticmethod
+    def _apply_calibration(response: VoterResponse, feedback) -> VoterResponse:
+        """Apply per-agent confidence calibration from decomposer feedback.
+
+        feedback is an AgentFeedback or None. Modifies the response's
+        confidence in place; clipped to [0.01, 0.99]. Idempotent if
+        feedback is None.
+        """
+        if feedback is None or response.confidence is None:
+            return response
+        cal = float(getattr(feedback, "confidence_calibration", 0.0))
+        if cal == 0.0:
+            return response
+        c = response.confidence + cal
+        response.confidence = max(min(c, 0.99), 0.01)
+        # Tag the modulation in provider_meta so it's auditable.
+        if response.provider_meta is None:
+            response.provider_meta = {}
+        response.provider_meta["confidence_calibration_applied"] = cal
+        return response
