@@ -1,29 +1,42 @@
 """Per-agent feedback derived by the decomposer from KG observations.
 
 Hexis principle: every agent gets its OWN modulation, not a shared one.
-The decomposer reads each agent's history (which scenarios it saw, what
-it said, what was right) and derives:
+This module covers ALL agent roles, not just apex voters:
 
-  - prompt_modulation: a natural-language addendum the orchestrator
-    appends to that agent's prompt next round. Tailored to the agent's
-    recent failure modes / strengths.
+  - producer (tickdelta, anomaly, disclosure, social_signal, quote_series)
+  - herbivore (technical, fundamental, forecaster, interrogator)
+  - apex_voter (OpenAI / Anthropic / Gemini / OpenRouter / local Qwen)
+  - apex_aggregator (the soft-vote / agree-gate logic itself)
+  - decomposer (self-feedback: am I deriving good guidance?)
 
-  - diet_adjustments: per-tag scalar weights ∈ [0, 1]. The agent should
-    weight upstream broadcasts with these tags more (>1) or less (<1).
-    Used by trough-attention or by prompt-level "pay attention to X"
-    instructions for API voters.
+Each role receives different feedback fields depending on what's
+configurable about that agent:
 
-  - confidence_calibration: scalar bias to add/subtract from the agent's
-    self-reported confidence. Use when the agent is systematically over-
-    or under-confident.
+  - prompt_modulation: NL addendum prepended to that agent's
+    instructions. Used by herbivores (role_prefix prepend) and apex
+    voters (system-message prepend).
+
+  - diet_adjustments: per-tag scalar weights ∈ [0.5, 1.5]. The agent
+    should weight upstream broadcasts with these tags more (>1) or less
+    (<1). Used by trough-attention agents (predator + herbivores).
+
+  - confidence_calibration: scalar bias added to the agent's self-
+    reported confidence. Used by apex voters and the apex aggregator.
+
+  - producer_config: per-producer config overrides — `{"pool":
+    "last", "numeric_inject": true}`. Used by producer agents only.
+
+  - aggregator_strategy: which strategy the apex aggregator should run
+    by default — `plurality` | `confidence_weighted` |
+    `perplexity_weighted` | `agree_gate`. Used by apex_aggregator.
 
   - m_tensor_hint: per-layer M-tensor delta for trained-LLM agents that
-    have phi_mlp hooks installed. Optional; None for API voters that
-    don't have a weight-modulation surface.
+    have phi_mlp hooks. Used by herbivores (when ckpt loaded) and the
+    apex predator's binary head. None for API voters.
 
 Feedback is REGENERATED each session (not accumulated indefinitely)
-from the rolling KG window. This way an agent that fixes its mistakes
-isn't permanently penalized for past failures.
+from the rolling KG window. An agent that fixes its mistakes isn't
+permanently penalized for past failures.
 """
 from __future__ import annotations
 
@@ -35,16 +48,39 @@ from pathlib import Path
 from .observation import Observation, ObservationWriter
 
 
+AgentRole = str  # 'producer' | 'herbivore' | 'apex_voter' | 'apex_aggregator' | 'decomposer'
+
+
 @dataclass
 class AgentFeedback:
     """Per-agent modulation packet. Decomposer outputs one of these per
-    agent per session-boundary; orchestrator injects into next round."""
+    agent per session-boundary; orchestrator injects into next round.
+
+    Different roles consume different fields:
+      - producer:         producer_config
+      - herbivore:        prompt_modulation, diet_adjustments, m_tensor_hint
+      - apex_voter:       prompt_modulation, confidence_calibration
+      - apex_aggregator:  aggregator_strategy, confidence_calibration
+      - decomposer:       prompt_modulation (self-feedback)
+
+    Unused fields stay at defaults — the agent ignores fields irrelevant
+    to its role.
+    """
     agent_id: str
+    role: AgentRole = "apex_voter"   # backward-compat default
+    # Apex voter / herbivore / decomposer
     prompt_modulation: str = ""
+    # Herbivore / predator
     diet_adjustments: dict[str, float] = field(default_factory=dict)
-    confidence_calibration: float = 0.0  # added to self-reported confidence
-    m_tensor_hint: dict | None = None    # serialized {layer: tensor} or None
-    # Provenance: which observations informed this feedback (rolling window).
+    # Apex voter / apex aggregator
+    confidence_calibration: float = 0.0
+    # Trained-LLM agents (herbivore, apex predator binary head)
+    m_tensor_hint: dict | None = None
+    # Producer-only: pool strategy, numeric_inject, etc.
+    producer_config: dict = field(default_factory=dict)
+    # Apex-aggregator-only: which strategy to run by default
+    aggregator_strategy: str | None = None
+    # Provenance: which observations informed this feedback.
     derived_from: dict = field(default_factory=dict)
 
 
@@ -71,8 +107,28 @@ class FeedbackDeriver:
     def derive_all(
         self, observations: list[Observation],
     ) -> dict[str, AgentFeedback]:
+        """Derive feedback for ALL agent roles, not just voters.
+
+        Returns one AgentFeedback per (agent_id, role) pair. Producers,
+        herbivores, voters, and the aggregator are all covered.
+        """
         recent = observations[-self.window :]
-        # collect per-agent samples
+        out: dict[str, AgentFeedback] = {}
+        # APEX VOTERS — derived from voter_responses on each Observation
+        out.update(self._derive_voters(recent))
+        # PRODUCERS — derived from inter_tier_signals (tier 1)
+        out.update(self._derive_producers(recent))
+        # HERBIVORES — derived from inter_tier_signals (tier 3)
+        # Currently empty under the apex-only pipeline, but will populate
+        # when a trained ckpt is wired into the voter path.
+        out.update(self._derive_herbivores(recent))
+        # APEX AGGREGATOR — derived from per-strategy ensemble outcomes
+        agg = self._derive_aggregator(recent)
+        if agg is not None:
+            out[agg.agent_id] = agg
+        return out
+
+    def _derive_voters(self, recent: list[Observation]) -> dict[str, AgentFeedback]:
         per_agent: dict[str, list[dict]] = defaultdict(list)
         for obs in recent:
             target = obs.target_direction
@@ -81,10 +137,9 @@ class FeedbackDeriver:
             for v in obs.voter_responses:
                 if v.get("direction") not in ("up", "down"):
                     continue
-                ticker = obs.ticker
                 per_agent[v["voter_id"]].append({
                     "scenario": obs.scenario_name,
-                    "ticker": ticker,
+                    "ticker": obs.ticker,
                     "target": target,
                     "direction": v["direction"],
                     "correct": v["direction"] == target,
@@ -96,10 +151,167 @@ class FeedbackDeriver:
         for agent_id, samples in per_agent.items():
             if len(samples) < self.min_seen:
                 continue
-            out[agent_id] = self._derive_one(agent_id, samples)
+            out[agent_id] = self._derive_one_voter(agent_id, samples)
         return out
 
-    def _derive_one(self, agent_id: str, samples: list[dict]) -> AgentFeedback:
+    def _derive_producers(self, recent: list[Observation]) -> dict[str, AgentFeedback]:
+        """Per-producer feedback — measures whether each producer's
+        signal correlated with correct ensemble decisions.
+
+        For each tier-1 NodeSignal id (e.g. producer.ohlcv.AAPL,
+        producer.forecast.AAPL), track the ensemble's correctness across
+        scenarios where that producer was active. Producers whose
+        presence correlates with bad outcomes get config nudges (try
+        pool=last, try larger numeric inject, etc.).
+        """
+        per_producer: dict[str, list[dict]] = defaultdict(list)
+        for obs in recent:
+            target = obs.target_direction
+            if target not in ("up", "down"):
+                continue
+            ens_dir = obs.ensemble.get("direction")
+            ens_correct = (ens_dir == target) if ens_dir else None
+            for ns in obs.inter_tier_signals:
+                if ns.tier != 1:
+                    continue
+                # Strip per-ticker suffix to get the producer kind
+                # ("producer.ohlcv.AAPL" → "producer.ohlcv")
+                kind_id = ".".join(ns.node_id.split(".")[:2])
+                per_producer[kind_id].append({
+                    "ensemble_correct": ens_correct,
+                    "scenario": obs.scenario_name,
+                    "ticker": obs.ticker,
+                    "norm": ns.norm,
+                })
+        out: dict[str, AgentFeedback] = {}
+        for prod_id, samples in per_producer.items():
+            if len(samples) < self.min_seen:
+                continue
+            n = len(samples)
+            n_corr = sum(1 for s in samples if s.get("ensemble_correct"))
+            corr_rate = n_corr / n
+            cfg = {}
+            bullets = []
+            # The producer can't directly cause/fix correctness, but if
+            # the ensemble is wrong much more often than the prior
+            # suggests, signal that the producer's broadcast may be
+            # uninformative or misleading.
+            if corr_rate < 0.40:
+                bullets.append(
+                    f"Ensemble correctness is low ({corr_rate:.0%}) on scenarios"
+                    f" where this producer is active. Consider pool='last' or"
+                    f" stronger numeric injection."
+                )
+                cfg["pool"] = "last"
+                cfg["numeric_inject_scale"] = 1.5
+            out[prod_id] = AgentFeedback(
+                agent_id=prod_id,
+                role="producer",
+                prompt_modulation="\n".join(bullets) if bullets else "",
+                producer_config=cfg,
+                derived_from={"n_observations": n, "ensemble_correctness": corr_rate},
+            )
+        return out
+
+    def _derive_herbivores(self, recent: list[Observation]) -> dict[str, AgentFeedback]:
+        """Per-herbivore feedback. Today the apex-only voter pipeline
+        doesn't capture tier-3 herb broadcasts in Observations, so this
+        returns empty. When a trained ckpt is wired in (so herb
+        broadcasts get logit-lensed and stored as tier-3 NodeSignals),
+        this will derive role_prefix prompt modulation + diet
+        adjustments per herb species."""
+        per_herb: dict[str, list[dict]] = defaultdict(list)
+        for obs in recent:
+            for ns in obs.inter_tier_signals:
+                if ns.tier != 3:
+                    continue
+                per_herb[ns.node_id].append({
+                    "scenario": obs.scenario_name,
+                    "target": obs.target_direction,
+                    "ensemble_correct": (
+                        obs.ensemble.get("direction") == obs.target_direction
+                        if obs.ensemble.get("direction") else None
+                    ),
+                })
+        out: dict[str, AgentFeedback] = {}
+        for herb_id, samples in per_herb.items():
+            if len(samples) < self.min_seen:
+                continue
+            n = len(samples)
+            n_corr = sum(1 for s in samples if s.get("ensemble_correct"))
+            corr_rate = n_corr / n
+            bullets = []
+            if corr_rate < 0.40:
+                bullets.append(
+                    "When you contributed, ensemble was wrong"
+                    f" {1-corr_rate:.0%} of the time. Increase weight on"
+                    " quantitative features over text-derived sentiment."
+                )
+            out[herb_id] = AgentFeedback(
+                agent_id=herb_id,
+                role="herbivore",
+                prompt_modulation="\n".join(bullets) if bullets else "",
+                derived_from={"n_observations": n, "ensemble_correctness": corr_rate},
+            )
+        return out
+
+    def _derive_aggregator(self, recent: list[Observation]) -> AgentFeedback | None:
+        """Aggregator feedback — pick the best aggregation strategy.
+
+        For each strategy (plurality, confidence_weighted,
+        perplexity_weighted), compute MCC over the rolling window. The
+        best strategy becomes the suggested default.
+        """
+        from collections import defaultdict as _dd
+        decisions = _dd(list)  # method → list[(target, predicted)]
+        for obs in recent:
+            t = obs.target_direction
+            if t not in ("up", "down"):
+                continue
+            # The Observation today only stores the plurality decision.
+            # Future: capture all three strategies' decisions per
+            # scenario so the aggregator's feedback is real. For now we
+            # have only one method to evaluate.
+            method = obs.ensemble.get("method", "plurality")
+            decisions[method].append((t, obs.ensemble.get("direction")))
+        if not decisions:
+            return None
+        # Score each method; pick the best by MCC.
+        best_method, best_mcc = None, -2.0
+        method_scores: dict[str, dict] = {}
+        for method, decs in decisions.items():
+            if len(decs) < self.min_seen:
+                continue
+            tp = tn = fp = fn = 0
+            for tgt, pred in decs:
+                if pred == "up" and tgt == "up": tp += 1
+                elif pred == "down" and tgt == "down": tn += 1
+                elif pred == "up" and tgt == "down": fp += 1
+                elif pred == "down" and tgt == "up": fn += 1
+            denom_sq = (tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)
+            mcc = (tp * tn - fp * fn) / max(denom_sq ** 0.5, 1e-9) if denom_sq else 0
+            method_scores[method] = {
+                "mcc": mcc, "n": len(decs), "tp": tp, "tn": tn, "fp": fp, "fn": fn,
+            }
+            if mcc > best_mcc:
+                best_mcc = mcc
+                best_method = method
+        if best_method is None:
+            return None
+        bullets = [
+            f"Best aggregation strategy on recent window: {best_method}"
+            f" (MCC {best_mcc:+.3f})."
+        ]
+        # Calibrate ensemble confidence if it skews
+        return AgentFeedback(
+            agent_id="apex.aggregator",
+            role="apex_aggregator",
+            prompt_modulation="\n".join(bullets),
+            aggregator_strategy=best_method,
+            derived_from={"method_scores": method_scores},
+        )
+
+    def _derive_one_voter(self, agent_id: str, samples: list[dict]) -> AgentFeedback:
         n = len(samples)
         n_correct = sum(1 for s in samples if s["correct"])
         actual_acc = n_correct / n
@@ -196,6 +408,7 @@ class FeedbackDeriver:
 
         return AgentFeedback(
             agent_id=agent_id,
+            role="apex_voter",
             prompt_modulation=prompt_mod,
             diet_adjustments=diet,
             confidence_calibration=cal_adjust,
