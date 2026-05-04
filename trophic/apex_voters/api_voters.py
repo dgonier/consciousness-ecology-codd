@@ -71,7 +71,7 @@ class OpenAIVoter(ApexVoter):
         except (AttributeError, TypeError):
             pass
         reasoning = extract_reasoning(msg)
-        return VoterResponse(
+        response = VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
@@ -85,47 +85,86 @@ class OpenAIVoter(ApexVoter):
                 "output_tokens": getattr(resp.usage, "completion_tokens", None) if resp.usage else None,
             },
         )
+        return self._apply_calibration(response, evidence.agent_feedback)
 
 
 class AnthropicVoter(ApexVoter):
-    """Anthropic Claude voter (via the official SDK)."""
+    """Anthropic Claude voter via AWS Bedrock.
+
+    Per project decision: all Anthropic calls go through Bedrock (not
+    the public Anthropic API). Auth uses standard AWS env vars
+    (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION).
+
+    Set BEDROCK_MODEL_ID to override the default sonnet-4-6 inference
+    profile (e.g. "us.anthropic.claude-opus-4-7-v1:0").
+    """
     voter_id = "anthropic"
 
-    def __init__(self, model: str | None = None):
+    def __init__(self, model: str | None = None, region: str | None = None):
         self.model = model or os.environ.get(
-            "ANTHROPIC_MODEL", "claude-sonnet-4-6",
+            "BEDROCK_MODEL_ID",
+            os.environ.get("ANTHROPIC_MODEL", "us.anthropic.claude-sonnet-4-6"),
         )
-        self.voter_id = f"anthropic_{self.model}"
+        self.region = region or os.environ.get(
+            "AWS_REGION",
+            os.environ.get("AWS_DEFAULT_REGION", "us-east-1"),
+        )
+        # Sanitize the model id for use as a path-safe voter id
+        safe_id = self.model.replace("/", "_").replace(":", "_").replace(".", "_")
+        self.voter_id = f"anthropic_bedrock_{safe_id}"
 
     def is_available(self) -> bool:
-        return bool(os.environ.get("ANTHROPIC_API_KEY"))
+        # Bedrock auth: standard AWS creds (env vars or shared profile)
+        # plus region. We treat the presence of access key OR a profile
+        # name as sufficient; boto3 will surface auth errors at call
+        # time if credentials are wrong.
+        if os.environ.get("AWS_ACCESS_KEY_ID") and os.environ.get("AWS_SECRET_ACCESS_KEY"):
+            return True
+        if os.environ.get("AWS_PROFILE"):
+            return True
+        return False
 
     def vote(self, evidence: EvidencePacket) -> VoterResponse:
         try:
-            import anthropic
+            import boto3
         except ImportError as e:
             return VoterResponse(self.voter_id, None, None, float("inf"),
-                                 f"anthropic client not installed: {e}")
-        client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+                                 f"boto3 not installed: {e}")
+        client = boto3.client("bedrock-runtime", region_name=self.region)
         sys_text, user_text = _split_system_user(evidence.text)
-        resp = client.messages.create(
-            model=self.model,
-            system=sys_text,
-            max_tokens=128,
-            messages=[{"role": "user", "content": user_text}],
-        )
-        text = "".join(b.text for b in resp.content if hasattr(b, "text"))
+        body = {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 192,
+            "temperature": 0.0,
+            "system": sys_text,
+            "messages": [{"role": "user", "content": user_text}],
+        }
+        try:
+            resp = client.invoke_model(
+                modelId=self.model,
+                body=json.dumps(body),
+                contentType="application/json",
+                accept="application/json",
+            )
+            payload = json.loads(resp["body"].read())
+            text = ""
+            for p in payload.get("content", []):
+                if p.get("type") == "text":
+                    text = p.get("text", "")
+                    break
+            usage = payload.get("usage", {}) or {}
+        except Exception as e:
+            return VoterResponse(self.voter_id, None, None, float("inf"),
+                                 f"bedrock invoke error: {e}")
         parsed = parse_prediction(text)
-        # Anthropic's API doesn't currently expose token logprobs; use
-        # confidence parsed from the XML as an inverse-proxy.
+        # Bedrock's invoke_model doesn't expose token logprobs; use
+        # parsed confidence as an inverse-proxy.
         ppl = float("inf")
         if parsed.confidence is not None:
-            # Map confidence∈[0,1] to perplexity proxy: more confident →
-            # lower perplexity. Saturate at conf=0.99.
             c = max(min(parsed.confidence, 0.99), 0.01)
             ppl = 1.0 / c
         reasoning = extract_reasoning(text)
-        return VoterResponse(
+        response = VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
@@ -135,10 +174,13 @@ class AnthropicVoter(ApexVoter):
             evidence_citations=extract_citations(reasoning),
             provider_meta={
                 "model": self.model,
-                "input_tokens": getattr(resp.usage, "input_tokens", None) if hasattr(resp, "usage") else None,
-                "output_tokens": getattr(resp.usage, "output_tokens", None) if hasattr(resp, "usage") else None,
+                "via": "bedrock",
+                "region": self.region,
+                "input_tokens": usage.get("input_tokens"),
+                "output_tokens": usage.get("output_tokens"),
             },
         )
+        return self._apply_calibration(response, evidence.agent_feedback)
 
 
 class GeminiVoter(ApexVoter):
@@ -175,7 +217,7 @@ class GeminiVoter(ApexVoter):
             c = max(min(parsed.confidence, 0.99), 0.01)
             ppl = 1.0 / c
         reasoning = extract_reasoning(text)
-        return VoterResponse(
+        response = VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
@@ -185,6 +227,7 @@ class GeminiVoter(ApexVoter):
             evidence_citations=extract_citations(reasoning),
             provider_meta={"model": self.model},
         )
+        return self._apply_calibration(response, evidence.agent_feedback)
 
 
 class OpenRouterVoter(ApexVoter):
@@ -232,7 +275,7 @@ class OpenRouterVoter(ApexVoter):
         except (AttributeError, TypeError):
             pass
         reasoning = extract_reasoning(msg)
-        return VoterResponse(
+        response = VoterResponse(
             voter_id=self.voter_id,
             direction=parsed.direction,
             confidence=parsed.confidence,
@@ -242,3 +285,4 @@ class OpenRouterVoter(ApexVoter):
             evidence_citations=extract_citations(reasoning),
             provider_meta={"model": self.model, "via": "openrouter"},
         )
+        return self._apply_calibration(response, evidence.agent_feedback)
