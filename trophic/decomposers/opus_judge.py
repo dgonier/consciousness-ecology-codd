@@ -20,9 +20,12 @@ import json
 import os
 import re
 
-# Default to Opus 4.7 via Bedrock inference profile.
+# Opus via Bedrock inference profile.
+# Default to 4.6 because the 4.7 quota in this account is currently
+# throttled. Set DECOMPOSER_OPUS_MODEL=us.anthropic.claude-opus-4-7
+# to upgrade once quota is increased.
 DEFAULT_OPUS_MODEL = os.environ.get(
-    "DECOMPOSER_OPUS_MODEL", "us.anthropic.claude-opus-4-7-v1:0",
+    "DECOMPOSER_OPUS_MODEL", "us.anthropic.claude-opus-4-6-v1",
 )
 
 
@@ -61,16 +64,33 @@ def call_opus_for_json(
         "system": system,
         "messages": [{"role": "user", "content": user}],
     }
-    try:
-        resp = client.invoke_model(
-            modelId=model,
-            body=json.dumps(body),
-            contentType="application/json",
-            accept="application/json",
-        )
-        payload = json.loads(resp["body"].read())
-    except Exception as e:
-        print(f"[opus_judge] bedrock invoke error: {e}")
+    # Retry on transient throttling. Bedrock surfaces ThrottlingException
+    # under burst load; we back off exponentially up to 3 attempts.
+    import time as _time
+    last_err = None
+    payload = None
+    for attempt in range(3):
+        try:
+            resp = client.invoke_model(
+                modelId=model,
+                body=json.dumps(body),
+                contentType="application/json",
+                accept="application/json",
+            )
+            payload = json.loads(resp["body"].read())
+            break
+        except Exception as e:
+            last_err = e
+            msg = str(e).lower()
+            if "throttl" in msg or "too many" in msg:
+                wait = 2 ** attempt * 5  # 5s, 10s, 20s
+                print(f"[opus_judge] throttled (attempt {attempt+1}/3), waiting {wait}s...")
+                _time.sleep(wait)
+                continue
+            print(f"[opus_judge] bedrock invoke error: {e}")
+            return None
+    if payload is None:
+        print(f"[opus_judge] all retries exhausted: {last_err}")
         return None
     text = ""
     for p in payload.get("content", []):
