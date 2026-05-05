@@ -27,7 +27,11 @@ from .parsing import extract_reasoning, extract_citations
 class LocalQwenVoter(ApexVoter):
     voter_id = "local_qwen3_4b"
 
-    def __init__(self, host: ModelHost | None = None, max_new_tokens: int = 96):
+    def __init__(self, host: ModelHost | None = None, max_new_tokens: int = 192):
+        # 192 tokens leaves room for REASONING (~80 tokens) + the XML
+        # <prediction> tag (~30 tokens) plus per-agent feedback overhead.
+        # 96 tokens (the old default) was just enough to write reasoning
+        # and run out before the XML answer.
         self.host = host or ModelHost.get(DEFAULT_CONFIG.model)
         self.max_new_tokens = max_new_tokens
 
