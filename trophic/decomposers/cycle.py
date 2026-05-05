@@ -27,6 +27,7 @@ from typing import Sequence
 from .agent_feedback import AgentFeedback
 from .fitness import FitnessTracker, AgentFitness
 from .gap_analyzer import propose_gap_species
+from .herb_fitness import HerbFitness, HerbFitnessTracker
 from .observation import Observation
 from .opus_judge import is_opus_available
 from .population_manager import PopulationManager, EvolutionDecision
@@ -43,6 +44,9 @@ class CycleReport:
     deaths: list[str] = field(default_factory=list)
     reproductions: list[str] = field(default_factory=list)
     gap_fills: list[str] = field(default_factory=list)
+    # Phase B: separate buckets for herb-tier evolution actions
+    herb_deaths: list[str] = field(default_factory=list)
+    herb_reproductions: list[str] = field(default_factory=list)
     decisions: list[EvolutionDecision] = field(default_factory=list)
     panel_correctness: float = 0.0
 
@@ -59,6 +63,11 @@ def run_evolutionary_update(
     enable_gap_analysis: bool = True,
     gap_correctness_threshold: float = 0.6,
     population_manager: PopulationManager | None = None,
+    herb_fitness: HerbFitnessTracker | None = None,
+    herb_panel: Sequence[Species] | None = None,
+    herb_min_seen: int = 8,
+    herb_kill_contribution: float = -0.10,
+    herb_reproduce_contribution: float = 0.20,
 ) -> CycleReport:
     """One evolutionary update at cycle boundary. Mutates the registry
     via writes; returns a CycleReport with what changed.
@@ -117,6 +126,69 @@ def run_evolutionary_update(
             registry.write(gap)
             gap_fills.append(gap.species_id)
 
+    # 4. HERB-tier evolution. Different fitness signal (sampled-dropout
+    # contribution) so we don't reuse PopulationManager. Cheap thresholds:
+    #   contribution < herb_kill_contribution → die
+    #   contribution > herb_reproduce_contribution AND another herb also
+    #     above threshold → mate top 2 herbs.
+    herb_deaths: list[str] = []
+    herb_reproductions: list[str] = []
+    if herb_fitness is not None and herb_panel:
+        by_herb = herb_fitness.summary()
+        # Map each herb species to its fitness record
+        herb_pairs: list[tuple[Species, "HerbFitness"]] = []
+        for sp in herb_panel:
+            for hid, hf in by_herb.items():
+                if hid.endswith(f"::{sp.species_id}"):
+                    herb_pairs.append((sp, hf))
+                    break
+        # Death decisions
+        for sp, hf in herb_pairs:
+            if hf.n_seen < herb_min_seen:
+                continue
+            if hf.contribution < herb_kill_contribution:
+                killed = registry.kill(
+                    sp.species_id,
+                    note=(
+                        f"herb contribution {hf.contribution:+.3f} < "
+                        f"{herb_kill_contribution} after {hf.n_seen} obs"
+                    ),
+                )
+                if killed is not None:
+                    herb_deaths.append(sp.species_id)
+        # Reproduction: top-2 herbs both above threshold
+        if (
+            enable_reproduction
+            and is_opus_available()
+            and len(herb_pairs) >= 2
+        ):
+            sorted_pairs = sorted(
+                herb_pairs, key=lambda p: p[1].contribution, reverse=True,
+            )
+            if (
+                sorted_pairs[0][1].contribution >= herb_reproduce_contribution
+                and sorted_pairs[1][1].contribution >= 0  # second-best at least non-negative
+                and sorted_pairs[0][1].n_seen >= herb_min_seen
+                and sorted_pairs[1][1].n_seen >= herb_min_seen
+            ):
+                a_sp, a_fit = sorted_pairs[0]
+                b_sp, b_fit = sorted_pairs[1]
+                child = reproduce(
+                    a_sp, b_sp, None, None,
+                    panel_summary=(
+                        f"herb tier: {a_sp.species_id} contribution {a_fit.contribution:+.3f}, "
+                        f"{b_sp.species_id} contribution {b_fit.contribution:+.3f}. "
+                        f"Mate them at the herbivore tier — child should "
+                        f"emit a synthesis paragraph (not a directional "
+                        f"vote), with role='herbivore'."
+                    ),
+                )
+                if child is not None:
+                    # Force herbivore role on child even if Opus drifted
+                    child.role = "herbivore"
+                    registry.write(child)
+                    herb_reproductions.append(child.species_id)
+
     panel_after = registry.alive()
     return CycleReport(
         cycle_index=cycle_index,
@@ -126,6 +198,8 @@ def run_evolutionary_update(
         deaths=deaths,
         reproductions=reproductions,
         gap_fills=gap_fills,
+        herb_deaths=herb_deaths,
+        herb_reproductions=herb_reproductions,
         decisions=decisions,
         panel_correctness=panel_correctness,
     )
@@ -164,8 +238,10 @@ def render_cycle_report(report: CycleReport) -> str:
         f"  passes:             {report.n_passes}",
         f"  panel correctness:  {report.panel_correctness:.2%}",
         f"  panel size:         {report.panel_size_before} → {report.panel_size_after}",
-        f"  deaths:             {report.deaths or '(none)'}",
-        f"  reproductions:      {report.reproductions or '(none)'}",
-        f"  gap_fills:          {report.gap_fills or '(none)'}",
+        f"  apex deaths:        {report.deaths or '(none)'}",
+        f"  apex reproductions: {report.reproductions or '(none)'}",
+        f"  apex gap_fills:     {report.gap_fills or '(none)'}",
+        f"  herb deaths:        {report.herb_deaths or '(none)'}",
+        f"  herb reproductions: {report.herb_reproductions or '(none)'}",
     ]
     return "\n".join(lines)

@@ -372,7 +372,8 @@ def main():
             cycle_idx = (i + 1) // args.passes_per_cycle
             print(f"\n[apex_vote] === CYCLE {cycle_idx} BOUNDARY: firing evolutionary update ===")
             recent_obs = ObservationWriter.read_all(Path(args.obs_path))[-args.passes_per_cycle:]
-            current_panel_species = registry.alive()
+            current_panel_species = [s for s in registry.alive() if s.role == "apex_voter"]
+            current_herb_species = [s for s in registry.alive() if s.role == "herbivore"]
             report = run_evolutionary_update(
                 cycle_index=cycle_idx,
                 registry=registry,
@@ -382,6 +383,8 @@ def main():
                 n_passes=args.passes_per_cycle,
                 enable_reproduction=is_opus_available(),
                 enable_gap_analysis=is_opus_available(),
+                herb_fitness=herb_tracker,
+                herb_panel=current_herb_species,
             )
             print(render_cycle_report(report))
             # Re-compile the panel for the next cycle (apex + herbivores)
@@ -392,8 +395,12 @@ def main():
             if herbivores:
                 print(f"[apex_vote] cycle {cycle_idx + 1} herbs: "
                       f"{[h.herb_id for h in herbivores]}")
-            # Reset fitness tracker so next cycle's signals are fresh
+            # Reset fitness trackers so next cycle's signals are fresh
             tracker = FitnessTracker(window=200)
+            if herbivores:
+                herb_tracker = HerbFitnessTracker(window=200)
+            else:
+                herb_tracker = None
 
     fout.close()
 
