@@ -44,6 +44,7 @@ from trophic.decomposers import (
     Observation, ObservationWriter, DecomposerJudgment,
     capture_evidence_signals,
     SpeciesRegistry, bootstrap_default_panel,
+    run_evolutionary_update, render_cycle_report, is_opus_available,
 )
 from trophic.decomposers.agent_feedback import (
     FeedbackDeriver, FeedbackStore, AgentFeedback,
@@ -288,6 +289,38 @@ def main():
                 f"conf MCC={cs['mcc']:+.3f}  "
                 f"ppl MCC={ws['mcc']:+.3f}"
             )
+
+        # Cycle boundary: every `passes_per_cycle` passes, fire the
+        # decomposer's evolutionary update + re-compile the panel from
+        # the (possibly mutated) registry. Only if --passes-per-cycle
+        # is set AND --decomposer is on (so we have fitness + obs data).
+        if (
+            args.passes_per_cycle
+            and tracker is not None
+            and (i + 1) % args.passes_per_cycle == 0
+            and (i + 1) < len(scens)  # don't fire on the very last scenario
+        ):
+            cycle_idx = (i + 1) // args.passes_per_cycle
+            print(f"\n[apex_vote] === CYCLE {cycle_idx} BOUNDARY: firing evolutionary update ===")
+            recent_obs = ObservationWriter.read_all(Path(args.obs_path))[-args.passes_per_cycle:]
+            current_panel_species = registry.alive()
+            report = run_evolutionary_update(
+                cycle_index=cycle_idx,
+                registry=registry,
+                fitness=tracker,
+                observations=recent_obs,
+                panel=current_panel_species,
+                n_passes=args.passes_per_cycle,
+                enable_reproduction=is_opus_available(),
+                enable_gap_analysis=is_opus_available(),
+            )
+            print(render_cycle_report(report))
+            # Re-compile the panel for the next cycle
+            voters = build_panel_from_registry(registry)
+            print(f"[apex_vote] cycle {cycle_idx + 1} panel: "
+                  f"{[v.voter_id for v in voters]}")
+            # Reset fitness tracker so next cycle's signals are fresh
+            tracker = FitnessTracker(window=200)
 
     fout.close()
 

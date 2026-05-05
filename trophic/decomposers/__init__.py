@@ -27,6 +27,12 @@ from .observation import (
 from .capture import capture_evidence_signals
 from .agent_feedback import AgentFeedback, FeedbackDeriver, FeedbackStore
 from .species import Species, SpeciesRegistry, bootstrap_default_panel
+from .opus_judge import call_opus_for_json, is_opus_available
+from .reproducer import reproduce, select_top_pair
+from .gap_analyzer import propose_gap_species
+from .cycle import (
+    run_evolutionary_update, CycleReport, render_cycle_report,
+)
 
 __all__ = [
     "KGWriter", "KGRecord",
@@ -36,4 +42,8 @@ __all__ = [
     "capture_evidence_signals",
     "AgentFeedback", "FeedbackDeriver", "FeedbackStore",
     "Species", "SpeciesRegistry", "bootstrap_default_panel",
+    "call_opus_for_json", "is_opus_available",
+    "reproduce", "select_top_pair",
+    "propose_gap_species",
+    "run_evolutionary_update", "CycleReport", "render_cycle_report",
 ]
