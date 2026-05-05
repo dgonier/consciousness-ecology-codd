@@ -30,6 +30,7 @@ from .species import Species, SpeciesRegistry, bootstrap_default_panel
 from .opus_judge import call_opus_for_json, is_opus_available
 from .reproducer import reproduce, select_top_pair
 from .gap_analyzer import propose_gap_species
+from .herb_fitness import HerbFitness, HerbFitnessTracker
 from .cycle import (
     run_evolutionary_update, CycleReport, render_cycle_report,
 )
@@ -45,5 +46,6 @@ __all__ = [
     "call_opus_for_json", "is_opus_available",
     "reproduce", "select_top_pair",
     "propose_gap_species",
+    "HerbFitness", "HerbFitnessTracker",
     "run_evolutionary_update", "CycleReport", "render_cycle_report",
 ]

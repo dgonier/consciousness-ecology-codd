@@ -45,6 +45,7 @@ from trophic.decomposers import (
     capture_evidence_signals,
     SpeciesRegistry, bootstrap_default_panel,
     run_evolutionary_update, render_cycle_report, is_opus_available,
+    HerbFitnessTracker,
 )
 from trophic.decomposers.agent_feedback import (
     FeedbackDeriver, FeedbackStore, AgentFeedback,
@@ -107,6 +108,9 @@ def main():
                     help="Number of evolutionary cycles. Decomposer fires evolution updates between cycles.")
     ap.add_argument("--passes-per-cycle", type=int, default=0,
                     help="Scenarios per pass × passes-per-cycle = scenarios per cycle. 0 = use --max-scenarios as the cycle length.")
+    ap.add_argument("--herb-dropout-rate", type=float, default=0.25,
+                    help="Per-scenario probability of dropping ONE herb's synthesis from the apex packet, for herb fitness measurement.")
+    ap.add_argument("--herb-dropout-seed", type=int, default=42)
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
@@ -130,6 +134,12 @@ def main():
     herbivores = build_herbivore_panel_from_registry(registry)
     if herbivores:
         print(f"[apex_vote] compiled herb panel: {[h.herb_id for h in herbivores]}")
+    # Per-herb fitness tracker (parallel to apex tracker; different
+    # signal — leave-one-herb-out sampling rather than per-scenario
+    # marginal-flip drop test).
+    herb_tracker = HerbFitnessTracker(window=200) if herbivores else None
+    import random as _random
+    herb_rng = _random.Random(args.herb_dropout_seed)
 
     tickers = [t.strip() for t in args.tickers.split(",") if t.strip()]
     scens = build_stocknet_scenarios(
@@ -178,17 +188,34 @@ def main():
 
         # Phase B: run herbivore panel first; inject syntheses into the
         # default packet as additional framing context for the apex.
+        # Herb-dropout sampling: with probability `herb_dropout_rate`,
+        # randomly drop ONE herb's synthesis from the packet, recording
+        # which herbs were present/absent for fitness measurement.
         herb_syntheses = []
+        herb_present_map: dict[str, bool] = {}  # herb_id → present_in_packet
         if herbivores:
             for h in herbivores:
                 try:
                     syn = h.synthesize(default_pkt.text)
-                    herb_syntheses.append(syn)
+                    herb_syntheses.append((h, syn))
                 except Exception as e:
                     print(f"  [herbivore {h.herb_id}] error: {e}")
-            if herb_syntheses:
+            # Decide if we drop one this scenario
+            dropped_herb_id: str | None = None
+            if (
+                len(herb_syntheses) >= 2
+                and args.herb_dropout_rate > 0
+                and herb_rng.random() < args.herb_dropout_rate
+            ):
+                dropped = herb_rng.choice(herb_syntheses)
+                dropped_herb_id = dropped[0].herb_id
+            # Build the synthesis block, omitting any dropped herb
+            kept = [(h, s) for (h, s) in herb_syntheses if h.herb_id != dropped_herb_id]
+            for h, _s in herb_syntheses:
+                herb_present_map[h.herb_id] = (h.herb_id != dropped_herb_id)
+            if kept:
                 herb_block = "\n\nHERBIVORE SYNTHESES (pre-digested by specialist analysts):\n"
-                for syn in herb_syntheses:
+                for _h, syn in kept:
                     herb_block += (
                         f"  [{syn.diet_tag}] {syn.synthesis}"
                         f"  (hint: {syn.direction_hint or 'none'})\n"
@@ -220,6 +247,20 @@ def main():
         plur_decs.append((target, plur.direction))
         conf_decs.append((target, cw.direction))
         ppl_decs.append((target, pw.direction))
+
+        # Phase B: record herb-tier fitness. For each herb, was it
+        # present in the packet, and was the apex panel correct?
+        if herb_tracker is not None and target in ("up", "down"):
+            apex_correct = (plur.direction == target)
+            for hid, was_present in herb_present_map.items():
+                # Recover species_id from herb_id (format: <class>::<species_id>)
+                sp_id = hid.split("::", 1)[-1] if "::" in hid else ""
+                herb_tracker.record(
+                    herb_id=hid,
+                    species_id=sp_id,
+                    was_present=was_present,
+                    apex_correct=apex_correct,
+                )
 
         # Decomposer: per-voter fitness via leave-one-out drop test.
         if tracker is not None:
@@ -387,6 +428,9 @@ def main():
         decisions = mgr.decide(tracker)
         print()
         print(mgr.render_report(decisions))
+    if herb_tracker is not None:
+        print()
+        print(herb_tracker.render_summary())
     if kg is not None:
         kg.close()
         print(f"[apex_vote] KG records → {kg.path}")
