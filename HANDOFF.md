@@ -418,6 +418,51 @@ ls -lh external/stocknet_cache/forecast_features.json
 - `project_signal_flow_2026_05_02.md` — full audit + verdict appended
 - `project_issue_8_diagnosis.md` — path C (SFT on M+E) marked exhausted
 
+## First real evolutionary cycle, Opus 4.6 reproduces + gap-fills (2026-05-04)
+
+12-scenario StockNet eval with `--passes-per-cycle 6` → 2 evolutionary
+cycles. Both Opus calls succeeded; both produced non-degenerate species.
+
+**Cycle 1 (4 voters, gen 0)**: gpt-5, sonnet-4-6 (bedrock), gemini
+2.5-flash, local Qwen3-4B. 6 passes. Per-voter accuracy: gpt-5 50%,
+sonnet 33%, gemini 50%, qwen 50%. Panel correctness 50%.
+
+**Cycle 1 boundary — Opus 4.6 fires:**
+- Reproduce: top-2 (gpt-5 + gemini-flash) → child
+  `child.gpt5-flash.gen1.contrarian-momentum` (gen 1, model gpt-5).
+  Opus's reasoning: "Child of two 50% accuracy bootstraps. Designed
+  to break panel deadlock with decisive contrarian-momentum framework
+  and explicit anti-consensus bias when signals are ambiguous."
+- Gap-fill: `contrarian.momentum_reversal.gpt-5` (gen 0, model gpt-5).
+  Opus correctly identified the bearish-bias failure mode: "All 3
+  failures show the panel unanimously voting DOWN after multi-day
+  selloffs, over-anchoring on negative Chronos-Bolt drift forecasts,
+  while ignoring clear recovery signals in recent bars." The new
+  species's prompt explicitly says "IGNORE the Chronos-Bolt numeric
+  forecast drift/monotonicity — it is a lagging statistical
+  extrapolation that fails at turning points."
+
+**Cycle 2 (6 voters)**: panel re-compiled to include both new species.
+6 passes. perplexity_weighted MCC on cycle-2 segment: +0.250.
+
+**Final on full 12 scenarios**: perplexity_weighted MCC +0.200
+(plurality / confidence_weighted +0.135). Sample is small but the
+architectural loop fired correctly:
+1. KG-driven panel compiled at start
+2. Per-voter fitness tracked across passes
+3. Cycle boundary fired Opus reproduce + gap-fill
+4. Both species written to species.jsonl
+5. Cycle 2 re-compiled panel with 4+2=6 voters
+6. Tracker reset between cycles
+
+`external/decomposer_kg/species.jsonl` now contains 5 unique species
+records (4 bootstrap + 1 child + 1 gap-fill), all KG-driven.
+
+Opus default model: `us.anthropic.claude-opus-4-6-v1`. The 4.7
+inference profile (`us.anthropic.claude-opus-4-7`) returned
+ThrottlingException across multiple minutes in this account; default
+moved to 4.6 with `DECOMPOSER_OPUS_MODEL` override available.
+
 ## Multi-family apex panel goes live (2026-05-04)
 
 First end-to-end run with 4 frontier voters: gpt-5 + Claude Sonnet 4.6
