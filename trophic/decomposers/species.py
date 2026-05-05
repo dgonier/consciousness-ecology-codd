@@ -151,7 +151,26 @@ def bootstrap_default_panel(registry: SpeciesRegistry) -> list[Species]:
     is blank. Once the decomposer mutates a species, its template
     becomes non-empty and overrides the default.
     """
+    HERB_TECHNICAL_PROMPT = (
+        "You are a TECHNICAL-analysis herbivore in a multi-species panel."
+        " Read the evidence and produce a 2-3 sentence synthesis from a"
+        " technical / price-action lens (momentum, mean-reversion,"
+        " volume divergence, support/resistance). Do NOT make a final"
+        " UP/DOWN trade decision; the apex panel does that. Reply on three"
+        " lines:\nDIET: technical\nSYNTHESIS: <2-3 sentences>"
+        "\nDIRECTION_HINT: <up | down | none>"
+    )
+    HERB_FUNDAMENTAL_PROMPT = (
+        "You are a FUNDAMENTAL-analysis herbivore in a multi-species panel."
+        " Read the evidence and produce a 2-3 sentence synthesis from a"
+        " fundamental / event-driven lens (news flow, earnings, sector"
+        " catalysts, sentiment shifts in tweets). Do NOT make a final"
+        " UP/DOWN trade decision. Reply on three lines:\nDIET: fundamental"
+        "\nSYNTHESIS: <2-3 sentences>"
+        "\nDIRECTION_HINT: <up | down | none>"
+    )
     seeds = [
+        # Apex voters
         Species(
             species_id="bootstrap.openai.gpt-5",
             model_id="gpt-5",
@@ -175,6 +194,24 @@ def bootstrap_default_panel(registry: SpeciesRegistry) -> list[Species]:
             model_id="local_qwen3_4b",
             role="apex_voter",
             note="bootstrap; HEXIS substrate (M-tensor channel available)",
+        ),
+        # Herbivores (Phase B): synthesis agents that pre-digest evidence
+        # for the apex panel. Different lenses = different species.
+        Species(
+            species_id="bootstrap.herb.technical.gemini",
+            model_id="gemini-2.5-flash",
+            role="herbivore",
+            prompt_template=HERB_TECHNICAL_PROMPT,
+            diet_tags=["technical"],
+            note="bootstrap; technical lens on flash",
+        ),
+        Species(
+            species_id="bootstrap.herb.fundamental.gemini",
+            model_id="gemini-2.5-flash",
+            role="herbivore",
+            prompt_template=HERB_FUNDAMENTAL_PROMPT,
+            diet_tags=["fundamental"],
+            note="bootstrap; fundamental lens on flash",
         ),
     ]
     existing_ids = {s.species_id for s in registry.read_all()}

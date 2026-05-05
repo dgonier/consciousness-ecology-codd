@@ -123,6 +123,14 @@ def main():
     if not voters:
         print("[apex_vote] no voters available; aborting"); return 1
 
+    # Phase B: also compile herbivore voters from the registry. Herb
+    # syntheses get injected into each apex EvidencePacket as additional
+    # framing context.
+    from trophic.herbivore_voters import build_herbivore_panel_from_registry
+    herbivores = build_herbivore_panel_from_registry(registry)
+    if herbivores:
+        print(f"[apex_vote] compiled herb panel: {[h.herb_id for h in herbivores]}")
+
     tickers = [t.strip() for t in args.tickers.split(",") if t.strip()]
     scens = build_stocknet_scenarios(
         split="test", tickers=tickers, max_per_ticker=args.n_per_ticker,
@@ -167,6 +175,26 @@ def main():
         # Default packet (no agent feedback) — used for the inter-tier
         # capture and as a fallback if a voter has no feedback yet.
         default_pkt = build_evidence_packet(sc, herb_broadcasts=None)
+
+        # Phase B: run herbivore panel first; inject syntheses into the
+        # default packet as additional framing context for the apex.
+        herb_syntheses = []
+        if herbivores:
+            for h in herbivores:
+                try:
+                    syn = h.synthesize(default_pkt.text)
+                    herb_syntheses.append(syn)
+                except Exception as e:
+                    print(f"  [herbivore {h.herb_id}] error: {e}")
+            if herb_syntheses:
+                herb_block = "\n\nHERBIVORE SYNTHESES (pre-digested by specialist analysts):\n"
+                for syn in herb_syntheses:
+                    herb_block += (
+                        f"  [{syn.diet_tag}] {syn.synthesis}"
+                        f"  (hint: {syn.direction_hint or 'none'})\n"
+                    )
+                default_pkt.text = default_pkt.text + herb_block
+
         responses = []
         for v in voters:
             # Per-agent packet: each voter gets its own decomposer feedback.
@@ -315,10 +343,14 @@ def main():
                 enable_gap_analysis=is_opus_available(),
             )
             print(render_cycle_report(report))
-            # Re-compile the panel for the next cycle
+            # Re-compile the panel for the next cycle (apex + herbivores)
             voters = build_panel_from_registry(registry)
+            herbivores = build_herbivore_panel_from_registry(registry)
             print(f"[apex_vote] cycle {cycle_idx + 1} panel: "
                   f"{[v.voter_id for v in voters]}")
+            if herbivores:
+                print(f"[apex_vote] cycle {cycle_idx + 1} herbs: "
+                      f"{[h.herb_id for h in herbivores]}")
             # Reset fitness tracker so next cycle's signals are fresh
             tracker = FitnessTracker(window=200)
 
