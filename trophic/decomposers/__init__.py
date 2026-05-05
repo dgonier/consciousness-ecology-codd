@@ -26,6 +26,7 @@ from .observation import (
 )
 from .capture import capture_evidence_signals
 from .agent_feedback import AgentFeedback, FeedbackDeriver, FeedbackStore
+from .species import Species, SpeciesRegistry, bootstrap_default_panel
 
 __all__ = [
     "KGWriter", "KGRecord",
@@ -34,4 +35,5 @@ __all__ = [
     "Observation", "ObservationWriter", "NodeSignal", "DecomposerJudgment",
     "capture_evidence_signals",
     "AgentFeedback", "FeedbackDeriver", "FeedbackStore",
+    "Species", "SpeciesRegistry", "bootstrap_default_panel",
 ]

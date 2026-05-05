@@ -18,6 +18,7 @@ from .aggregate import (
     plurality, confidence_weighted, perplexity_weighted, rank_vote_borda,
     deliberation_packet, EnsembleDecision,
 )
+from .factory import voter_from_species, build_panel_from_registry
 
 __all__ = [
     "ApexVoter", "VoterResponse", "EvidencePacket",
@@ -26,4 +27,5 @@ __all__ = [
     "OpenAIVoter", "AnthropicVoter", "GeminiVoter", "OpenRouterVoter",
     "plurality", "confidence_weighted", "perplexity_weighted",
     "rank_vote_borda", "deliberation_packet", "EnsembleDecision",
+    "voter_from_species", "build_panel_from_registry",
 ]

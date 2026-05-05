@@ -52,6 +52,12 @@ class LocalQwenVoter(ApexVoter):
         else:
             system = SYSTEM
             user_body = text
+        # Species-defined prompt template (KG-driven differentiation):
+        # if this voter was built from a Species with a non-empty
+        # prompt_template, override the SYSTEM block with it.
+        species_template = getattr(self, "species_template", None)
+        if species_template:
+            system = species_template
 
         msgs = [
             {"role": "system", "content": system},

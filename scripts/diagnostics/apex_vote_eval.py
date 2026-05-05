@@ -37,11 +37,13 @@ from trophic.apex_voters import (
     AnthropicVoter, GeminiVoter, LocalQwenVoter, OpenAIVoter, OpenRouterVoter,
     build_evidence_packet, confidence_weighted, deliberation_packet,
     perplexity_weighted, plurality,
+    build_panel_from_registry,
 )
 from trophic.decomposers import (
     FitnessTracker, KGWriter, PopulationManager,
     Observation, ObservationWriter, DecomposerJudgment,
     capture_evidence_signals,
+    SpeciesRegistry, bootstrap_default_panel,
 )
 from trophic.decomposers.agent_feedback import (
     FeedbackDeriver, FeedbackStore, AgentFeedback,
@@ -98,20 +100,25 @@ def main():
                     help="Per-agent feedback store. If files exist for a voter, that voter sees its own feedback in this run's prompts.")
     ap.add_argument("--no-feedback", action="store_true",
                     help="Skip reading per-agent feedback into prompts (useful for ablation).")
+    ap.add_argument("--species-path", default="external/decomposer_kg/species.jsonl",
+                    help="KG-backed species registry. Roster compiled at start.")
+    ap.add_argument("--cycles", type=int, default=1,
+                    help="Number of evolutionary cycles. Decomposer fires evolution updates between cycles.")
+    ap.add_argument("--passes-per-cycle", type=int, default=0,
+                    help="Scenarios per pass × passes-per-cycle = scenarios per cycle. 0 = use --max-scenarios as the cycle length.")
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
+    print(f"[apex_vote] cycles={args.cycles}, passes/cycle={args.passes_per_cycle or 'auto'}")
 
-    # Stand up all voters; only available ones will actually be called.
-    candidates = [
-        OpenAIVoter(),
-        AnthropicVoter(),
-        GeminiVoter(),
-        OpenRouterVoter(),
-        LocalQwenVoter(),
-    ]
-    voters = [v for v in candidates if v.is_available()]
-    print(f"[apex_vote] available voters: {[v.voter_id for v in voters]}")
+    # KG-driven panel: read alive species from the registry, build voter
+    # for each. Bootstrap default 4-voter panel if registry is empty.
+    registry = SpeciesRegistry(path=Path(args.species_path))
+    seeded = bootstrap_default_panel(registry)
+    if seeded:
+        print(f"[apex_vote] bootstrapped {len(seeded)} default species → {registry.path}")
+    voters = build_panel_from_registry(registry)
+    print(f"[apex_vote] compiled panel: {[v.voter_id for v in voters]}")
     if not voters:
         print("[apex_vote] no voters available; aborting"); return 1
 

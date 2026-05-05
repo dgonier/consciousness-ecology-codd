@@ -24,10 +24,15 @@ from .evidence import SYSTEM
 from .parsing import extract_reasoning, extract_citations
 
 
-def _split_system_user(text: str) -> tuple[str, str]:
+def _split_system_user(text: str, species_template: str | None = None) -> tuple[str, str]:
+    """Split the EvidencePacket text into (system, user) for chat-style
+    APIs. When the voter was built from a Species with a non-empty
+    prompt_template, that template overrides the default SYSTEM block —
+    KG-driven differentiation."""
     if text.startswith(SYSTEM):
-        return SYSTEM, text[len(SYSTEM):].lstrip()
-    return SYSTEM, text
+        sys_text = species_template if species_template else SYSTEM
+        return sys_text, text[len(SYSTEM):].lstrip()
+    return (species_template if species_template else SYSTEM), text
 
 
 class OpenAIVoter(ApexVoter):
@@ -48,7 +53,9 @@ class OpenAIVoter(ApexVoter):
             return VoterResponse(self.voter_id, None, None, float("inf"),
                                  f"openai client not installed: {e}")
         client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-        sys_text, user_text = _split_system_user(evidence.text)
+        sys_text, user_text = _split_system_user(
+            evidence.text, getattr(self, "species_template", None),
+        )
         # gpt-5 / o1 family disallow logprobs; fall back to no-logprobs +
         # parsed confidence as the perplexity proxy. We attempt logprobs
         # first and retry without them on 403.
@@ -155,7 +162,9 @@ class AnthropicVoter(ApexVoter):
             return VoterResponse(self.voter_id, None, None, float("inf"),
                                  f"boto3 not installed: {e}")
         client = boto3.client("bedrock-runtime", region_name=self.region)
-        sys_text, user_text = _split_system_user(evidence.text)
+        sys_text, user_text = _split_system_user(
+            evidence.text, getattr(self, "species_template", None),
+        )
         body = {
             "anthropic_version": "bedrock-2023-05-31",
             "max_tokens": 192,
@@ -234,7 +243,9 @@ class GeminiVoter(ApexVoter):
                                  f"google.genai not installed: {e}")
         api_key = os.environ.get("GEMINI_API_KEY") or os.environ["GOOGLE_API_KEY"]
         client = genai.Client(api_key=api_key)
-        sys_text, user_text = _split_system_user(evidence.text)
+        sys_text, user_text = _split_system_user(
+            evidence.text, getattr(self, "species_template", None),
+        )
         # Disable thinking on flash variants; pro requires thinking so
         # we let it default-on there.
         config_kwargs = dict(
@@ -292,7 +303,9 @@ class OpenRouterVoter(ApexVoter):
             api_key=os.environ["OPENROUTER_API_KEY"],
             base_url="https://openrouter.ai/api/v1",
         )
-        sys_text, user_text = _split_system_user(evidence.text)
+        sys_text, user_text = _split_system_user(
+            evidence.text, getattr(self, "species_template", None),
+        )
         resp = client.chat.completions.create(
             model=self.model,
             messages=[
