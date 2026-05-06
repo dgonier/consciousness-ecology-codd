@@ -21,11 +21,32 @@ def _resolve_class_for_model(model_id: str) -> type[HerbivoreVoter]:
     raise ValueError(f"herbivore_factory: no class for model_id={model_id!r}")
 
 
+def _research_tool_for_species(species):
+    """Attach a research tool when the species's diet implies it needs
+    external lookup (e.g. fundamental / news lenses)."""
+    diet = set(getattr(species, "diet_tags", []) or [])
+    if not (diet & {"fundamental", "news", "macro"}):
+        return None
+    # Prefer OpenAI web search if available; else mock for tests.
+    try:
+        from ..research_tools import OpenAIWebSearchTool
+        tool = OpenAIWebSearchTool()
+        if tool.is_available():
+            return tool
+    except Exception:
+        pass
+    return None
+
+
 def herbivore_from_species(species) -> HerbivoreVoter:
     """Build a HerbivoreVoter from a Species record (role='herbivore')."""
     cls = _resolve_class_for_model(species.model_id)
+    research_tool = _research_tool_for_species(species)
     if cls is LocalQwenHerbivore:
-        h = LocalQwenHerbivore(species_template=species.prompt_template or None)
+        h = LocalQwenHerbivore(
+            species_template=species.prompt_template or None,
+            research_tool=research_tool,
+        )
     else:
         h = cls(
             model=species.model_id,

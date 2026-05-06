@@ -65,7 +65,7 @@ def _render_press_block(scenario, ticker: str) -> str:
             continue
         n_label = inp.payload.get("headline", "")
         parts.append(f"\nSame-day news/tweets for {ticker} ({n_label}):")
-        parts.append(body[:2000])  # cap
+        parts.append(body[:8000])  # cap
     return "\n".join(parts)
 
 
