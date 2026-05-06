@@ -23,11 +23,25 @@ def _resolve_class_for_model(model_id: str) -> type[HerbivoreVoter]:
 
 def _research_tool_for_species(species):
     """Attach a research tool when the species's diet implies it needs
-    external lookup (e.g. fundamental / news lenses)."""
+    external lookup (e.g. fundamental / news lenses).
+
+    Tool preference order:
+      1. Google CSE (date-bounded; cleanest no-leak option for benchmark
+         scenarios; needs GOOGLE_API_KEY + GOOGLE_CSE_ID env vars).
+      2. OpenAI web_search (gpt-5 mediated; best-effort temporal
+         binding via prompt language; uses OPENAI_API_KEY).
+      3. None.
+    """
     diet = set(getattr(species, "diet_tags", []) or [])
     if not (diet & {"fundamental", "news", "macro"}):
         return None
-    # Prefer OpenAI web search if available; else mock for tests.
+    try:
+        from ..research_tools import GoogleCSEResearchTool
+        tool = GoogleCSEResearchTool()
+        if tool.is_available():
+            return tool
+    except Exception:
+        pass
     try:
         from ..research_tools import OpenAIWebSearchTool
         tool = OpenAIWebSearchTool()

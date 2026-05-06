@@ -17,9 +17,10 @@ for tests.
 """
 from .base import ResearchSnippet, ResearchTool
 from .openai_search import OpenAIWebSearchTool
+from .google_search import GoogleCSEResearchTool
 from .mock import MockResearchTool
 
 __all__ = [
     "ResearchSnippet", "ResearchTool",
-    "OpenAIWebSearchTool", "MockResearchTool",
+    "OpenAIWebSearchTool", "GoogleCSEResearchTool", "MockResearchTool",
 ]
