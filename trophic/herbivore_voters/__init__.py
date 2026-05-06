@@ -23,10 +23,12 @@ from .base import HerbivoreSynthesis, HerbivoreVoter
 from .api_voters import (
     OpenAIHerbivore, AnthropicBedrockHerbivore, GeminiHerbivore,
 )
+from .local_qwen import LocalQwenHerbivore
 from .factory import build_herbivore_panel_from_registry, herbivore_from_species
 
 __all__ = [
     "HerbivoreSynthesis", "HerbivoreVoter",
     "OpenAIHerbivore", "AnthropicBedrockHerbivore", "GeminiHerbivore",
+    "LocalQwenHerbivore",
     "build_herbivore_panel_from_registry", "herbivore_from_species",
 ]

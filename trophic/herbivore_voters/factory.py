@@ -5,10 +5,13 @@ from .base import HerbivoreVoter
 from .api_voters import (
     OpenAIHerbivore, AnthropicBedrockHerbivore, GeminiHerbivore,
 )
+from .local_qwen import LocalQwenHerbivore
 
 
 def _resolve_class_for_model(model_id: str) -> type[HerbivoreVoter]:
     m = (model_id or "").lower()
+    if m.startswith("local") or m.startswith("qwen3") or "local" in m:
+        return LocalQwenHerbivore
     if m.startswith("gpt") or "openai" in m:
         return OpenAIHerbivore
     if "claude" in m or "anthropic" in m or m.startswith("us.anthropic"):
@@ -21,10 +24,13 @@ def _resolve_class_for_model(model_id: str) -> type[HerbivoreVoter]:
 def herbivore_from_species(species) -> HerbivoreVoter:
     """Build a HerbivoreVoter from a Species record (role='herbivore')."""
     cls = _resolve_class_for_model(species.model_id)
-    h = cls(
-        model=species.model_id,
-        species_template=species.prompt_template or None,
-    )
+    if cls is LocalQwenHerbivore:
+        h = LocalQwenHerbivore(species_template=species.prompt_template or None)
+    else:
+        h = cls(
+            model=species.model_id,
+            species_template=species.prompt_template or None,
+        )
     # Brand the herb_id with species so fitness records are species-keyed
     h.herb_id = f"{h.herb_id}::{species.species_id}"
     h.species = species
