@@ -155,22 +155,27 @@ def bootstrap_default_panel(registry: SpeciesRegistry) -> list[Species]:
     if registry.read_all():
         return []  # registry has content; don't pollute it
     HERB_TECHNICAL_PROMPT = (
-        "You are a TECHNICAL-analysis herbivore in a multi-species panel."
-        " Read the evidence and produce a 2-3 sentence synthesis from a"
-        " technical / price-action lens (momentum, mean-reversion,"
-        " volume divergence, support/resistance). Do NOT make a final"
-        " UP/DOWN trade decision; the apex panel does that. Reply on three"
-        " lines:\nDIET: technical\nSYNTHESIS: <2-3 sentences>"
-        "\nDIRECTION_HINT: <up | down | none>"
+        "You are a quantitative technical analyst. The evidence packet"
+        " includes a precomputed QUANT SIGNALS block with multi-timeframe"
+        " direction agreement, OBV slope, and 2σ-anomaly flags computed"
+        " from the OHLCV bars. Your job is to INTERPRET those quant"
+        " signals in light of the news/sentiment in the same packet —"
+        " identify alignment, divergence, or unusual setups. Do NOT make"
+        " a final UP/DOWN trade decision; a separate decision-maker"
+        " handles that. Reply on three lines:\n"
+        "LENS: technical\nSYNTHESIS: <2-3 sentences interpreting the"
+        " quant signals together with the news context>\n"
+        "DIRECTION_HINT: <up | down | none>"
     )
     HERB_FUNDAMENTAL_PROMPT = (
-        "You are a FUNDAMENTAL-analysis herbivore in a multi-species panel."
-        " Read the evidence and produce a 2-3 sentence synthesis from a"
-        " fundamental / event-driven lens (news flow, earnings, sector"
-        " catalysts, sentiment shifts in tweets). Do NOT make a final"
-        " UP/DOWN trade decision. Reply on three lines:\nDIET: fundamental"
-        "\nSYNTHESIS: <2-3 sentences>"
-        "\nDIRECTION_HINT: <up | down | none>"
+        "You are an event-driven fundamental analyst. Read the news flow"
+        " and same-day tweets and produce a 2-3 sentence synthesis"
+        " covering: catalysts (earnings, product, M&A, regulatory),"
+        " sentiment shifts vs the prior day, and any sector-level"
+        " context. Do NOT make a final UP/DOWN trade decision; a"
+        " separate decision-maker handles that. Reply on three lines:\n"
+        "LENS: fundamental\nSYNTHESIS: <2-3 sentences>\n"
+        "DIRECTION_HINT: <up | down | none>"
     )
     seeds = [
         # Apex voters

@@ -19,37 +19,38 @@ from .base import HerbivoreVoter, HerbivoreSynthesis
 # overrides this. Designed to elicit a 1-3 sentence synthesis with an
 # optional direction hint.
 DEFAULT_HERB_SYSTEM = (
-    "You are an analytical herbivore in a multi-species market panel."
-    " Read the evidence below and emit a SHORT (2-3 sentence)"
-    " synthesis from your specialized analytical lens. Do NOT make a"
-    " final UP/DOWN trade decision — the apex panel does that. Your"
-    " job is to FRAME the evidence so the apex has better input."
+    "You are a specialist market analyst. Read the evidence below and"
+    " emit a SHORT (2-3 sentence) synthesis from your specialized"
+    " analytical lens. Do NOT make a final UP/DOWN trade decision —"
+    " a separate decision-maker handles that. Your job is to frame the"
+    " evidence so the decision-maker has better input."
     "\n\n"
     "Reply on three lines exactly:\n"
-    "DIET: <one of: technical | fundamental | macro | sentiment | contrarian>\n"
+    "LENS: <one of: technical | fundamental | macro | sentiment | contrarian>\n"
     "SYNTHESIS: <2-3 sentences>\n"
     "DIRECTION_HINT: <up | down | none>"
 )
 
 
 def _parse_synthesis(text: str) -> tuple[str, str, str | None]:
-    """Pull DIET, SYNTHESIS, DIRECTION_HINT lines out of an herb response.
-    Tolerant of missing lines — synthesis defaults to the whole text."""
-    diet = "unknown"
+    """Pull LENS, SYNTHESIS, DIRECTION_HINT lines out of an analyst response.
+    Tolerant of missing lines — synthesis defaults to the whole text.
+    Also accepts the legacy DIET: keyword for backward compat."""
+    lens = "unknown"
     synth = text.strip()
     hint: str | None = None
     for line in text.splitlines():
         s = line.strip()
         u = s.upper()
-        if u.startswith("DIET:"):
-            diet = s.split(":", 1)[1].strip().lower() or "unknown"
+        if u.startswith("LENS:") or u.startswith("DIET:"):
+            lens = s.split(":", 1)[1].strip().lower() or "unknown"
         elif u.startswith("SYNTHESIS:"):
             synth = s.split(":", 1)[1].strip()
         elif u.startswith("DIRECTION_HINT:") or u.startswith("DIRECTION:"):
             v = s.split(":", 1)[1].strip().lower()
             if v in ("up", "down"):
                 hint = v
-    return diet, synth, hint
+    return lens, synth, hint
 
 
 class _HerbBase(HerbivoreVoter):

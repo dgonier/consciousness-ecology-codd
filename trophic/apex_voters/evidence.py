@@ -69,6 +69,109 @@ def _render_press_block(scenario, ticker: str) -> str:
     return "\n".join(parts)
 
 
+def _render_quant_signals_block(scenario) -> str:
+    """Compute and render deterministic technical indicators from the
+    OHLCV bars. Gives the technical analyst something to interpret
+    that ISN'T already in the raw bars or Chronos block — multi-
+    timeframe direction agreement, OBV slope, 2σ-anomaly flags.
+
+    All purely deterministic; cheap (one pass over the bars).
+    """
+    bars = None
+    for inp in scenario.inputs:
+        if inp.source == "ohlcv":
+            bars = inp.payload.get("bars", [])
+            if bars:
+                break
+    if not bars or len(bars) < 3:
+        return ""
+
+    closes = [float(b.get("close", 0.0)) for b in bars]
+    opens = [float(b.get("open", 0.0)) for b in bars]
+    highs = [float(b.get("high", 0.0)) for b in bars]
+    lows = [float(b.get("low", 0.0)) for b in bars]
+    vols = [float(b.get("volume", 0.0)) for b in bars]
+    n = len(closes)
+
+    def _direction_of(window: list[float]) -> str:
+        if len(window) < 2 or window[0] == 0:
+            return "flat"
+        delta = (window[-1] - window[0]) / max(abs(window[0]), 1e-9)
+        if delta > 0.005:
+            return "up"
+        if delta < -0.005:
+            return "down"
+        return "flat"
+
+    # Multi-timeframe direction:
+    short_dir = _direction_of(closes[-2:]) if n >= 2 else "flat"
+    medium_dir = _direction_of(closes[-3:]) if n >= 3 else "flat"
+    full_dir = _direction_of(closes)
+    agreement = (
+        "all aligned" if short_dir == medium_dir == full_dir and short_dir != "flat"
+        else "mixed" if len({short_dir, medium_dir, full_dir}) > 1
+        else "flat-leaning"
+    )
+
+    # On-balance volume slope: cumulative signed volume over the window.
+    # Positive slope = accumulation, negative = distribution.
+    obv = 0.0
+    obv_series = [0.0]
+    for i in range(1, n):
+        if closes[i] > closes[i - 1]:
+            obv += vols[i]
+        elif closes[i] < closes[i - 1]:
+            obv -= vols[i]
+        obv_series.append(obv)
+    if len(obv_series) >= 2 and abs(obv_series[-1]) > 1e-9:
+        # Linear-fit slope, normalized
+        x_mean = (n - 1) / 2.0
+        y_mean = sum(obv_series) / n
+        num = sum((i - x_mean) * (y - y_mean) for i, y in enumerate(obv_series))
+        den = sum((i - x_mean) ** 2 for i in range(n)) or 1.0
+        obv_slope = num / den
+        obv_dir = "accumulation" if obv_slope > 0 else "distribution" if obv_slope < 0 else "flat"
+    else:
+        obv_slope = 0.0
+        obv_dir = "flat"
+
+    # 2σ anomaly: was the last bar's range or volume an outlier vs prior?
+    anomalies = []
+    if n >= 5:
+        prior_ranges = [highs[i] - lows[i] for i in range(n - 1)]
+        last_range = highs[-1] - lows[-1]
+        mean_r = sum(prior_ranges) / len(prior_ranges)
+        std_r = (sum((r - mean_r) ** 2 for r in prior_ranges) / len(prior_ranges)) ** 0.5
+        if std_r > 0 and abs(last_range - mean_r) > 2 * std_r:
+            anomalies.append(f"last-bar range {last_range:.2f} > 2σ vs prior")
+        prior_vols = vols[:-1]
+        last_vol = vols[-1]
+        if prior_vols:
+            mean_v = sum(prior_vols) / len(prior_vols)
+            std_v = (sum((v - mean_v) ** 2 for v in prior_vols) / len(prior_vols)) ** 0.5
+            if std_v > 0 and (last_vol - mean_v) > 2 * std_v:
+                anomalies.append(f"last-bar volume {last_vol:.0f} > 2σ vs prior (high)")
+            elif std_v > 0 and (last_vol - mean_v) < -2 * std_v:
+                anomalies.append(f"last-bar volume {last_vol:.0f} < 2σ vs prior (low)")
+
+    # Last-bar body direction + size
+    last_body = closes[-1] - opens[-1]
+    body_pct = last_body / max(opens[-1], 1e-9) * 100 if opens[-1] else 0.0
+    body_kind = "bullish" if body_pct > 0.2 else "bearish" if body_pct < -0.2 else "doji"
+
+    parts = [
+        "\nQUANT SIGNALS (computed from OHLCV bars; the technical analyst should interpret these):",
+        f"  multi-timeframe direction: short={short_dir} mid={medium_dir} full={full_dir} → {agreement}",
+        f"  on-balance volume: slope={obv_slope:+.0f} → {obv_dir}",
+        f"  last bar: {body_kind} body ({body_pct:+.2f}% close vs open)",
+    ]
+    if anomalies:
+        parts.append(f"  anomalies: {'; '.join(anomalies)}")
+    else:
+        parts.append("  anomalies: none (last bar within 2σ of prior)")
+    return "\n".join(parts)
+
+
 def _render_forecast_block(scenario) -> str:
     """Render Chronos numeric features into a human-readable snapshot."""
     feats = getattr(scenario, "forecaster_features", None)
@@ -136,6 +239,9 @@ def build_evidence_packet(
     blocks = [SYSTEM, ""]
     blocks.append(_render_ohlcv_block(scenario, ticker))
     blocks.append(_render_press_block(scenario, ticker))
+    qb = _render_quant_signals_block(scenario)
+    if qb:
+        blocks.append(qb)
     fb = _render_forecast_block(scenario)
     if fb:
         blocks.append(fb)
