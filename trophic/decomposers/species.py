@@ -143,14 +143,17 @@ class SpeciesRegistry:
 
 
 def bootstrap_default_panel(registry: SpeciesRegistry) -> list[Species]:
-    """If the registry is empty, seed it with the four-voter panel we
-    have wired today. Idempotent: skip seeds that already exist by id.
+    """If the registry is COMPLETELY EMPTY, seed it with the default
+    apex+herb panel. If the registry has any records (even custom
+    ones), this is a no-op — do not pollute custom rosters with the
+    default seeds.
 
-    Each species's prompt_template is empty here — concrete voter
-    classes fall back to evidence.SYSTEM when the species's template
-    is blank. Once the decomposer mutates a species, its template
-    becomes non-empty and overrides the default.
+    Each default species's prompt_template is empty so concrete voter
+    classes fall back to evidence.SYSTEM. Once the decomposer mutates
+    a species, its template becomes non-empty and overrides default.
     """
+    if registry.read_all():
+        return []  # registry has content; don't pollute it
     HERB_TECHNICAL_PROMPT = (
         "You are a TECHNICAL-analysis herbivore in a multi-species panel."
         " Read the evidence and produce a 2-3 sentence synthesis from a"
