@@ -44,7 +44,11 @@ class GoogleCSEResearchTool(ResearchTool):
         window_days: int = 7,
     ):
         self.api_key = api_key or os.environ.get("GOOGLE_API_KEY")
-        self.cse_id = cse_id or os.environ.get("GOOGLE_CSE_ID")
+        self.cse_id = (
+            cse_id
+            or os.environ.get("GOOGLE_CSE_ID")
+            or os.environ.get("GOOGLE_CSE")
+        )
         self.window_days = window_days
 
     def is_available(self) -> bool:

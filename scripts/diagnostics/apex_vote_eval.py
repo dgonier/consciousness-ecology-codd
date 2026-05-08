@@ -51,6 +51,7 @@ from trophic.decomposers.agent_feedback import (
     FeedbackDeriver, FeedbackStore, AgentFeedback,
 )
 from trophic.training.stocknet_loader import build_stocknet_scenarios
+from trophic.training.polygon_loader import build_polygon_scenarios
 from trophic.training.xml_schema import parse_prediction
 
 
@@ -111,6 +112,12 @@ def main():
     ap.add_argument("--herb-dropout-rate", type=float, default=0.25,
                     help="Per-scenario probability of dropping ONE herb's synthesis from the apex packet, for herb fitness measurement.")
     ap.add_argument("--herb-dropout-seed", type=int, default=42)
+    ap.add_argument("--benchmark", choices=["stocknet", "polygon"], default="stocknet",
+                    help="stocknet = StockNet ACL-18 2014-2016 test; polygon = Polygon-backed recent benchmark.")
+    ap.add_argument("--polygon-target-window-days", type=int, default=14,
+                    help="(polygon only) last N calendar days that become target scenarios.")
+    ap.add_argument("--polygon-lookback-days", type=int, default=60,
+                    help="(polygon only) data fetched back this far (covers history windows).")
     args = ap.parse_args()
 
     print(f"[apex_vote] tickers={args.tickers}, n_per_ticker={args.n_per_ticker}")
@@ -142,10 +149,20 @@ def main():
     herb_rng = _random.Random(args.herb_dropout_seed)
 
     tickers = [t.strip() for t in args.tickers.split(",") if t.strip()]
-    scens = build_stocknet_scenarios(
-        split="test", tickers=tickers, max_per_ticker=args.n_per_ticker,
-        compute_forecast=True,
-    )
+    if args.benchmark == "polygon":
+        scens = build_polygon_scenarios(
+            tickers=tickers,
+            target_window_days=args.polygon_target_window_days,
+            observation_lookback_days=args.polygon_lookback_days,
+            history_days=5,
+            max_per_ticker=args.n_per_ticker,
+            compute_forecast=True,
+        )
+    else:
+        scens = build_stocknet_scenarios(
+            split="test", tickers=tickers, max_per_ticker=args.n_per_ticker,
+            compute_forecast=True,
+        )
     if args.max_scenarios:
         scens = scens[: args.max_scenarios]
     print(f"[apex_vote] {len(scens)} scenarios")

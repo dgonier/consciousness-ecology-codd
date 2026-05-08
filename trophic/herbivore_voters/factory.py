@@ -26,15 +26,27 @@ def _research_tool_for_species(species):
     external lookup (e.g. fundamental / news lenses).
 
     Tool preference order:
-      1. Google CSE (date-bounded; cleanest no-leak option for benchmark
-         scenarios; needs GOOGLE_API_KEY + GOOGLE_CSE_ID env vars).
-      2. OpenAI web_search (gpt-5 mediated; best-effort temporal
+      1. Serper.dev (Google SERP scraper; tbs=cdr date filter; indexes
+         back to 2015 — required for StockNet benchmark since Custom
+         Search JSON API is closed to new GCP customers).
+      2. Google CSE (legacy; only works on pre-2026 GCP orgs).
+      3. OpenAI web_search (gpt-5 mediated; best-effort temporal
          binding via prompt language; uses OPENAI_API_KEY).
-      3. None.
+      4. None.
     """
+    import os as _os
+    if _os.environ.get("TROPHIC_DISABLE_RESEARCH_TOOLS"):
+        return None
     diet = set(getattr(species, "diet_tags", []) or [])
     if not (diet & {"fundamental", "news", "macro"}):
         return None
+    try:
+        from ..research_tools import SerperResearchTool
+        tool = SerperResearchTool()
+        if tool.is_available():
+            return tool
+    except Exception:
+        pass
     try:
         from ..research_tools import GoogleCSEResearchTool
         tool = GoogleCSEResearchTool()
