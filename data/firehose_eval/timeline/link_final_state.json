@@ -1,0 +1,1148 @@
+{
+ "schema_version": "1.0",
+ "description": "Final link strengths after 66-day decomposer replay (prior_weight=3, post-template-fix). Sorted by |delta_from_seed|.",
+ "prior_weight": 3.0,
+ "links": [
+  {
+   "template": "technical_support_broken",
+   "ticker": "UNH",
+   "final_strength": 0.5,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.5
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "MSFT",
+   "final_strength": 0.3819,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3819
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "MA",
+   "final_strength": 0.8758,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.3758
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "AAPL",
+   "final_strength": 0.363,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.363
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "JNJ",
+   "final_strength": 0.36,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.36
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "KO",
+   "final_strength": 0.7469,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.3469
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "PG",
+   "final_strength": 0.7469,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.3469
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "CVX",
+   "final_strength": 0.1582,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.3418
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "AMZN",
+   "final_strength": 0.3406,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3406
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "CSCO",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "UNH",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "KO",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "PEP",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "AVGO",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "AMZN",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "MA",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "V",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "JPM",
+   "final_strength": 0.3333,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.3333
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "GOOG",
+   "final_strength": 0.4219,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.3281
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "MA",
+   "final_strength": 0.8576,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.3076
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "GOOG",
+   "final_strength": 0.7328,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.2828
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "AAPL",
+   "final_strength": 0.7826,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.2826
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "GOOG",
+   "final_strength": 0.7781,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.2781
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "AVGO",
+   "final_strength": 0.2738,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.2762
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "V",
+   "final_strength": 0.8102,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.2602
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "UNH",
+   "final_strength": 0.8102,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.2602
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "PG",
+   "final_strength": 0.25,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.25
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "WMT",
+   "final_strength": 0.25,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.25
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "GOOG",
+   "final_strength": 0.7915,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.2415
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "HD",
+   "final_strength": 0.3094,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.2406
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "JPM",
+   "final_strength": 0.3094,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.2406
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "V",
+   "final_strength": 0.7363,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.2363
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "JNJ",
+   "final_strength": 0.5852,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.2352
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "ABBV",
+   "final_strength": 0.1209,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.2291
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "KO",
+   "final_strength": 0.7188,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.2188
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "MCD",
+   "final_strength": 0.3317,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.2183
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "MCD",
+   "final_strength": 0.5544,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.2044
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "KO",
+   "final_strength": 0.7526,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.2026
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "AMZN",
+   "final_strength": 0.8523,
+   "seed_strength": 0.65,
+   "delta_from_seed": 0.2023
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "WMT",
+   "final_strength": 0.349,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.201
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "PG",
+   "final_strength": 0.3527,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.1973
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "CVX",
+   "final_strength": 0.7469,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.1969
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "GOOG",
+   "final_strength": 0.1875,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1875
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "WMT",
+   "final_strength": 0.1875,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1875
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "JPM",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "WMT",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "AMZN",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "JNJ",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "ABBV",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "MSFT",
+   "final_strength": 0.5625,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1875
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "AMZN",
+   "final_strength": 0.6353,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.1853
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "PG",
+   "final_strength": 0.5654,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1846
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "MSFT",
+   "final_strength": 0.321,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.179
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "AAPL",
+   "final_strength": 0.225,
+   "seed_strength": 0.4,
+   "delta_from_seed": -0.175
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "MSFT",
+   "final_strength": 0.3757,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.1743
+  },
+  {
+   "template": "material_lawsuit_filed",
+   "ticker": "JPM",
+   "final_strength": 0.4875,
+   "seed_strength": 0.65,
+   "delta_from_seed": -0.1625
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "WMT",
+   "final_strength": 0.4875,
+   "seed_strength": 0.65,
+   "delta_from_seed": -0.1625
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "MCD",
+   "final_strength": 0.4875,
+   "seed_strength": 0.65,
+   "delta_from_seed": -0.1625
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "UNH",
+   "final_strength": 0.5125,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.1625
+  },
+  {
+   "template": "material_lawsuit_filed",
+   "ticker": "AMZN",
+   "final_strength": 0.4875,
+   "seed_strength": 0.65,
+   "delta_from_seed": -0.1625
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "MSFT",
+   "final_strength": 0.4875,
+   "seed_strength": 0.65,
+   "delta_from_seed": -0.1625
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "MA",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "MCD",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "HD",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "AVGO",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "V",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "UNH",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "GOOG",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "GOOG",
+   "final_strength": 0.55,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.15
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "MSFT",
+   "final_strength": 0.6056,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1444
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "MRK",
+   "final_strength": 0.6094,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1406
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "MSFT",
+   "final_strength": 0.6094,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1406
+  },
+  {
+   "template": "short_interest_high_and_rising",
+   "ticker": "AMZN",
+   "final_strength": 0.5875,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.1375
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "CSCO",
+   "final_strength": 0.4125,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.1375
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "UNH",
+   "final_strength": 0.5875,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.1375
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "AVGO",
+   "final_strength": 0.5875,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.1375
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "AMZN",
+   "final_strength": 0.6314,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.1314
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "MSFT",
+   "final_strength": 0.5805,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.1305
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "UNH",
+   "final_strength": 0.879,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.129
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "V",
+   "final_strength": 0.4758,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.1258
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "PEP",
+   "final_strength": 0.375,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.125
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "HD",
+   "final_strength": 0.375,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.125
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "PG",
+   "final_strength": 0.625,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.125
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "AAPL",
+   "final_strength": 0.625,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.125
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "PG",
+   "final_strength": 0.375,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.125
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "JNJ",
+   "final_strength": 0.375,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.125
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "JNJ",
+   "final_strength": 0.375,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.125
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "AAPL",
+   "final_strength": 0.1208,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1208
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "MCD",
+   "final_strength": 0.1208,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1208
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "JNJ",
+   "final_strength": 0.12,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.12
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "KO",
+   "final_strength": 0.6322,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1178
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "PG",
+   "final_strength": 0.2358,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.1142
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "AVGO",
+   "final_strength": 0.6374,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.1126
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "AAPL",
+   "final_strength": 0.3375,
+   "seed_strength": 0.45,
+   "delta_from_seed": -0.1125
+  },
+  {
+   "template": "short_interest_high_and_rising",
+   "ticker": "GOOG",
+   "final_strength": 0.3375,
+   "seed_strength": 0.45,
+   "delta_from_seed": -0.1125
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "MSFT",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "MA",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "V",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "CSCO",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "CVX",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "regulatory_action_announced",
+   "ticker": "JPM",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "GOOG",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "technical_support_broken",
+   "ticker": "CVX",
+   "final_strength": 0.1111,
+   "seed_strength": 0.0,
+   "delta_from_seed": 0.1111
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "MA",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "WMT",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "CVX",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "PEP",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "PEP",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "PG",
+   "final_strength": 0.8594,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.1094
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "MCD",
+   "final_strength": 0.3984,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.1016
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "MSFT",
+   "final_strength": 0.3984,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.1016
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "JPM",
+   "final_strength": 0.3,
+   "seed_strength": 0.4,
+   "delta_from_seed": -0.1
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "MSFT",
+   "final_strength": 0.3,
+   "seed_strength": 0.4,
+   "delta_from_seed": -0.1
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "KO",
+   "final_strength": 0.4426,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.0926
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "MRK",
+   "final_strength": 0.5918,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0918
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "AMZN",
+   "final_strength": 0.3094,
+   "seed_strength": 0.4,
+   "delta_from_seed": -0.0906
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "AMZN",
+   "final_strength": 0.6375,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.0875
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "PEP",
+   "final_strength": 0.7375,
+   "seed_strength": 0.65,
+   "delta_from_seed": 0.0875
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "PG",
+   "final_strength": 0.7375,
+   "seed_strength": 0.65,
+   "delta_from_seed": 0.0875
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "JPM",
+   "final_strength": 0.2625,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.0875
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "GOOG",
+   "final_strength": 0.2625,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.0875
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "GOOG",
+   "final_strength": 0.7375,
+   "seed_strength": 0.65,
+   "delta_from_seed": 0.0875
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "MSFT",
+   "final_strength": 0.2625,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.0875
+  },
+  {
+   "template": "activist_investor_takes_stake",
+   "ticker": "CVX",
+   "final_strength": 0.533,
+   "seed_strength": 0.45,
+   "delta_from_seed": 0.083
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "ABBV",
+   "final_strength": 0.6719,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.0781
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "AMZN",
+   "final_strength": 0.6719,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.0781
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "MRK",
+   "final_strength": 0.6741,
+   "seed_strength": 0.75,
+   "delta_from_seed": -0.0759
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "WMT",
+   "final_strength": 0.475,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.075
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "MRK",
+   "final_strength": 0.475,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.075
+  },
+  {
+   "template": "ceo_departure_unplanned",
+   "ticker": "AAPL",
+   "final_strength": 0.7227,
+   "seed_strength": 0.65,
+   "delta_from_seed": 0.0727
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "PEP",
+   "final_strength": 0.4853,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.0647
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "PEP",
+   "final_strength": 0.2853,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.0647
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "AVGO",
+   "final_strength": 0.5633,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0633
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "CVX",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "UNH",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "earnings_miss",
+   "ticker": "AAPL",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "JNJ",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "target_in_announced_ma",
+   "ticker": "AAPL",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "KO",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "V",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "AAPL",
+   "final_strength": 0.8125,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0625
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "WMT",
+   "final_strength": 0.4094,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.0594
+  },
+  {
+   "template": "acting_as_acquirer_in_announced_ma",
+   "ticker": "CVX",
+   "final_strength": 0.4547,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.0547
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "MRK",
+   "final_strength": 0.4969,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.0531
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "JNJ",
+   "final_strength": 0.4969,
+   "seed_strength": 0.55,
+   "delta_from_seed": -0.0531
+  },
+  {
+   "template": "major_product_launch_positive_reception",
+   "ticker": "WMT",
+   "final_strength": 0.4512,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.0488
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "AMZN",
+   "final_strength": 0.5488,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0488
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "AAPL",
+   "final_strength": 0.594,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.044
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "V",
+   "final_strength": 0.3563,
+   "seed_strength": 0.4,
+   "delta_from_seed": -0.0438
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "CVX",
+   "final_strength": 0.5391,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0391
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "MA",
+   "final_strength": 0.3844,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.0344
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "AAPL",
+   "final_strength": 0.3844,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.0344
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "MRK",
+   "final_strength": 0.4688,
+   "seed_strength": 0.5,
+   "delta_from_seed": -0.0312
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "GOOG",
+   "final_strength": 0.5312,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0312
+  },
+  {
+   "template": "regulatory_clearance_received",
+   "ticker": "UNH",
+   "final_strength": 0.5312,
+   "seed_strength": 0.5,
+   "delta_from_seed": 0.0312
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "AAPL",
+   "final_strength": 0.4195,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.0195
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "HD",
+   "final_strength": 0.3352,
+   "seed_strength": 0.35,
+   "delta_from_seed": -0.0148
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "PEP",
+   "final_strength": 0.4125,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.0125
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "MA",
+   "final_strength": 0.4125,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.0125
+  },
+  {
+   "template": "buyback_program_announced",
+   "ticker": "CVX",
+   "final_strength": 0.4125,
+   "seed_strength": 0.4,
+   "delta_from_seed": 0.0125
+  },
+  {
+   "template": "dividend_increase_announced",
+   "ticker": "CVX",
+   "final_strength": 0.3606,
+   "seed_strength": 0.35,
+   "delta_from_seed": 0.0106
+  },
+  {
+   "template": "earnings_beat",
+   "ticker": "ABBV",
+   "final_strength": 0.5594,
+   "seed_strength": 0.55,
+   "delta_from_seed": 0.0094
+  },
+  {
+   "template": "guidance_cut",
+   "ticker": "AMZN",
+   "final_strength": 0.7539,
+   "seed_strength": 0.75,
+   "delta_from_seed": 0.0039
+  }
+ ]
+}

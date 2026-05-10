@@ -1,0 +1,425 @@
+{
+ "date": "2026-04-23",
+ "prev_trading_day": "2026-04-22",
+ "n_news": 30,
+ "n_activations": 12,
+ "n_observations": 6,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms Tim Cook stepping down in Sept 2026 with specific successor named, indicating a planned but significant leadership transition."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article cites 106% growth in Broadcom's custom AI chips, indicating strong market reception and positive momentum."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article notes Amazon's chip business exceeds $20B annual run rate, signaling robust growth and positive market reception."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "California jury found YouTube (Google) liable for addiction/harm, awarding $6M. This is a concrete regulatory/legal victory for plaintiffs."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "UNH",
+   "sample_reasoning": "Article explicitly states Q1 2026 results showed better-than-expected earnings."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Capgemini received multiple 2026 Partner of the Year Awards for the new AI Enterprise Hub, signaling strong market validation and positive reception for the ini"
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.4207,
+   "delta": -0.0793,
+   "n_activations": 1,
+   "ticker": "UNH",
+   "sample_reasoning": "Article notes raised full-year guidance, which is the opposite of a cut."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article highlights Microsoft's strategic stake and revenue share from OpenAI, implying positive reception of the partnership."
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.UNH.next_day_direction",
+   "ticker": "UNH",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7365,
+   "delta": 0.2365,
+   "salience": 0.4195,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.774,
+     "link_strength": 0.6
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.254,
+     "link_strength": 0.79
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.2868,
+   "delta": -0.2132,
+   "salience": 0.4073,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": -0.911,
+     "link_strength": 0.71
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6974,
+   "delta": 0.1974,
+   "salience": 0.3623,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.835,
+     "link_strength": 0.65
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6757,
+   "delta": 0.1757,
+   "salience": 0.3046,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.734,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4063,
+   "delta": -0.0937,
+   "salience": 0.1695,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": -0.809,
+     "link_strength": 0.63
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5329,
+   "delta": 0.0329,
+   "salience": 0.0372,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.132,
+     "link_strength": 0.55
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": 0.00095,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": 0.00224,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": -0.0011,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.00641,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.01347,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.00687,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": 6e-05,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "flat",
+   "actual_return": 0.00194,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.02012,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": -0.00425,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.02211,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.01525,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.0082,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.01532,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.03966,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01242,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.02002,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": 0.00294,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "down",
+   "actual_return": -0.00774,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.01577,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "UNH",
+   "action": "BUY",
+   "p_up": 0.74,
+   "reason": "Strong earnings beat (+0.28) outweighs minor guidance cut; high conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.7,
+   "reason": "Positive reception to major product launch drives strong upside probability.",
+   "rank": 2
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Positive reception to major product launch supports bullish outlook.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.29,
+   "reason": "Unplanned CEO departure creates significant negative sentiment and risk.",
+   "rank": 4
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Modest positive signal from product launch; low confidence, monitor closely.",
+   "rank": 5
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.41,
+   "reason": "Conflicting signals: regulatory action vs. product launch; net neutral.",
+   "rank": 6
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong AI momentum and earnings expectations outweigh recent pullback amid geopolitical tensions.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Broadcom's photonics expansion and superior AI growth trajectory position it as a top-tier upside play.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Strategic AI partnerships and upcoming earnings suggest resilience despite social media scrutiny.",
+   "rank": 3
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Valuation compression and stabilizing core business make it a compelling value play in the AI sector.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "CEO transition news creates uncertainty, but strong market correlation keeps it in the neutral zone.",
+   "rank": 5
+  },
+  {
+   "ticker": "UNH",
+   "action": "BUY",
+   "p_up": 0.55,
+   "reason": "Warren Buffett's successful turnaround investment validates UnitedHealth's improved medical cost management.",
+   "rank": 6
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Oil breakout supports price, but geopolitical risks regarding the Iran war create mixed signals.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 21.15,
+  "bare_s": 5.15
+ }
+}

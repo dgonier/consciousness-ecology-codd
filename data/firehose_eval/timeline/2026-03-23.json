@@ -1,0 +1,513 @@
+{
+ "date": "2026-03-23",
+ "prev_trading_day": "2026-03-20",
+ "n_news": 26,
+ "n_activations": 12,
+ "n_observations": 6,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "Article confirms massive 393% EPS growth and 16% annual growth guidance, indicating strong earnings performance."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article confirms MSFT benefits directly from $650B projected enterprise AI capex via Azure, implying strong revenue drivers."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms $64B portfolio allocation to Apple for AI integration, signaling strong strategic support and positive reception of AI features."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article confirms $64B portfolio allocation to Alphabet for Google Cloud AI growth, signaling strong strategic support and positive reception."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article confirms $64B portfolio allocation to Amazon for AWS generative AI expansion, signaling strong strategic support and positive reception."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "sympathy from MA (20d corr +0.84); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article states AAPL is 'structurally disconnected' from enterprise AI budgets despite record consumer revenue, suggesting relative underperformance."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article suggests strategic shift to boost Q2 performance, implying potential future guidance adjustments or margin pressure risks."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.998,
+   "p_after": 0.9984,
+   "delta": 0.0003,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.998,
+   "p_after": 0.9984,
+   "delta": 0.0003,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MA.next_day_direction",
+   "ticker": "MA",
+   "p_up_before": 0.5,
+   "p_up_after": 0.677,
+   "delta": 0.177,
+   "salience": 0.308,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.74,
+     "link_strength": 0.58
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6134,
+   "delta": 0.1134,
+   "salience": 0.1454,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.282,
+     "link_strength": 0.47
+    },
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": 0.18,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6061,
+   "delta": 0.1061,
+   "salience": 0.1519,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.431,
+     "link_strength": 0.54
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.V.next_day_direction",
+   "ticker": "V",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5818,
+   "delta": 0.0818,
+   "salience": 0.1087,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.33,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.552,
+   "delta": 0.052,
+   "salience": 0.0629,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.209,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5303,
+   "delta": 0.0303,
+   "salience": 0.0391,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.29,
+     "link_strength": 0.48
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.01411,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00068,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.02323,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.03865,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.01507,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01725,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": 0.00077,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.03164,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": 0.00021,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.01169,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": 0.00482,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00818,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "flat",
+   "actual_return": -0.00123,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.01314,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": 0.00296,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.0056,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": -0.00201,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.02195,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00935,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.01428,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MA",
+   "action": "BUY",
+   "p_up": 0.677,
+   "reason": "Strong earnings beat (+0.28) with no conflicting signals; highest conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.606,
+   "reason": "Solid earnings beat (+0.19) driving probability up; clean causal chain.",
+   "rank": 2
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.613,
+   "reason": "Major product launch reception outweighs earnings miss; net positive momentum.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.552,
+   "reason": "Product launch positive but near neutral threshold; maintain observation.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Product launch positive but offset by guidance cut conflict; net neutral.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Wedbush identifies 2026 as an AI inflection year with Microsoft as a top play, and recent news highlights strong enterprise AI agent growth and strategic cybersecurity integrations.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Wedbush lists Apple as a top AI stock for 2026, and recent geopolitical de-escalation has triggered a broad market rebound benefiting major tech names.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Strategic shift of Prime Day to June aims to boost Q2 performance, and Berkshire Hathaway's massive AI portfolio allocation signals long-term confidence.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "While included in Berkshire's AI portfolio and benefiting from AI infrastructure trends, the stock faces broader Nasdaq correction risks and mixed sentiment.",
+   "rank": 4
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Goldman Sachs raised oil price forecasts following the Iran strike pause, and recent news confirms energy stocks are surging as a resilient sector.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Positive domestic housing data and SoFi's growth contrast with broader market return projections, creating a mixed outlook for the financial sector.",
+   "rank": 6
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Strong long-term returns are highlighted, yet the stock is currently affected by the same AI-driven fear and market correction pressures impacting peers.",
+   "rank": 7
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Included in the relief rally news but lacks specific bullish catalysts compared to the AI and energy leaders, resulting in a neutral stance.",
+   "rank": 8
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Recommended by some analysts for long-term investors despite Pfizer's struggles, but the healthcare sector remains mixed with no immediate explosive catalyst.",
+   "rank": 9
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Often paired with Pfizer in healthcare buy recommendations, but without specific positive earnings or pipeline news, the signal is weak.",
+   "rank": 10
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Benefiting from rising oil prices through travel and shipping cost impacts, but lacks the strong directional momentum of the energy sector leaders.",
+   "rank": 11
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Rising oil prices are noted as a negative ripple effect for travel and shipping, offering no specific bullish driver for the consumer staples sector.",
+   "rank": 12
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.43,
+   "reason": "Lacks specific catalysts in the news firehose and is generally considered a defensive hold rather than a high-conviction trade in this environment.",
+   "rank": 13
+  },
+  {
+   "ticker": "MCD",
+   "action": "SELL",
+   "p_up": 0.38,
+   "reason": "Despite record free cash flow, the stock has plummeted 43% due to AI-driven market fears affecting software and service-oriented tech stocks.",
+   "rank": 14
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.42,
+   "reason": "Included in the QQQ correction analysis and AI infrastructure discussions, but without specific breakout news, the stock remains in a correction phase.",
+   "rank": 15
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.41,
+   "reason": "Lacks specific catalysts in the current news cycle and is generally underperforming the broader tech rally driven by AI narratives.",
+   "rank": 16
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.4,
+   "reason": "Often grouped with Pfizer in healthcare buy lists, but without specific positive earnings or pipeline updates, the signal is inconclusive.",
+   "rank": 17
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.39,
+   "reason": "Lacks specific catalysts in the news firehose and is not highlighted in the current AI or geopolitical relief narratives.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 18.89,
+  "bare_s": 15.11
+ }
+}

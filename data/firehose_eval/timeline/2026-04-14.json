@@ -1,0 +1,635 @@
+{
+ "date": "2026-04-14",
+ "prev_trading_day": "2026-04-13",
+ "n_news": 45,
+ "n_activations": 23,
+ "n_observations": 8,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.9664,
+   "delta": 0.4664,
+   "n_activations": 3,
+   "ticker": "JPM",
+   "sample_reasoning": "Article explicitly states JPM 'outperformed Q1 earnings expectations' with specific strong segment growth metrics."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.8205,
+   "delta": 0.3205,
+   "n_activations": 2,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article confirms Azure cloud platform with 38% growth guidance and structural AI infrastructure growth, indicating strong positive reception."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_CSCO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "CSCO",
+   "sample_reasoning": "Bank of America upgrade to 'buy' with $12.40 target and explicit mention of strong demand for optical/AI networking infrastructure and 6G partnership."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Strategic asset swap to gain 49% stake and development rights in Orinoco Belt confirms major acquisition activity."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article confirms Broadcom's near-monopoly in custom AI chips serving hyperscalers, indicating strong positive reception."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article states Apple is on indefinite holding list at 33x valuation, violating Buffett's value principle and contrasting with his prior 75% sell-off, signaling "
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article explicitly states Amazon announced the acquisition of Globalstar, confirming the M&A event."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Reported $2.70 EPS vs consensus, beating expectations."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Free cash flow fell 55.6% YoY despite revenue growth, signaling operational pressure."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "Article confirms $8.1B in buybacks reducing shares by 4% year-over-year, indicating active program execution."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "22% YTD decline marks worst start since 2008, indicating significant technical breakdown."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Strong analyst support and AI revenue growth suggest potential earnings beat, but upcoming results are the primary driver."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article highlights landmark legal victories against Meta and YouTube, including a $375M recovery by New Mexico AG Raul Torrez, indicating regulatory pressure."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article cites significant AI progress and strong revenue growth in Search and Cloud, suggesting positive reception to AI initiatives."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.5939,
+   "delta": 0.0939,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Dividend raised 3.1% to $1.34/share, marking 64 consecutive years of growth."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "Article notes dividend yield is 'growing,' implying an increase, though specific amount isn't detailed."
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.JPM.next_day_direction",
+   "ticker": "JPM",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9048,
+   "delta": 0.4048,
+   "salience": 1.1529,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 1.848,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.32,
+     "link_strength": 0.4
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.084,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.JNJ.next_day_direction",
+   "ticker": "JNJ",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7622,
+   "delta": 0.2622,
+   "salience": 0.4195,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.6,
+     "link_strength": 0.75
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.44,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.125,
+     "link_strength": 0.33
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.659,
+   "delta": 0.159,
+   "salience": 0.2637,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.659,
+     "link_strength": 0.51
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CSCO.next_day_direction",
+   "ticker": "CSCO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6548,
+   "delta": 0.1548,
+   "salience": 0.2538,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.64,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3705,
+   "delta": -0.1295,
+   "salience": 0.1981,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.53,
+     "link_strength": 0.41
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5884,
+   "delta": 0.0884,
+   "salience": 0.12,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": 0.357,
+     "link_strength": 0.45
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5827,
+   "delta": 0.0827,
+   "salience": 0.1451,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.755,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4758,
+   "delta": -0.0242,
+   "salience": 0.034,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": -0.404,
+     "link_strength": 0.67
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": -0.00143,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.01836,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.03806,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "flat",
+   "actual_return": 0.00271,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": 0.00316,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.02482,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.03562,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "flat",
+   "actual_return": 0.00454,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00899,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.00816,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.00667,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00901,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "flat",
+   "actual_return": -0.00424,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": -0.00158,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.02274,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": -0.00103,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.00557,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": 0.0038,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.0064,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "flat",
+   "actual_return": 0.00385,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "JPM",
+   "action": "BUY",
+   "p_up": 0.9048,
+   "reason": "Strong earnings beat (+0.47) and buyback program announced; high confidence, no conflicts.",
+   "rank": 1
+  },
+  {
+   "ticker": "JNJ",
+   "action": "BUY",
+   "p_up": 0.7622,
+   "reason": "Earnings beat (+0.19) offsets guidance cut; dividend increase adds support; medium confidence.",
+   "rank": 2
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.659,
+   "reason": "Positive reception to major product launch; single driver, no conflicts.",
+   "rank": 3
+  },
+  {
+   "ticker": "CSCO",
+   "action": "BUY",
+   "p_up": 0.6548,
+   "reason": "Positive reception to major product launch; single driver, no conflicts.",
+   "rank": 4
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.5827,
+   "reason": "Product launch positive but technical support broken creates conflict; net neutral.",
+   "rank": 5
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.5884,
+   "reason": "Technical support broken resolved; low confidence but clear positive signal.",
+   "rank": 6
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.3705,
+   "reason": "Announced as acquirer in major deal; bearish signal with no conflicting positives.",
+   "rank": 7
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.4758,
+   "reason": "Regulatory action announced conflicts with positive product launch; low conviction.",
+   "rank": 8
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong AI infrastructure demand and recent analyst upgrades suggest continued momentum despite data center delays.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "New AI model launch and earnings rebound potential ahead of April 29 report drive bullish sentiment.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "AWS AI revenue growth and recent 20% surge indicate strong institutional support and long-term value.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Berkshire's indefinite holding list adds support, but high valuation (33x earnings) limits immediate upside.",
+   "rank": 4
+  },
+  {
+   "ticker": "JPM",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Consolidating near all-time highs with strong earnings and a bullish technical bull flag pattern.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.55,
+   "reason": "Identified as a high-conviction buy by AI agents and benefiting from AI networking demand.",
+   "rank": 6
+  },
+  {
+   "ticker": "CSCO",
+   "action": "BUY",
+   "p_up": 0.54,
+   "reason": "Recent 9.78% surge following a Bank of America upgrade highlights strong optical and AI networking demand.",
+   "rank": 7
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Strategic asset swap with Venezuela and geopolitical tensions provide mixed signals on energy sector volatility.",
+   "rank": 8
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Beat earnings expectations with cancer drug growth, but free cash flow decline warrants caution.",
+   "rank": 9
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Positive clinical trial news for new drug candidate offers a glimmer of hope amidst mixed sector performance.",
+   "rank": 10
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific directional catalysts in today's news firehose compared to tech leaders.",
+   "rank": 11
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Lacks distinct bullish or bearish signals in current headlines compared to peers like V or MSFT.",
+   "rank": 12
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Long-term growth potential noted, but no immediate catalyst to drive short-term price action.",
+   "rank": 13
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Benefiting from Berkshire interest, but historically low valuation limits aggressive buy signals.",
+   "rank": 14
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific directional catalysts in current headlines compared to peers like KO or PEP.",
+   "rank": 15
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific directional catalysts in current headlines compared to peers like KO or PEP.",
+   "rank": 16
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific directional catalysts in current headlines compared to peers like JNJ or JPM.",
+   "rank": 17
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific directional catalysts in current headlines compared to peers like JNJ or MRK.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 40.07,
+  "bare_s": 12.91
+ }
+}

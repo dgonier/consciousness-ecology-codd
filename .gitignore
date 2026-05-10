@@ -33,6 +33,13 @@ external/
 data/
 datasets/
 
+# Allow the timeline-viz data through (~1.3 MB, used by the per-day
+# belief-delta animation viz — see docs/TIMELINE_VIZ_HANDOFF.md)
+!data/
+!data/firehose_eval/
+!data/firehose_eval/timeline/
+!data/firehose_eval/timeline/**
+
 # ---- python ----
 __pycache__/
 *.py[cod]

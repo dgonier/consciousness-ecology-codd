@@ -1,0 +1,650 @@
+{
+ "date": "2026-03-25",
+ "prev_trading_day": "2026-03-24",
+ "n_news": 37,
+ "n_activations": 27,
+ "n_observations": 8,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.9965,
+   "delta": 0.4965,
+   "n_activations": 3,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms Merck agreed to acquire Terns for $6.7B, a definitive material acquisition event."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms Merck agreed to acquire Terns, making Terns the target of the announced merger/acquisition."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8889,
+   "delta": 0.3889,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Live presentation of first plasma milestone at MARS conference signals significant technical progress in nuclear fusion rocket development."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Amazon acquired Fauna Robotics for consumer robotics, expanding into a new competitive sector."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states operating margins are expected to decline due to massive AI capex, signaling a likely reduction in future guidance."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Cloud revenue grew 29% and overall revenue jumped 17%, beating market expectations despite sector fears."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Article confirms successful digital transformation with $6.4B ad revenue (up 46%) and new AI assistant, indicating positive reception of new growth engines."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.6365,
+   "delta": 0.1365,
+   "n_activations": 2,
+   "ticker": "MSFT",
+   "sample_reasoning": "30% decline from all-time highs suggests significant price drop, likely breaching key technical support levels."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_KO",
+   "p_before": 0.5,
+   "p_after": 0.6177,
+   "delta": 0.1177,
+   "n_activations": 2,
+   "ticker": "KO",
+   "sample_reasoning": "Article confirms KO is a Dividend King with 60+ years of consecutive increases, implying sustained dividend growth."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.6177,
+   "delta": 0.1177,
+   "n_activations": 2,
+   "ticker": "PG",
+   "sample_reasoning": "Article confirms PG is a Dividend King with 60+ years of consecutive increases, implying sustained dividend growth."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PEP",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 2,
+   "ticker": "PEP",
+   "sample_reasoning": "sympathy from KO (20d corr +0.60); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article confirms $0.91 quarterly dividend ($3.64 annual), implying a known or recently confirmed dividend level, though not explicitly labeled as an increase an"
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Finalized agreement implies regulatory hurdles cleared for large-scale biochar facilities in Iowa and Illinois."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_HD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "HD",
+   "sample_reasoning": "sympathy from PG (20d corr +0.59); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from PG (20d corr +0.59); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9986,
+   "p_after": 0.9989,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9986,
+   "p_after": 0.9989,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3356,
+   "delta": -0.1644,
+   "salience": 0.5361,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -2.26,
+     "link_strength": 0.4
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6366,
+   "delta": 0.1366,
+   "salience": 0.2831,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.073,
+     "link_strength": 0.52
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5983,
+   "delta": 0.0983,
+   "salience": 0.1375,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.398,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4334,
+   "delta": -0.0666,
+   "salience": 0.1056,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": -0.585,
+     "link_strength": 0.73
+    },
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.318,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PG.next_day_direction",
+   "ticker": "PG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5549,
+   "delta": 0.0549,
+   "salience": 0.067,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.221,
+     "link_strength": 0.46
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.KO.next_day_direction",
+   "ticker": "KO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5504,
+   "delta": 0.0504,
+   "salience": 0.0607,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.202,
+     "link_strength": 0.42
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MCD.next_day_direction",
+   "ticker": "MCD",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5338,
+   "delta": 0.0338,
+   "salience": 0.0363,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.075,
+     "link_strength": 0.47
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.06,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PEP.next_day_direction",
+   "ticker": "PEP",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5257,
+   "delta": 0.0257,
+   "salience": 0.0284,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.103,
+     "link_strength": 0.32
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": 0.00389,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.00965,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.02157,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "flat",
+   "actual_return": 0.00163,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.012,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.00793,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": 0.00135,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "flat",
+   "actual_return": 0.00484,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.01981,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.01033,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00777,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00768,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.01254,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.02578,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": -0.00456,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.00757,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.00531,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.00635,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00379,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00828,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.64,
+   "reason": "Strong positive reception to major product launch drives conviction despite acquisition rumors.",
+   "rank": 1
+  },
+  {
+   "ticker": "WMT",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Positive product launch reception supports upside potential with no conflicting signals.",
+   "rank": 2
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.34,
+   "reason": "Acquisition rumors present, but conflicting target signals reduce conviction; maintain neutral stance.",
+   "rank": 3
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.55,
+   "reason": "Dividend increase announcement provides modest upside support.",
+   "rank": 4
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.55,
+   "reason": "Dividend increase announcement provides modest upside support.",
+   "rank": 5
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Product launch and dividend increase offer limited upside potential.",
+   "rank": 6
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Dividend increase announcement provides modest upside support.",
+   "rank": 7
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.43,
+   "reason": "Guidance cut and broken technical support outweigh earnings beat; bearish drivers dominate.",
+   "rank": 8
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Despite recent pullbacks, massive AI infrastructure demand and a $50B GPU deal with Amazon provide strong fundamental support for a rebound.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "New revenue streams from Nvidia GPU supply, Fauna Robotics acquisition, and Starlink growth position the company for continued outperformance.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mixed signals from Micron demand concerns and privacy search alternatives vs. strong AI literacy event participation.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Positioned as a long-term AI buy with strong commercial transition, but lacks immediate directional catalysts compared to peers.",
+   "rank": 4
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Geopolitical tensions in the Middle East and Iran nuclear talks create a favorable environment for oil price volatility and energy stocks.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "CEO's frustration with defense rigidities suggests potential headwinds, though the bank remains a stable defensive play.",
+   "rank": 6
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "The $6.7B acquisition of Terns Pharmaceuticals expands the oncology pipeline, offering a potential catalyst ahead of Keytruda's patent expiry.",
+   "rank": 7
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Lacks immediate catalysts in the current news firehose compared to the tech and energy sectors.",
+   "rank": 8
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Recent gains on 5G momentum are positive, but no new major developments suggest a strong breakout for tomorrow.",
+   "rank": 9
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Stable defensive stock with no specific news drivers to push it above or below its current range.",
+   "rank": 10
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Recommended as a generational wealth play due to dividend history, but lacks immediate price movement catalysts.",
+   "rank": 11
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Similar to KO, a solid dividend king with no specific news to drive a directional bias for the next session.",
+   "rank": 12
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 13
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Lacks specific news drivers in the current firehose to justify a change in position or a strong directional bias.",
+   "rank": 14
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 15
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 16
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 17
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 18
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "No specific news catalysts to suggest a clear BUY or SELL signal for the upcoming session.",
+   "rank": 19
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 34.72,
+  "bare_s": 13.57
+ }
+}

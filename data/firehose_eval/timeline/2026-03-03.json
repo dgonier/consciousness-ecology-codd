@@ -1,0 +1,406 @@
+{
+ "date": "2026-03-03",
+ "prev_trading_day": "2026-03-02",
+ "n_news": 26,
+ "n_activations": 14,
+ "n_observations": 4,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.8889,
+   "delta": 0.3889,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "New M5 chips and XDR display announced with AI focus; pre-orders starting March 11 indicate strong market interest."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites 17% revenue growth and AI momentum as drivers for 50% upside, indicating strong positive market reception to current product and service offerings"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article cites 'consistent dividend increases' as a key feature of the company's robust shareholder return program."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article cites 'robust shareholder return programs' alongside dividends, implying active capital return mechanisms like buybacks."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Merck is the target in an announced multi-year collaboration with Tempus, a significant strategic partnership."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "Expansion to 100 countries with stablecoin cards is a significant product growth initiative, though market reaction was mixed."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "Article explicitly notes trading below key moving averages and bearish MACD signals, indicating technical weakness."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "sympathy from V (20d corr +0.84); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "sympathy from V (20d corr +0.84); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9669,
+   "p_after": 0.9733,
+   "delta": 0.0064,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9669,
+   "p_after": 0.9733,
+   "delta": 0.0064,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7631,
+   "delta": 0.2631,
+   "salience": 0.5707,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.17,
+     "link_strength": 0.56
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6682,
+   "delta": 0.1682,
+   "salience": 0.286,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.7,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6519,
+   "delta": 0.1519,
+   "salience": 0.2005,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.32,
+     "link_strength": 0.4
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.307,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6457,
+   "delta": 0.1457,
+   "salience": 0.2331,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 0.6,
+     "link_strength": 0.75
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": -0.00366,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00171,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": 0.00163,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.01562,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.00579,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00438,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.00914,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01049,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.00728,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.00907,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.01097,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00637,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.00791,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01301,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.0135,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.01417,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.02318,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.01939,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.001,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00637,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.7631,
+   "reason": "Strong positive reception to major product launch drives high conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.6682,
+   "reason": "Positive product launch reception supports bullish outlook.",
+   "rank": 2
+  },
+  {
+   "ticker": "MRK",
+   "action": "BUY",
+   "p_up": 0.6457,
+   "reason": "Meeting announced market cap target indicates positive momentum.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.6519,
+   "reason": "Concurrent buyback and dividend increase announcements boost value.",
+   "rank": 4
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Oil stocks are surging on geopolitical tensions in the Middle East, with Brent crude up over 5% and supply disruption fears driving margins higher.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "New M5 MacBook launches and optimistic analyst forecasts for iPhone 17e growth suggest strong momentum despite recent Berkshire Hathaway position reductions.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Analysts project significant upside driven by AI spending and Pentagon adoption of AI-first warfighting strategies, positioning the stock for a major rebound.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "While AI and quantum computing themes are bullish, the market is currently rotating away from mega-cap tech stocks, creating mixed short-term signals.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Strong AI data center momentum is evident, but valuation concerns and a broader rotation out of mega-cap growth stocks limit immediate conviction.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Strategists are divided on the US-Iran war impact, with some recommending buying the dip while others warn of long-term economic headwinds.",
+   "rank": 6
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "New AI partnerships with Tempus are a positive catalyst, but the stock faces broader market rotation risks similar to other mega-cap tech names.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 21.17,
+  "bare_s": 5.76
+ }
+}

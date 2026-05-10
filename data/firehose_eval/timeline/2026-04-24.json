@@ -1,0 +1,457 @@
+{
+ "date": "2026-04-24",
+ "prev_trading_day": "2026-04-23",
+ "n_news": 34,
+ "n_activations": 18,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8205,
+   "delta": 0.3205,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Announced $5B investment with potential for $20B stake, committing to $100B spending over decade. Validates Trainium chips against Nvidia."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms a completed $841B buyback reducing shares by 44%, directly boosting EPS."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article cites specific customer adoption (Meta, Alphabet) and explosive growth forecasts for custom XPU chips, indicating strong market reception."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Article confirms Kenvue (JNJ) acquisition by Kimberly-Clark pending regulatory approval in H2 2026."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Nori (GOOG subsidiary) featured in Google Play editorial 2 months post-launch with 200k+ downloads and 4.8 rating, indicating strong market reception."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_KO",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "KO",
+   "sample_reasoning": "Article confirms 64 years of consecutive dividend increases, indicating a stable, long-term commitment to shareholder returns."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Article confirms 53 years of consecutive dividend hikes, signaling strong cash flow stability and shareholder focus."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.4207,
+   "delta": -0.0793,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms planned succession in Sept 2026, indicating no unexpected departure."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "CEO change aims to refocus on innovation, potentially improving future product reception."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article notes Amazon is raising debt to fund expansion, implying potential capital allocation shifts, but does not explicitly confirm a buyback program."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article notes RSI levels suggest overbought conditions, implying potential for a pullback or broken support."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PG",
+   "sample_reasoning": "sympathy from KO (20d corr +0.64); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PEP",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PEP",
+   "sample_reasoning": "sympathy from KO (20d corr +0.60); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=medium, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.JNJ.next_day_direction",
+   "ticker": "JNJ",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7231,
+   "delta": 0.2231,
+   "salience": 0.4373,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 0.96,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.717,
+   "delta": 0.217,
+   "salience": 0.3384,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.56,
+     "link_strength": 0.44
+    },
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": 0.228,
+     "link_strength": 0.71
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.142,
+     "link_strength": 0.59
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6656,
+   "delta": 0.1656,
+   "salience": 0.2795,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.688,
+     "link_strength": 0.54
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6057,
+   "delta": 0.1057,
+   "salience": 0.1511,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.429,
+     "link_strength": 0.54
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4033,
+   "delta": -0.0967,
+   "salience": 0.157,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.623,
+     "link_strength": 0.41
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.KO.next_day_direction",
+   "ticker": "KO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5798,
+   "delta": 0.0798,
+   "salience": 0.1055,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.322,
+     "link_strength": 0.4
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5664,
+   "delta": 0.0664,
+   "salience": 0.0842,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.267,
+     "link_strength": 0.33
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.00867,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.01115,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.03493,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.00672,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": 0.00474,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.01274,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.01353,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01255,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.01366,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.01094,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": 0.00459,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00356,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.01048,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.02373,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.02133,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": -0.00167,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.01695,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": 0.00102,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00175,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.01598,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "JNJ",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Strong target increase signal (+28% delta) with no conflicting signals; high conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Buyback program announced (+28%) outweighs CEO departure risk; net positive driver.",
+   "rank": 2
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.67,
+   "reason": "Single strong driver: major product launch with positive reception (+28% delta).",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.61,
+   "reason": "Product launch positive reception (+19%) provides solid upside potential.",
+   "rank": 4
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.58,
+   "reason": "Dividend increase announced (+19%); neutral stance due to lower salience.",
+   "rank": 5
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.57,
+   "reason": "Dividend increase announced (+19%); neutral stance due to lower salience.",
+   "rank": 6
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.4,
+   "reason": "Acquisition activity (-32%) is the dominant driver; conflicting signals insufficient to reverse.",
+   "rank": 7
+  }
+ ],
+ "watchlist_bare": [],
+ "elapsed": {
+  "ecology_s": 27.51,
+  "bare_s": 12.18
+ }
+}

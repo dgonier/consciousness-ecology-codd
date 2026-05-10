@@ -1,0 +1,384 @@
+{
+ "date": "2026-04-27",
+ "prev_trading_day": "2026-04-24",
+ "n_news": 54,
+ "n_activations": 13,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.9427,
+   "delta": 0.4427,
+   "n_activations": 3,
+   "ticker": "AVGO",
+   "sample_reasoning": "Joining the $2T club and top 10 holding in major ETFs indicates sustained market validation and positive reception of the company's scale and growth trajectory."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Alphabet commits $10B initial investment and up to $40B total, representing a major strategic stake in Anthropic."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Bill Ackman increased stake by 65% to 14% of portfolio, signaling strong conviction and potential activist influence."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article confirms 8th-gen TPU launch with 80% better performance-per-dollar and structural cost advantages, positioning the company as an AI leader."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article explicitly states Tim Cook is stepping down after 15 years, confirming an unplanned leadership transition."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article confirms Chevron has a 39-year streak of dividend increases, indicating a sustained commitment to raising payouts."
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8301,
+   "delta": 0.3301,
+   "salience": 0.8537,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.586,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8269,
+   "delta": 0.3269,
+   "salience": 0.6015,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.84,
+     "link_strength": 0.52
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.724,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6553,
+   "delta": 0.1553,
+   "salience": 0.2551,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.642,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3697,
+   "delta": -0.1303,
+   "salience": 0.1999,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": -0.534,
+     "link_strength": 0.67
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5883,
+   "delta": 0.0883,
+   "salience": 0.1199,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.357,
+     "link_strength": 0.45
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.01273,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.00669,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.01087,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.01079,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.00843,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00232,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.01811,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01069,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.00949,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.01087,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.01553,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00448,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.03057,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01492,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": 0.00047,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.00862,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.00148,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": -0.00065,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00074,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.01793,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.83,
+   "reason": "Strong conviction: Major product launch positive reception (0.94 prob) combined with high salience (0.85) and no conflicting signals.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.83,
+   "reason": "High conviction: Activist stake and major product launch positive reception driving probability up to 0.83 with no conflicts.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.66,
+   "reason": "Moderate conviction: Activist investor stake increases probability to 0.66; sufficient to meet BUY threshold (>0.55).",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.59,
+   "reason": "Moderate conviction: Dividend increase announcement supports probability at 0.59, meeting the BUY threshold.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.37,
+   "reason": "Bearish signal: Unplanned CEO departure reduces probability to 0.37, confirming SELL action based on low confidence and negative driver.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong AI partnership revisions and earnings momentum suggest continued upside despite geopolitical headwinds.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Significant AI investment in Anthropic at a bargain valuation and strong cloud positioning support bullish sentiment.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Despite mixed analyst sentiment, strong AI infrastructure growth and cloud dominance provide a solid foundation for gains.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "CEO succession uncertainty and mixed earnings signals create a volatile environment requiring close monitoring.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Joining the $2T club and strong AI chip demand position the company well for continued outperformance.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.55,
+   "reason": "Oil price surges driven by geopolitical tensions provide a clear catalyst for energy stocks like Chevron.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Market breadth data and Fed outlook create a mixed picture for financials, warranting observation.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 28.93,
+  "bare_s": 6.86
+ }
+}

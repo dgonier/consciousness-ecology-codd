@@ -1,0 +1,402 @@
+{
+ "date": "2026-03-13",
+ "prev_trading_day": "2026-03-12",
+ "n_news": 27,
+ "n_activations": 9,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "25% YTD gain and $1.2B institutional buy signal suggest strong momentum, potentially breaking key technical support levels."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article confirms blowout earnings with 29% revenue and 34% net income growth driven by AI demand."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states MSFT stock faces negative price trends with a low momentum score of 20.40, down 16.91% YTD, indicating broken technical support."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article cites new budget Neo laptop and strong Services growth as positive drivers."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article highlights AWS AI growth and e-commerce efficiency gains via robotics/AI."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9936,
+   "p_after": 0.9948,
+   "delta": 0.0012,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9936,
+   "p_after": 0.9948,
+   "delta": 0.0012,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3309,
+   "delta": -0.1691,
+   "salience": 0.2881,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.704,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6499,
+   "delta": 0.1499,
+   "salience": 0.2427,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.619,
+     "link_strength": 0.48
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3998,
+   "delta": -0.1002,
+   "salience": 0.141,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.406,
+     "link_strength": 0.51
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5767,
+   "delta": 0.0767,
+   "salience": 0.1005,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.309,
+     "link_strength": 0.52
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.569,
+   "delta": 0.069,
+   "salience": 0.0882,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.278,
+     "link_strength": 0.46
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.02205,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.02525,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.00888,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.0411,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.00759,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00076,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.00577,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "flat",
+   "actual_return": 0.0003,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": -0.00215,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": 0.00194,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": -0.00348,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00137,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.00787,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": -0.00259,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.0157,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.00642,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.001,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.01819,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00209,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00949,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Strong earnings beat signal with no conflicting drivers; technical support intact.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.58,
+   "reason": "Positive product launch reception suggests upside potential; monitor for confirmation.",
+   "rank": 2
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.57,
+   "reason": "Positive product launch reception indicates potential upside; monitor for confirmation.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.33,
+   "reason": "Technical support broken with medium confidence; bearish drivers outweigh any positives.",
+   "rank": 4
+  },
+  {
+   "ticker": "MSFT",
+   "action": "SELL",
+   "p_up": 0.4,
+   "reason": "Technical support broken with low confidence; bearish drivers outweigh any positives.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Chevron hit new highs driven by a geopolitical oil rally and Buffett's massive capital inflow, suggesting strong bullish momentum.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Microsoft is benefiting from massive AI infrastructure spending, hitting new quality score highs, and is a top pick for the upcoming capex boom.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Amazon is highlighted as a top investment alongside Apple due to strong services growth and is positioned to benefit from the $660B AI infrastructure boom.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Alphabet is included in major predictions for the biggest winner of the AI capex boom and is recommended as a top stock for $1,000 investments.",
+   "rank": 4
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mastercard is a dominant player with strong volume but currently trades at a higher P/E than Visa, resulting in a neutral outlook.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Broadcom delivered blowout earnings and is a top holding in the outperforming Vanguard High Dividend Yield ETF, but lacks a singular directional catalyst.",
+   "rank": 6
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Apple is recommended for long-term holding and has strong services growth, but recent news focuses on CEO history and ETF comparisons rather than immediate price action.",
+   "rank": 7
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Johnson & Johnson is a key holding in the outperforming dividend ETF and offers stability, but lacks specific bullish or bearish news drivers.",
+   "rank": 8
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Walmart is a top ETF holding and is actively investing in digital expansion to narrow the gap with Amazon, presenting a neutral-to-positive long-term view.",
+   "rank": 9
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 17.64,
+  "bare_s": 7.39
+ }
+}

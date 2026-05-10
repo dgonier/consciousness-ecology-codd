@@ -1,0 +1,5227 @@
+{
+ "schema_version": "1.0",
+ "description": "Per-day decomposer link-strength updates (replay with prior_weight=3 + post-fix templates). One entry per day; link_updates lists every (template, ticker) link that moved with before/after values.",
+ "prior_weight": 3.0,
+ "days": [
+  {
+   "date": "2026-02-03",
+   "n_link_updates": 14,
+   "link_updates": [
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "CVX",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "CVX",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "WMT",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MRK",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MRK",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "CSCO",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "MSFT",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "V",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "short_interest_high_and_rising",
+     "ticker": "AMZN",
+     "before": 0.45,
+     "after": 0.5875,
+     "delta": 0.1375,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-04",
+   "n_link_updates": 13,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "ABBV",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "ABBV",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "ABBV",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MSFT",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MA",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MA",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "GOOG",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.45,
+     "after": 0.3375,
+     "delta": -0.1125,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-05",
+   "n_link_updates": 17,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.375,
+     "after": 0.2812,
+     "delta": -0.0938,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "GOOG",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.45,
+     "after": 0.3375,
+     "delta": -0.1125,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "UNH",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "UNH",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "UNH",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "UNH",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.6625,
+     "after": 0.4969,
+     "delta": -0.1656,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AVGO",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.5125,
+     "after": 0.3844,
+     "delta": -0.1281,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.5125,
+     "after": 0.3844,
+     "delta": -0.1281,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.5125,
+     "after": 0.6344,
+     "delta": 0.1219,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-06",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "guidance_cut",
+     "ticker": "AMZN",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.375,
+     "after": 0.2812,
+     "delta": -0.0938,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MSFT",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.625,
+     "after": 0.7188,
+     "delta": 0.0938,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "GOOG",
+     "before": 0.5625,
+     "after": 0.4219,
+     "delta": -0.1406,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.2812,
+     "after": 0.2109,
+     "delta": -0.0703,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MRK",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.5312,
+     "after": 0.6484,
+     "delta": 0.1172,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-09",
+   "n_link_updates": 11,
+   "link_updates": [
+    {
+     "template": "guidance_cut",
+     "ticker": "AVGO",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.6484,
+     "after": 0.7363,
+     "delta": 0.0879,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.3094,
+     "after": 0.232,
+     "delta": -0.0773,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.2812,
+     "after": 0.2109,
+     "delta": -0.0703,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "MSFT",
+     "before": 0.45,
+     "after": 0.5875,
+     "delta": 0.1375,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.7188,
+     "after": 0.7891,
+     "delta": 0.0703,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AAPL",
+     "before": 0.45,
+     "after": 0.3375,
+     "delta": -0.1125,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "CVX",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.6344,
+     "after": 0.4758,
+     "delta": -0.1586,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "WMT",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-10",
+   "n_link_updates": 3,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.2109,
+     "after": 0.1582,
+     "delta": -0.0527,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "KO",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PG",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-11",
+   "n_link_updates": 26,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "KO",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "KO",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.4758,
+     "after": 0.6068,
+     "delta": 0.1311,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "KO",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "KO",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.7363,
+     "after": 0.8022,
+     "delta": 0.0659,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MSFT",
+     "before": 0.8594,
+     "after": 0.6322,
+     "delta": -0.2272,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.7891,
+     "after": 0.5918,
+     "delta": -0.1973,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "MRK",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MRK",
+     "before": 0.625,
+     "after": 0.7188,
+     "delta": 0.0938,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "CVX",
+     "before": 0.625,
+     "after": 0.7188,
+     "delta": 0.0938,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "CVX",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.3094,
+     "after": 0.232,
+     "delta": -0.0773,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.1582,
+     "after": 0.1242,
+     "delta": -0.034,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "PG",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.5125,
+     "after": 0.6344,
+     "delta": 0.1219,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PG",
+     "before": 0.5625,
+     "after": 0.6719,
+     "delta": 0.1094,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "PG",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "PEP",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PEP",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "PEP",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-12",
+   "n_link_updates": 22,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5918,
+     "after": 0.4438,
+     "delta": -0.1479,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.4969,
+     "after": 0.3727,
+     "delta": -0.1242,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.232,
+     "after": 0.174,
+     "delta": -0.058,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.3375,
+     "after": 0.2531,
+     "delta": -0.0844,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.6625,
+     "after": 0.4969,
+     "delta": -0.1656,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "PEP",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.5125,
+     "after": 0.3844,
+     "delta": -0.1281,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.8022,
+     "after": 0.6017,
+     "delta": -0.2006,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "PG",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.6344,
+     "after": 0.7258,
+     "delta": 0.0914,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "CVX",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "KO",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.6068,
+     "after": 0.7051,
+     "delta": 0.0983,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "KO",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.3844,
+     "after": 0.5383,
+     "delta": 0.1539,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.4125,
+     "after": 0.5594,
+     "delta": 0.1469,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "CSCO",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-13",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.174,
+     "after": 0.1305,
+     "delta": -0.0435,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.2531,
+     "after": 0.1898,
+     "delta": -0.0633,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.1242,
+     "after": 0.1211,
+     "delta": -0.0031,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PEP",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "PEP",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "PEP",
+     "before": 0.65,
+     "after": 0.7375,
+     "delta": 0.0875,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "PG",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PG",
+     "before": 0.6719,
+     "after": 0.7539,
+     "delta": 0.082,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "PG",
+     "before": 0.65,
+     "after": 0.7375,
+     "delta": 0.0875,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-17",
+   "n_link_updates": 17,
+   "link_updates": [
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "CVX",
+     "before": 0.7188,
+     "after": 0.5391,
+     "delta": -0.1797,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.3844,
+     "after": 0.2883,
+     "delta": -0.0961,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4438,
+     "after": 0.3329,
+     "delta": -0.111,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.25,
+     "after": 0.4375,
+     "delta": 0.1875,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "GOOG",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MA",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MA",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "MA",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.5312,
+     "after": 0.6484,
+     "delta": 0.1172,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.2109,
+     "after": 0.4082,
+     "delta": 0.1973,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "UNH",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "V",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "V",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "V",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "KO",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "PEP",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-18",
+   "n_link_updates": 7,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.4082,
+     "after": 0.5562,
+     "delta": 0.1479,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.232,
+     "after": 0.424,
+     "delta": 0.192,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.25,
+     "after": 0.1875,
+     "delta": -0.0625,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MA",
+     "before": 0.625,
+     "after": 0.7188,
+     "delta": 0.0938,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "WMT",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.3727,
+     "after": 0.5295,
+     "delta": 0.1568,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.7469,
+     "after": 0.5602,
+     "delta": -0.1867,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-19",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.7051,
+     "after": 0.5288,
+     "delta": -0.1763,
+     "was_correct": false
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AAPL",
+     "before": 0.65,
+     "after": 0.7375,
+     "delta": 0.0875,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "HD",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "MA",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.7258,
+     "after": 0.7943,
+     "delta": 0.0686,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "ABBV",
+     "before": 0.2625,
+     "after": 0.1969,
+     "delta": -0.0656,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-20",
+   "n_link_updates": 18,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.5594,
+     "after": 0.4195,
+     "delta": -0.1398,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "WMT",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "WMT",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.1209,
+     "after": 0.3625,
+     "delta": 0.2417,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.424,
+     "after": 0.568,
+     "delta": 0.144,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.5562,
+     "after": 0.6671,
+     "delta": 0.111,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.1875,
+     "after": 0.1406,
+     "delta": -0.0469,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.5288,
+     "after": 0.6466,
+     "delta": 0.1178,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "KO",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "MCD",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.5125,
+     "after": 0.6344,
+     "delta": 0.1219,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.7943,
+     "after": 0.8458,
+     "delta": 0.0514,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "PG",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "material_lawsuit_filed",
+     "ticker": "JPM",
+     "before": 0.65,
+     "after": 0.4875,
+     "delta": -0.1625,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "HD",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "HD",
+     "before": 0.2625,
+     "after": 0.4469,
+     "delta": 0.1844,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "AAPL",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-23",
+   "n_link_updates": 20,
+   "link_updates": [
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AAPL",
+     "before": 0.7375,
+     "after": 0.8031,
+     "delta": 0.0656,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.6484,
+     "after": 0.7363,
+     "delta": 0.0879,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "AAPL",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.1898,
+     "after": 0.1424,
+     "delta": -0.0475,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.3625,
+     "after": 0.2719,
+     "delta": -0.0906,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "HD",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "HD",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.3375,
+     "after": 0.2531,
+     "delta": -0.0844,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "AMZN",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "MSFT",
+     "before": 0.5875,
+     "after": 0.4406,
+     "delta": -0.1469,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.4375,
+     "after": 0.5781,
+     "delta": 0.1406,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "JPM",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "PG",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.5602,
+     "after": 0.6701,
+     "delta": 0.11,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MRK",
+     "before": 0.7188,
+     "after": 0.7891,
+     "delta": 0.0703,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.6017,
+     "after": 0.4513,
+     "delta": -0.1504,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AVGO",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.2883,
+     "after": 0.4662,
+     "delta": 0.1779,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "WMT",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.7469,
+     "after": 0.8102,
+     "delta": 0.0633,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-24",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.4513,
+     "after": 0.3384,
+     "delta": -0.1128,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.2531,
+     "after": 0.4398,
+     "delta": 0.1867,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "AMZN",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "AMZN",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "WMT",
+     "before": 0.3,
+     "after": 0.475,
+     "delta": 0.175,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "AAPL",
+     "before": 0.5,
+     "after": 0.625,
+     "delta": 0.125,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-25",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "WMT",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.2719,
+     "after": 0.4539,
+     "delta": 0.182,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "AMZN",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.1406,
+     "after": 0.1226,
+     "delta": -0.018,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.3329,
+     "after": 0.4997,
+     "delta": 0.1668,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-02-26",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "AMZN",
+     "before": 0.5312,
+     "after": 0.3984,
+     "delta": -0.1328,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6671,
+     "after": 0.5003,
+     "delta": -0.1668,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.1305,
+     "after": 0.1217,
+     "delta": -0.0088,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.3384,
+     "after": 0.2538,
+     "delta": -0.0846,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.4195,
+     "after": 0.3146,
+     "delta": -0.1049,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-02-27",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.5003,
+     "after": 0.6253,
+     "delta": 0.1249,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.4398,
+     "after": 0.5799,
+     "delta": 0.14,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.1424,
+     "after": 0.3683,
+     "delta": 0.2259,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "UNH",
+     "before": 0.45,
+     "after": 0.5875,
+     "delta": 0.1375,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "WMT",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-02",
+   "n_link_updates": 3,
+   "link_updates": [
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AMZN",
+     "before": 0.65,
+     "after": 0.7375,
+     "delta": 0.0875,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4997,
+     "after": 0.6247,
+     "delta": 0.1251,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "CVX",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-03",
+   "n_link_updates": 2,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.6247,
+     "after": 0.7186,
+     "delta": 0.0938,
+     "was_correct": true
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-04",
+   "n_link_updates": 2,
+   "link_updates": [
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AMZN",
+     "before": 0.7375,
+     "after": 0.8031,
+     "delta": 0.0656,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "CVX",
+     "before": 0.45,
+     "after": 0.3375,
+     "delta": -0.1125,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-05",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "guidance_cut",
+     "ticker": "AVGO",
+     "before": 0.8594,
+     "after": 0.8774,
+     "delta": 0.018,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "AVGO",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "CVX",
+     "before": 0.3375,
+     "after": 0.5031,
+     "delta": 0.1656,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.4662,
+     "after": 0.5997,
+     "delta": 0.1334,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "WMT",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "WMT",
+     "before": 0.625,
+     "after": 0.4688,
+     "delta": -0.1562,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MCD",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MCD",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.7363,
+     "after": 0.5522,
+     "delta": -0.1841,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "PG",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-06",
+   "n_link_updates": 4,
+   "link_updates": [
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "ABBV",
+     "before": 0.1969,
+     "after": 0.1477,
+     "delta": -0.0492,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.4539,
+     "after": 0.3405,
+     "delta": -0.1135,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.5522,
+     "after": 0.4142,
+     "delta": -0.1381,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "V",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-09",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "MCD",
+     "before": 0.1111,
+     "after": 0.12,
+     "delta": 0.0089,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.3683,
+     "after": 0.5262,
+     "delta": 0.1579,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.3405,
+     "after": 0.5053,
+     "delta": 0.1649,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "AAPL",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "PG",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-10",
+   "n_link_updates": 1,
+   "link_updates": [
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.8458,
+     "after": 0.8762,
+     "delta": 0.0304,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-11",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.8762,
+     "after": 0.6367,
+     "delta": -0.2395,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.5383,
+     "after": 0.4037,
+     "delta": -0.1346,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.6344,
+     "after": 0.4758,
+     "delta": -0.1586,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "CSCO",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MA",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "V",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-12",
+   "n_link_updates": 4,
+   "link_updates": [
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "CVX",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.4142,
+     "after": 0.3106,
+     "delta": -0.1035,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.5053,
+     "after": 0.379,
+     "delta": -0.1263,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.6367,
+     "after": 0.4775,
+     "delta": -0.1592,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-13",
+   "n_link_updates": 4,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.3094,
+     "after": 0.232,
+     "delta": -0.0773,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.5781,
+     "after": 0.6836,
+     "delta": 0.1055,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6253,
+     "after": 0.4689,
+     "delta": -0.1563,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.3106,
+     "after": 0.233,
+     "delta": -0.0777,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-16",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.7186,
+     "after": 0.7889,
+     "delta": 0.0704,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.568,
+     "after": 0.676,
+     "delta": 0.108,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.4689,
+     "after": 0.6017,
+     "delta": 0.1328,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.233,
+     "after": 0.4247,
+     "delta": 0.1918,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.6466,
+     "after": 0.735,
+     "delta": 0.0883,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.4775,
+     "after": 0.6081,
+     "delta": 0.1306,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-17",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.232,
+     "after": 0.174,
+     "delta": -0.058,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.3146,
+     "after": 0.236,
+     "delta": -0.0787,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.4037,
+     "after": 0.3028,
+     "delta": -0.1009,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "AAPL",
+     "before": 0.1111,
+     "after": 0.12,
+     "delta": 0.0089,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.5997,
+     "after": 0.6997,
+     "delta": 0.1001,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "ABBV",
+     "before": 0.1477,
+     "after": 0.1232,
+     "delta": -0.0244,
+     "was_correct": false
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "V",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "GOOG",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-18",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.8102,
+     "after": 0.6076,
+     "delta": -0.2025,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.735,
+     "after": 0.5512,
+     "delta": -0.1837,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.7889,
+     "after": 0.5917,
+     "delta": -0.1972,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.6701,
+     "after": 0.5026,
+     "delta": -0.1675,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.6081,
+     "after": 0.4561,
+     "delta": -0.152,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.2538,
+     "after": 0.1904,
+     "delta": -0.0635,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.236,
+     "after": 0.177,
+     "delta": -0.059,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.3844,
+     "after": 0.2883,
+     "delta": -0.0961,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-19",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "earnings_miss",
+     "ticker": "MSFT",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.6836,
+     "after": 0.7627,
+     "delta": 0.0791,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "AMZN",
+     "before": 0.5625,
+     "after": 0.6719,
+     "delta": 0.1094,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "WMT",
+     "before": 0.65,
+     "after": 0.4875,
+     "delta": -0.1625,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.3028,
+     "after": 0.2271,
+     "delta": -0.0757,
+     "was_correct": false
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "MCD",
+     "before": 0.65,
+     "after": 0.4875,
+     "delta": -0.1625,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.4758,
+     "after": 0.3568,
+     "delta": -0.1189,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MA",
+     "before": 0.7188,
+     "after": 0.7891,
+     "delta": 0.0703,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-20",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5917,
+     "after": 0.4438,
+     "delta": -0.1479,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.5512,
+     "after": 0.4134,
+     "delta": -0.1378,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "KO",
+     "before": 0.7469,
+     "after": 0.5602,
+     "delta": -0.1867,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "V",
+     "before": 0.5125,
+     "after": 0.6344,
+     "delta": 0.1219,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6017,
+     "after": 0.4513,
+     "delta": -0.1504,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.2271,
+     "after": 0.1703,
+     "delta": -0.0568,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.1904,
+     "after": 0.1428,
+     "delta": -0.0476,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.379,
+     "after": 0.2843,
+     "delta": -0.0948,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.4969,
+     "after": 0.3727,
+     "delta": -0.1242,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.2883,
+     "after": 0.2162,
+     "delta": -0.0721,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-23",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "MA",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.4247,
+     "after": 0.5686,
+     "delta": 0.1438,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "AAPL",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "V",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.4513,
+     "after": 0.5885,
+     "delta": 0.1372,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-24",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.1226,
+     "after": 0.363,
+     "delta": 0.2404,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "JPM",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.5625,
+     "after": 0.6719,
+     "delta": 0.1094,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.4134,
+     "after": 0.3101,
+     "delta": -0.1034,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.4561,
+     "after": 0.3421,
+     "delta": -0.114,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.1428,
+     "after": 0.1228,
+     "delta": -0.02,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.177,
+     "after": 0.3827,
+     "delta": 0.2058,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.1703,
+     "after": 0.3777,
+     "delta": 0.2074,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-25",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.5885,
+     "after": 0.6913,
+     "delta": 0.1029,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "WMT",
+     "before": 0.4688,
+     "after": 0.6016,
+     "delta": 0.1328,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.3421,
+     "after": 0.5066,
+     "delta": 0.1645,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.3101,
+     "after": 0.4826,
+     "delta": 0.1725,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MCD",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.3568,
+     "after": 0.5176,
+     "delta": 0.1608,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.2162,
+     "after": 0.4122,
+     "delta": 0.1959,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-03-26",
+   "n_link_updates": 4,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.1228,
+     "after": 0.121,
+     "delta": -0.0018,
+     "was_correct": false
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "AMZN",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.5262,
+     "after": 0.6447,
+     "delta": 0.1184,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4438,
+     "after": 0.3328,
+     "delta": -0.1109,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-27",
+   "n_link_updates": 6,
+   "link_updates": [
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "AMZN",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "MSFT",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.3328,
+     "after": 0.2496,
+     "delta": -0.0832,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.5295,
+     "after": 0.3971,
+     "delta": -0.1324,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "JPM",
+     "before": 0.0,
+     "after": 0.3333,
+     "delta": 0.3333,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.2843,
+     "after": 0.2132,
+     "delta": -0.0711,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-30",
+   "n_link_updates": 4,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.363,
+     "after": 0.2723,
+     "delta": -0.0908,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.174,
+     "after": 0.1305,
+     "delta": -0.0435,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "UNH",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.7627,
+     "after": 0.572,
+     "delta": -0.1907,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-03-31",
+   "n_link_updates": 14,
+   "link_updates": [
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.5799,
+     "after": 0.6849,
+     "delta": 0.105,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6913,
+     "after": 0.7685,
+     "delta": 0.0772,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.676,
+     "after": 0.757,
+     "delta": 0.081,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.2723,
+     "after": 0.4542,
+     "delta": 0.1819,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MA",
+     "before": 0.7469,
+     "after": 0.8102,
+     "delta": 0.0633,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MA",
+     "before": 0.7891,
+     "after": 0.8418,
+     "delta": 0.0527,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.2132,
+     "after": 0.4099,
+     "delta": 0.1967,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.6447,
+     "after": 0.7335,
+     "delta": 0.0888,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.1217,
+     "after": 0.3628,
+     "delta": 0.2411,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.5686,
+     "after": 0.6764,
+     "delta": 0.1079,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "CVX",
+     "before": 0.3,
+     "after": 0.475,
+     "delta": 0.175,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.1209,
+     "after": 0.3625,
+     "delta": 0.2417,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "V",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "V",
+     "before": 0.5312,
+     "after": 0.6484,
+     "delta": 0.1172,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-01",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "CVX",
+     "before": 0.375,
+     "after": 0.2812,
+     "delta": -0.0938,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "CVX",
+     "before": 0.5031,
+     "after": 0.3773,
+     "delta": -0.1258,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.6997,
+     "after": 0.5248,
+     "delta": -0.1749,
+     "was_correct": false
+    },
+    {
+     "template": "material_lawsuit_filed",
+     "ticker": "AMZN",
+     "before": 0.65,
+     "after": 0.4875,
+     "delta": -0.1625,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AMZN",
+     "before": 0.4542,
+     "after": 0.3406,
+     "delta": -0.1135,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.3333,
+     "after": 0.25,
+     "delta": -0.0833,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.3628,
+     "after": 0.5221,
+     "delta": 0.1593,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.4099,
+     "after": 0.5574,
+     "delta": 0.1475,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-02",
+   "n_link_updates": 3,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.2496,
+     "after": 0.4372,
+     "delta": 0.1876,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "CVX",
+     "before": 0.3773,
+     "after": 0.533,
+     "delta": 0.1557,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "CVX",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-06",
+   "n_link_updates": 2,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "WMT",
+     "before": 0.25,
+     "after": 0.1875,
+     "delta": -0.0625,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.25,
+     "after": 0.1875,
+     "delta": -0.0625,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-07",
+   "n_link_updates": 11,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.3625,
+     "after": 0.5219,
+     "delta": 0.1594,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AVGO",
+     "before": 0.8774,
+     "after": 0.879,
+     "delta": 0.0016,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "AAPL",
+     "before": 0.3,
+     "after": 0.225,
+     "delta": -0.075,
+     "was_correct": false
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.6719,
+     "after": 0.7539,
+     "delta": 0.082,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.3,
+     "after": 0.475,
+     "delta": 0.175,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "UNH",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "short_interest_high_and_rising",
+     "ticker": "GOOG",
+     "before": 0.45,
+     "after": 0.3375,
+     "delta": -0.1125,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "GOOG",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.5248,
+     "after": 0.6436,
+     "delta": 0.1188,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.5066,
+     "after": 0.3799,
+     "delta": -0.1266,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-08",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.5574,
+     "after": 0.6681,
+     "delta": 0.1106,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.5221,
+     "after": 0.6416,
+     "delta": 0.1195,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.7335,
+     "after": 0.8001,
+     "delta": 0.0666,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.757,
+     "after": 0.8178,
+     "delta": 0.0607,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.7685,
+     "after": 0.8264,
+     "delta": 0.0579,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.5219,
+     "after": 0.6414,
+     "delta": 0.1195,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4372,
+     "after": 0.5779,
+     "delta": 0.1407,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.572,
+     "after": 0.679,
+     "delta": 0.107,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "MSFT",
+     "before": 0.4406,
+     "after": 0.5805,
+     "delta": 0.1398,
+     "was_correct": true
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.1875,
+     "after": 0.1406,
+     "delta": -0.0469,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-09",
+   "n_link_updates": 7,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.8264,
+     "after": 0.8698,
+     "delta": 0.0434,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "CVX",
+     "before": 0.2812,
+     "after": 0.2109,
+     "delta": -0.0703,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.6436,
+     "after": 0.4827,
+     "delta": -0.1609,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.1406,
+     "after": 0.1226,
+     "delta": -0.018,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.3799,
+     "after": 0.5349,
+     "delta": 0.155,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.6414,
+     "after": 0.7311,
+     "delta": 0.0896,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.6681,
+     "after": 0.751,
+     "delta": 0.083,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-10",
+   "n_link_updates": 7,
+   "link_updates": [
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.7539,
+     "after": 0.5654,
+     "delta": -0.1885,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.8698,
+     "after": 0.8783,
+     "delta": 0.0085,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.7311,
+     "after": 0.7983,
+     "delta": 0.0672,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.3827,
+     "after": 0.2871,
+     "delta": -0.0957,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5779,
+     "after": 0.4334,
+     "delta": -0.1445,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "JNJ",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.6076,
+     "after": 0.4557,
+     "delta": -0.1519,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-13",
+   "n_link_updates": 12,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "CVX",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.679,
+     "after": 0.5093,
+     "delta": -0.1698,
+     "was_correct": false
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MRK",
+     "before": 0.5654,
+     "after": 0.6741,
+     "delta": 0.1086,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.751,
+     "after": 0.8133,
+     "delta": 0.0622,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.6416,
+     "after": 0.7312,
+     "delta": 0.0896,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.5349,
+     "after": 0.4012,
+     "delta": -0.1337,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.4826,
+     "after": 0.3619,
+     "delta": -0.1206,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "AMZN",
+     "before": 0.3984,
+     "after": 0.5488,
+     "delta": 0.1504,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "ABBV",
+     "before": 0.1232,
+     "after": 0.1211,
+     "delta": -0.0022,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "WMT",
+     "before": 0.6016,
+     "after": 0.4512,
+     "delta": -0.1504,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.3777,
+     "after": 0.2833,
+     "delta": -0.0944,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.4122,
+     "after": 0.3091,
+     "delta": -0.103,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-14",
+   "n_link_updates": 9,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "JPM",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "JPM",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "JPM",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "JNJ",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "JNJ",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "JNJ",
+     "before": 0.2625,
+     "after": 0.4469,
+     "delta": 0.1844,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "CVX",
+     "before": 0.475,
+     "after": 0.6063,
+     "delta": 0.1313,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4334,
+     "after": 0.5751,
+     "delta": 0.1416,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "GOOG",
+     "before": 0.25,
+     "after": 0.1875,
+     "delta": -0.0625,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-15",
+   "n_link_updates": 11,
+   "link_updates": [
+    {
+     "template": "technical_support_broken",
+     "ticker": "MSFT",
+     "before": 0.5093,
+     "after": 0.3819,
+     "delta": -0.1273,
+     "was_correct": false
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "AAPL",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.6764,
+     "after": 0.7573,
+     "delta": 0.0809,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "JNJ",
+     "before": 0.6625,
+     "after": 0.4969,
+     "delta": -0.1656,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "JNJ",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.3619,
+     "after": 0.2714,
+     "delta": -0.0905,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.8133,
+     "after": 0.86,
+     "delta": 0.0467,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.1305,
+     "after": 0.3651,
+     "delta": 0.2346,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.4012,
+     "after": 0.3009,
+     "delta": -0.1003,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.3091,
+     "after": 0.2318,
+     "delta": -0.0773,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.4827,
+     "after": 0.362,
+     "delta": -0.1207,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-16",
+   "n_link_updates": 9,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.86,
+     "after": 0.6323,
+     "delta": -0.2276,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.8001,
+     "after": 0.6001,
+     "delta": -0.2,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "GOOG",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5751,
+     "after": 0.6813,
+     "delta": 0.1062,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.3727,
+     "after": 0.5295,
+     "delta": 0.1568,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "JNJ",
+     "before": 0.0,
+     "after": 0.1111,
+     "delta": 0.1111,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "JNJ",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "JNJ",
+     "before": 0.5,
+     "after": 0.375,
+     "delta": -0.125,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "AAPL",
+     "before": 0.1226,
+     "after": 0.363,
+     "delta": 0.2404,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-17",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.6323,
+     "after": 0.7243,
+     "delta": 0.0919,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.6001,
+     "after": 0.7001,
+     "delta": 0.1,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.3094,
+     "after": 0.482,
+     "delta": 0.1727,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.6813,
+     "after": 0.761,
+     "delta": 0.0797,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "CVX",
+     "before": 0.2109,
+     "after": 0.1582,
+     "delta": -0.0527,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "KO",
+     "before": 0.8594,
+     "after": 0.6322,
+     "delta": -0.2272,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "PG",
+     "before": 0.7539,
+     "after": 0.5654,
+     "delta": -0.1885,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.7983,
+     "after": 0.8487,
+     "delta": 0.0504,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-20",
+   "n_link_updates": 11,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.8791,
+     "after": 0.6374,
+     "delta": -0.2416,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.3009,
+     "after": 0.2257,
+     "delta": -0.0752,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.761,
+     "after": 0.5707,
+     "delta": -0.1902,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.3971,
+     "after": 0.2978,
+     "delta": -0.0993,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.7243,
+     "after": 0.5432,
+     "delta": -0.1811,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.7001,
+     "after": 0.5251,
+     "delta": -0.175,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.5176,
+     "after": 0.3882,
+     "delta": -0.1294,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.4557,
+     "after": 0.3418,
+     "delta": -0.1139,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MCD",
+     "before": 0.5312,
+     "after": 0.3984,
+     "delta": -0.1328,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_action_announced",
+     "ticker": "JNJ",
+     "before": 0.1111,
+     "after": 0.36,
+     "delta": 0.2489,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MRK",
+     "before": 0.7891,
+     "after": 0.5918,
+     "delta": -0.1973,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-21",
+   "n_link_updates": 11,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "UNH",
+     "before": 0.55,
+     "after": 0.6625,
+     "delta": 0.1125,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "UNH",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "UNH",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AAPL",
+     "before": 0.8031,
+     "after": 0.8523,
+     "delta": 0.0492,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "CVX",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.362,
+     "after": 0.5215,
+     "delta": 0.1595,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "JPM",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "GOOG",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "AMZN",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "MRK",
+     "before": 0.625,
+     "after": 0.4688,
+     "delta": -0.1562,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "KO",
+     "before": 0.625,
+     "after": 0.7188,
+     "delta": 0.0938,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-22",
+   "n_link_updates": 10,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.8487,
+     "after": 0.8764,
+     "delta": 0.0277,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "UNH",
+     "before": 0.6625,
+     "after": 0.7469,
+     "delta": 0.0844,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "UNH",
+     "before": 0.8594,
+     "after": 0.8774,
+     "delta": 0.018,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.5432,
+     "after": 0.6574,
+     "delta": 0.1142,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.7312,
+     "after": 0.7984,
+     "delta": 0.0672,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.5251,
+     "after": 0.6438,
+     "delta": 0.1187,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6374,
+     "after": 0.7281,
+     "delta": 0.0906,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "MSFT",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.2318,
+     "after": 0.1739,
+     "delta": -0.058,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.7573,
+     "after": 0.818,
+     "delta": 0.0607,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-23",
+   "n_link_updates": 2,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.8764,
+     "after": 0.6367,
+     "delta": -0.2397,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.5707,
+     "after": 0.4281,
+     "delta": -0.1427,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-24",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "JNJ",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "AAPL",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AAPL",
+     "before": 0.8523,
+     "after": 0.6303,
+     "delta": -0.2221,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.818,
+     "after": 0.6135,
+     "delta": -0.2045,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.6367,
+     "after": 0.7276,
+     "delta": 0.0908,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "AMZN",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.6574,
+     "after": 0.743,
+     "delta": 0.0857,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.2833,
+     "after": 0.2125,
+     "delta": -0.0708,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-27",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.7276,
+     "after": 0.5457,
+     "delta": -0.1819,
+     "was_correct": false
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "GOOG",
+     "before": 0.6438,
+     "after": 0.7328,
+     "delta": 0.0891,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.743,
+     "after": 0.8073,
+     "delta": 0.0642,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.6849,
+     "after": 0.5137,
+     "delta": -0.1712,
+     "was_correct": false
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AAPL",
+     "before": 0.6303,
+     "after": 0.7227,
+     "delta": 0.0924,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-28",
+   "n_link_updates": 13,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "KO",
+     "before": 0.5602,
+     "after": 0.6701,
+     "delta": 0.11,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "KO",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.2714,
+     "after": 0.4536,
+     "delta": 0.1821,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.5457,
+     "after": 0.4092,
+     "delta": -0.1364,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.5026,
+     "after": 0.6269,
+     "delta": 0.1244,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.2257,
+     "after": 0.4193,
+     "delta": 0.1936,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "PG",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.8178,
+     "after": 0.6133,
+     "delta": -0.2044,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.7281,
+     "after": 0.5461,
+     "delta": -0.182,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.5295,
+     "after": 0.6471,
+     "delta": 0.1176,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "PEP",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.1739,
+     "after": 0.3804,
+     "delta": 0.2065,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.3882,
+     "after": 0.5412,
+     "delta": 0.1529,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-04-29",
+   "n_link_updates": 20,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "V",
+     "before": 0.7469,
+     "after": 0.8102,
+     "delta": 0.0633,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "V",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "V",
+     "before": 0.3,
+     "after": 0.475,
+     "delta": 0.175,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "V",
+     "before": 0.6484,
+     "after": 0.7363,
+     "delta": 0.0879,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MA",
+     "before": 0.8102,
+     "after": 0.8576,
+     "delta": 0.0475,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MA",
+     "before": 0.8125,
+     "after": 0.8594,
+     "delta": 0.0469,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MA",
+     "before": 0.8418,
+     "after": 0.8758,
+     "delta": 0.034,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "MA",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.2978,
+     "after": 0.2234,
+     "delta": -0.0745,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.6133,
+     "after": 0.71,
+     "delta": 0.0967,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.6269,
+     "after": 0.4702,
+     "delta": -0.1567,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.4193,
+     "after": 0.3144,
+     "delta": -0.1048,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "KO",
+     "before": 0.6701,
+     "after": 0.7526,
+     "delta": 0.0825,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.4536,
+     "after": 0.5902,
+     "delta": 0.1366,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PEP",
+     "before": 0.6471,
+     "after": 0.4853,
+     "delta": -0.1618,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PEP",
+     "before": 0.3804,
+     "after": 0.2853,
+     "delta": -0.0951,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.3418,
+     "after": 0.2563,
+     "delta": -0.0854,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.5412,
+     "after": 0.4059,
+     "delta": -0.1353,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "HD",
+     "before": 0.4125,
+     "after": 0.3094,
+     "delta": -0.1031,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "HD",
+     "before": 0.4469,
+     "after": 0.3352,
+     "delta": -0.1117,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-04-30",
+   "n_link_updates": 18,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.7984,
+     "after": 0.8488,
+     "delta": 0.0504,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "GOOG",
+     "before": 0.65,
+     "after": 0.7375,
+     "delta": 0.0875,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.2234,
+     "after": 0.1675,
+     "delta": -0.0558,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_miss",
+     "ticker": "MSFT",
+     "before": 0.8125,
+     "after": 0.6094,
+     "delta": -0.2031,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "MSFT",
+     "before": 0.4281,
+     "after": 0.321,
+     "delta": -0.107,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MSFT",
+     "before": 0.6322,
+     "after": 0.4741,
+     "delta": -0.158,
+     "was_correct": false
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "MSFT",
+     "before": 0.65,
+     "after": 0.4875,
+     "delta": -0.1625,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.71,
+     "after": 0.7825,
+     "delta": 0.0725,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.5461,
+     "after": 0.6595,
+     "delta": 0.1135,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "CVX",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.5215,
+     "after": 0.6411,
+     "delta": 0.1196,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.2563,
+     "after": 0.4423,
+     "delta": 0.1859,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MCD",
+     "before": 0.4059,
+     "after": 0.5544,
+     "delta": 0.1485,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MRK",
+     "before": 0.6625,
+     "after": 0.4969,
+     "delta": -0.1656,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MRK",
+     "before": 0.8125,
+     "after": 0.6094,
+     "delta": -0.2031,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "WMT",
+     "before": 0.2125,
+     "after": 0.4094,
+     "delta": 0.1969,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.2871,
+     "after": 0.4653,
+     "delta": 0.1782,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "JNJ",
+     "before": 0.4469,
+     "after": 0.5852,
+     "delta": 0.1383,
+     "was_correct": true
+    }
+   ]
+  },
+  {
+   "date": "2026-05-01",
+   "n_link_updates": 14,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.482,
+     "after": 0.6115,
+     "delta": 0.1295,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "AAPL",
+     "before": 0.4125,
+     "after": 0.5594,
+     "delta": 0.1469,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "AAPL",
+     "before": 0.35,
+     "after": 0.5125,
+     "delta": 0.1625,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AAPL",
+     "before": 0.75,
+     "after": 0.8125,
+     "delta": 0.0625,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AMZN",
+     "before": 0.5625,
+     "after": 0.6719,
+     "delta": 0.1094,
+     "was_correct": true
+    },
+    {
+     "template": "ceo_departure_unplanned",
+     "ticker": "AMZN",
+     "before": 0.8031,
+     "after": 0.8523,
+     "delta": 0.0492,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.7825,
+     "after": 0.8369,
+     "delta": 0.0544,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AMZN",
+     "before": 0.5137,
+     "after": 0.6353,
+     "delta": 0.1216,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "MSFT",
+     "before": 0.4741,
+     "after": 0.6056,
+     "delta": 0.1315,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MSFT",
+     "before": 0.1675,
+     "after": 0.3757,
+     "delta": 0.2081,
+     "was_correct": true
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "ABBV",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.4092,
+     "after": 0.5569,
+     "delta": 0.1477,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.6411,
+     "after": 0.4809,
+     "delta": -0.1603,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "CVX",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-05-04",
+   "n_link_updates": 15,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.6595,
+     "after": 0.7447,
+     "delta": 0.0851,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.8369,
+     "after": 0.8753,
+     "delta": 0.0385,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.8073,
+     "after": 0.6055,
+     "delta": -0.2018,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.8488,
+     "after": 0.6293,
+     "delta": -0.2195,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.6115,
+     "after": 0.4586,
+     "delta": -0.1529,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "AAPL",
+     "before": 0.5594,
+     "after": 0.4195,
+     "delta": -0.1398,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "AAPL",
+     "before": 0.5125,
+     "after": 0.3844,
+     "delta": -0.1281,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.5569,
+     "after": 0.4177,
+     "delta": -0.1392,
+     "was_correct": false
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AVGO",
+     "before": 0.879,
+     "after": 0.6374,
+     "delta": -0.2416,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AVGO",
+     "before": 0.3651,
+     "after": 0.2738,
+     "delta": -0.0913,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "ABBV",
+     "before": 0.4125,
+     "after": 0.5594,
+     "delta": 0.1469,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "ABBV",
+     "before": 0.5625,
+     "after": 0.6719,
+     "delta": 0.1094,
+     "was_correct": true
+    },
+    {
+     "template": "acting_as_acquirer_in_announced_ma",
+     "ticker": "CVX",
+     "before": 0.6063,
+     "after": 0.4547,
+     "delta": -0.1516,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "WMT",
+     "before": 0.4653,
+     "after": 0.349,
+     "delta": -0.1163,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "MCD",
+     "before": 0.4423,
+     "after": 0.3317,
+     "delta": -0.1106,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-05-05",
+   "n_link_updates": 20,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.8753,
+     "after": 0.8788,
+     "delta": 0.0035,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.7447,
+     "after": 0.8085,
+     "delta": 0.0638,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "AMZN",
+     "before": 0.6719,
+     "after": 0.7539,
+     "delta": 0.082,
+     "was_correct": true
+    },
+    {
+     "template": "target_in_announced_ma",
+     "ticker": "MSFT",
+     "before": 0.75,
+     "after": 0.5625,
+     "delta": -0.1875,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MSFT",
+     "before": 0.35,
+     "after": 0.2625,
+     "delta": -0.0875,
+     "was_correct": false
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "MSFT",
+     "before": 0.5312,
+     "after": 0.3984,
+     "delta": -0.1328,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "MSFT",
+     "before": 0.4,
+     "after": 0.3,
+     "delta": -0.1,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.6135,
+     "after": 0.7101,
+     "delta": 0.0966,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "AAPL",
+     "before": 0.4586,
+     "after": 0.594,
+     "delta": 0.1353,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.6055,
+     "after": 0.7041,
+     "delta": 0.0986,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.6293,
+     "after": 0.722,
+     "delta": 0.0927,
+     "was_correct": true
+    },
+    {
+     "template": "regulatory_clearance_received",
+     "ticker": "GOOG",
+     "before": 0.375,
+     "after": 0.5312,
+     "delta": 0.1562,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AVGO",
+     "before": 0.4177,
+     "after": 0.5633,
+     "delta": 0.1456,
+     "was_correct": true
+    },
+    {
+     "template": "activist_investor_takes_stake",
+     "ticker": "AVGO",
+     "before": 0.45,
+     "after": 0.5875,
+     "delta": 0.1375,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "V",
+     "before": 0.6344,
+     "after": 0.4758,
+     "delta": -0.1586,
+     "was_correct": false
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "V",
+     "before": 0.475,
+     "after": 0.3563,
+     "delta": -0.1188,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "JNJ",
+     "before": 0.1111,
+     "after": 0.12,
+     "delta": 0.0089,
+     "was_correct": false
+    },
+    {
+     "template": "technical_support_broken",
+     "ticker": "UNH",
+     "before": 0.3333,
+     "after": 0.5,
+     "delta": 0.1667,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "MA",
+     "before": 0.55,
+     "after": 0.4125,
+     "delta": -0.1375,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "MA",
+     "before": 0.5125,
+     "after": 0.3844,
+     "delta": -0.1281,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-05-06",
+   "n_link_updates": 8,
+   "link_updates": [
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.8085,
+     "after": 0.8564,
+     "delta": 0.0479,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "GOOG",
+     "before": 0.7041,
+     "after": 0.7781,
+     "delta": 0.074,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "GOOG",
+     "before": 0.722,
+     "after": 0.7915,
+     "delta": 0.0695,
+     "was_correct": true
+    },
+    {
+     "template": "buyback_program_announced",
+     "ticker": "GOOG",
+     "before": 0.4,
+     "after": 0.55,
+     "delta": 0.15,
+     "was_correct": true
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "UNH",
+     "before": 0.7469,
+     "after": 0.8102,
+     "delta": 0.0633,
+     "was_correct": true
+    },
+    {
+     "template": "guidance_cut",
+     "ticker": "UNH",
+     "before": 0.8774,
+     "after": 0.879,
+     "delta": 0.0016,
+     "was_correct": true
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AAPL",
+     "before": 0.7101,
+     "after": 0.7826,
+     "delta": 0.0725,
+     "was_correct": true
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "CVX",
+     "before": 0.4809,
+     "after": 0.3606,
+     "delta": -0.1202,
+     "was_correct": false
+    }
+   ]
+  },
+  {
+   "date": "2026-05-07",
+   "n_link_updates": 5,
+   "link_updates": [
+    {
+     "template": "earnings_beat",
+     "ticker": "AMZN",
+     "before": 0.8791,
+     "after": 0.6375,
+     "delta": -0.2417,
+     "was_correct": false
+    },
+    {
+     "template": "major_product_launch_positive_reception",
+     "ticker": "AMZN",
+     "before": 0.8564,
+     "after": 0.6314,
+     "delta": -0.225,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "PG",
+     "before": 0.3144,
+     "after": 0.2358,
+     "delta": -0.0786,
+     "was_correct": false
+    },
+    {
+     "template": "earnings_beat",
+     "ticker": "PG",
+     "before": 0.4702,
+     "after": 0.3527,
+     "delta": -0.1176,
+     "was_correct": false
+    },
+    {
+     "template": "dividend_increase_announced",
+     "ticker": "KO",
+     "before": 0.5902,
+     "after": 0.4426,
+     "delta": -0.1475,
+     "was_correct": false
+    }
+   ]
+  }
+ ]
+}

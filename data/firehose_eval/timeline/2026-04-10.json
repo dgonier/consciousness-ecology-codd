@@ -1,0 +1,564 @@
+{
+ "date": "2026-04-10",
+ "prev_trading_day": "2026-04-09",
+ "n_news": 32,
+ "n_activations": 14,
+ "n_observations": 8,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms Sun Pharma is finalizing a $12B binding offer for Organon, marking a definitive major acquisition event."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8676,
+   "delta": 0.3676,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article cites AWS benefiting from AI arms race and competitive e-commerce/cloud advantages, implying positive market reception to AI-driven cloud services."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article projects custom AI division revenue to grow from $34B to $100B by 2027, indicating strong market reception and growth trajectory."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article confirms rapid 48% YoY growth and $5.3B operating profit, indicating strong financial performance."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Article confirms strong Q2 FY2026 results with 9.7% revenue growth and 14.5% EBITDA growth, indicating a beat."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Company is building a comprehensive AI tech stack (chips, models, cloud) creating a powerful ecosystem."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Article confirms 63-year streak of dividend increases, establishing a strong historical precedent for future increases."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites Project Glasswing as proof of cybersecurity's essential nature alongside AI, implying positive strategic relevance for MSFT's security offerings."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=medium, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8341,
+   "delta": 0.3341,
+   "salience": 0.8736,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 1.615,
+     "link_strength": 0.74
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7643,
+   "delta": 0.2643,
+   "salience": 0.5754,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.177,
+     "link_strength": 0.63
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7124,
+   "delta": 0.2124,
+   "salience": 0.3439,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.619,
+     "link_strength": 0.48
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.288,
+     "link_strength": 0.48
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6496,
+   "delta": 0.1496,
+   "salience": 0.242,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.617,
+     "link_strength": 0.48
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5858,
+   "delta": 0.0858,
+   "salience": 0.1155,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.347,
+     "link_strength": 0.43
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5317,
+   "delta": 0.0317,
+   "salience": 0.0358,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.127,
+     "link_strength": 0.53
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.JNJ.next_day_direction",
+   "ticker": "JNJ",
+   "p_up_before": 0.5,
+   "p_up_after": 0.528,
+   "delta": 0.028,
+   "salience": 0.0311,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.112,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MCD.next_day_direction",
+   "ticker": "MCD",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5236,
+   "delta": 0.0236,
+   "salience": 0.0258,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.094,
+     "link_strength": 0.59
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": -4e-05,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.021,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.02024,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.04689,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.01142,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.00951,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": -0.00205,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.0066,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.01181,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": -0.00148,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.00908,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.00975,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.0125,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01027,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.0059,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": -0.00273,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.01023,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.00841,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "down",
+   "actual_return": -0.01275,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.01828,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MRK",
+   "action": "BUY",
+   "p_up": 0.83,
+   "reason": "Strong target increase signal with high confidence and no conflicts.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.76,
+   "reason": "Positive major product launch reception drives high probability.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Earnings beat and positive product launch reception support buy.",
+   "rank": 3
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Positive product launch reception provides solid upside potential.",
+   "rank": 4
+  },
+  {
+   "ticker": "WMT",
+   "action": "BUY",
+   "p_up": 0.59,
+   "reason": "Earnings beat offers modest upside; threshold met.",
+   "rank": 5
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Weak product launch signal; neutral stance appropriate.",
+   "rank": 6
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Dividend increase is a neutral positive; no strong buy signal.",
+   "rank": 7
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Minimal earnings beat impact; maintain watch status.",
+   "rank": 8
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Strong AI infrastructure capex commitments and billionaire buying interest outweigh concerns about temporary fuel surcharges.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Positioned as a superior buy compared to Magnificent Seven peers with solid semiconductor fundamentals.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Benefiting from AI infrastructure spending and cybersecurity trends, supported by billionaire portfolio inclusion.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.55,
+   "reason": "Resilient business model with high search market share and growing cloud profitability makes it a defensive growth play.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Positive ETF positioning and Gates' foundation holdings suggest support, but lack of specific directional catalysts warrants caution.",
+   "rank": 5
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Similar valuation and business model to Visa creates mixed signals regarding relative outperformance.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "M&A activity provides earnings support, but cybersecurity warnings from regulators introduce regulatory risk.",
+   "rank": 7
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Dividend King status and Crohn's disease market growth offer long-term value, though short-term momentum is neutral.",
+   "rank": 8
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Exceptional dividend track record and healthcare market tailwinds provide a floor, but no immediate breakout catalyst.",
+   "rank": 9
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Large acquisition deal provides strategic clarity, but the stock remains in a consolidation phase.",
+   "rank": 10
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Security risks highlighted in industry discussions create headwinds, though the company remains a stable dividend stock.",
+   "rank": 11
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.43,
+   "reason": "Strong growth and valuation discount make it attractive, but the comparison to Amazon keeps relative momentum mixed.",
+   "rank": 12
+  },
+  {
+   "ticker": "PEP",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Recent earnings miss and guidance cut for Simply Good Foods indicate deteriorating fundamentals.",
+   "rank": 13
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.41,
+   "reason": "Lacks specific directional news catalysts despite being a core consumer discretionary name.",
+   "rank": 14
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.4,
+   "reason": "Energy sector volatility and lack of specific positive catalysts result in a neutral outlook.",
+   "rank": 15
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.39,
+   "reason": "Healthcare sector stability is evident, but no immediate earnings or product launch news drives conviction.",
+   "rank": 16
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.38,
+   "reason": "Defensive beverage stock with no significant catalysts, resulting in a low-probability move.",
+   "rank": 17
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.37,
+   "reason": "Stable consumer staples business lacks the momentum or negative catalysts to warrant a clear directional bias.",
+   "rank": 18
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.36,
+   "reason": "Luxury dining sector remains sensitive to economic conditions with no specific positive news to drive upside.",
+   "rank": 19
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 24.7,
+  "bare_s": 14.99
+ }
+}

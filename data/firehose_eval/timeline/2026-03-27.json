@@ -1,0 +1,518 @@
+{
+ "date": "2026-03-27",
+ "prev_trading_day": "2026-03-26",
+ "n_news": 36,
+ "n_activations": 15,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article projects custom AI chip division sales to exceed $100B by 2027, indicating a major strategic product success."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article explicitly states Amazon is acquiring Fauna Robotics, a material M&A event with concrete deal details."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article cites 48% YoY Google Cloud growth as a key driver for the buy thesis, indicating strong product/service adoption."
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Announcement of a major 900 MW AI factory campus with an onsite power plant implies necessary regulatory approvals for construction and operation have been secu"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article explicitly states stock broke below $300 support level, triggering correction."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites 39% YoY Azure revenue growth, indicating strong product/service adoption and positive market reception."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "Article explicitly mentions 'potential support at the JPM collar level of 6,475' while noting the S&P 500 is down 1.7% and breaking a bear pennant, implying the"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states Microsoft (major tech stock) has experienced significant drawdowns alongside the Nasdaq 100 breaking key support at 24,000."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites 13% projected earnings growth and strong profitability, implying positive earnings trajectory."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.999,
+   "p_after": 0.9992,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.999,
+   "p_after": 0.9992,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7122,
+   "delta": 0.2122,
+   "salience": 0.3479,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 0.64,
+     "link_strength": 0.5
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.397,
+     "link_strength": 0.5
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.323,
+     "link_strength": 0.54
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7111,
+   "delta": 0.2111,
+   "salience": 0.4012,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.901,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.2944,
+   "delta": -0.2056,
+   "salience": 0.3853,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.874,
+     "link_strength": 0.4
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.JPM.next_day_direction",
+   "ticker": "JPM",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3917,
+   "delta": -0.1083,
+   "salience": 0.1559,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.44,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5293,
+   "delta": 0.0293,
+   "salience": 0.0455,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.557,
+     "link_strength": 0.35
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.01617,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.00815,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.03951,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.02823,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.02726,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01617,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.02486,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.02064,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00506,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.03024,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.01366,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.03297,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.00981,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.00589,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.02514,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01465,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.00204,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.03369,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "down",
+   "actual_return": -0.03276,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00581,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Strong positive reception to major product launch with no conflicting signals.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Multiple positive drivers (regulatory clearance, product launch, earnings beat) outweigh technical support break.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.29,
+   "reason": "High probability of acting as acquirer in announced merger creates significant downside risk.",
+   "rank": 3
+  },
+  {
+   "ticker": "JPM",
+   "action": "SELL",
+   "p_up": 0.39,
+   "reason": "Technical support broken indicates immediate bearish pressure on the stock.",
+   "rank": 4
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Mixed signals: positive product launch reception offset by technical support break.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Despite strong AI infrastructure news and a Motley Fool buy recommendation, the stock is under pressure from a broader market sell-off and is trading near 6-month lows.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Alphabet faces significant downside pressure with a 16% drop from highs and a YouTube lawsuit ruling, though it remains a core AI beneficiary.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Amazon is benefiting from M&A activity and AI integration but is dragged down by a weak S&P 500 trend and concerns over the AI memory cycle.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Apple is included in multiple ETF comparisons and benefits from Micron's HBM4 production, but lacks a specific directional catalyst amidst the tech sector's correction.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Broadcom is highlighted as a key custom AI chip designer and is recommended for new portfolios, offering a potential counter-trend play against the general tech weakness.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Chevron stock is under pressure due to insider selling by a Republican representative who supported the Iran war, signaling potential regulatory or political risk.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "JPMorgan is facing headwinds from a declining S&P 500 and rising yields, though it remains a stable financial anchor in a volatile market.",
+   "rank": 7
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Johnson & Johnson is recommended as a defensive play for Q2 2026, offering stability amidst market uncertainty and potential sector rotation.",
+   "rank": 8
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Procter & Gamble is identified as a safe dividend stock for volatile conditions, making it a logical defensive holding as the market fears a downturn.",
+   "rank": 9
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Coca-Cola is recommended as a defensive stock for high VIX environments, offering a solid long-term opportunity with consistent dividend growth.",
+   "rank": 10
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Home Depot is included in a Canadian sports honor announcement but lacks specific US market-moving news, resulting in a neutral watch status.",
+   "rank": 11
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Walmart is featured in a Canadian sports induction but has no specific US market catalyst, keeping it on the periphery of the watchlist.",
+   "rank": 12
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Mastercard faces general tech sector weakness but remains a key payment processor; no specific positive or negative catalysts were found in the news feed.",
+   "rank": 13
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "AbbVie is not mentioned in the news headlines, leading to a lack of specific directional signals for the next session.",
+   "rank": 14
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Cisco is not mentioned in the news headlines, resulting in no specific directional catalysts to drive a BUY or SELL signal.",
+   "rank": 15
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "McDonald's is not mentioned in the news headlines, leading to a neutral watch status with no immediate actionable signals.",
+   "rank": 16
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Merck is not mentioned in the news headlines, resulting in a lack of specific directional information for the upcoming session.",
+   "rank": 17
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "PepsiCo is not mentioned in the news headlines, leading to a neutral watch status with no specific market-moving events.",
+   "rank": 18
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "UnitedHealth Group is not mentioned in the news headlines, resulting in no specific directional signals to warrant a BUY or SELL action.",
+   "rank": 19
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 25.61,
+  "bare_s": 16.01
+ }
+}
