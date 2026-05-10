@@ -1,0 +1,474 @@
+# Internal links — v0 seed inventory
+# ~25 hand-written internal links across the three scopes.
+# Each is unverified at start; validation phase tests them against Polygon
+# scenarios with known outcomes before any are trusted in production.
+#
+# Naming convention:
+#   link.<scope>.<premise_short>→<conclusion_short>
+#   belief.<scope>.<statement_id>[.<context>]
+#
+# direction: positive = premise_p increases → conclusion_p increases
+#            negative = premise_p increases → conclusion_p decreases
+#
+# strength_prior: subjective starting weight [0, 1]. Scaled toward
+# strength_posterior by validation phase. 0.7 = "I'd be surprised if this
+# link doesn't hold most of the time."
+
+# ───── MACRO scope ─────
+# These affect ALL outcomes through the sector → company → outcome chain.
+
+- id: link.macro.fed_hawkish→equity_pressure
+  premise_belief_id: belief.macro.fed_hawkish_stance
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.70
+  citation: "Standard rate-cycle / risk-asset playbook"
+
+- id: link.macro.vix_elevated→equity_pressure
+  premise_belief_id: belief.macro.vix_elevated
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.65
+  citation: "VIX as fear gauge; elevated VIX historically correlates with equity drawdown"
+
+- id: link.macro.inverted_yield_curve→recession_risk
+  premise_belief_id: belief.macro.yield_curve_inverted
+  conclusion_belief_id: belief.market.recession_probability_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.60
+  citation: "Historic recession indicator (lead time 6-18mo)"
+
+- id: link.macro.dxy_strong→equity_pressure
+  premise_belief_id: belief.macro.dxy_strong
+  conclusion_belief_id: belief.market.us_equity_pressure_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.50
+  citation: "Strong dollar pressures multinational earnings; weaker but real"
+
+- id: link.macro.credit_spreads_widening→equity_pressure
+  premise_belief_id: belief.macro.investment_grade_credit_spreads_widening
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.70
+  citation: "Credit spreads lead equity drawdowns by days-to-weeks (Gilchrist-Zakrajsek)"
+
+- id: link.macro.oil_spike→inflation_pressure
+  premise_belief_id: belief.macro.oil_price_spike
+  conclusion_belief_id: belief.macro.inflation_expectations_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.55
+  citation: "Oil shocks pass through to headline CPI; weaker for core; can cause Fed reaction"
+
+- id: link.macro.geopolitical_shock→risk_off
+  premise_belief_id: belief.macro.geopolitical_shock_active
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.65
+  citation: "Russia/Ukraine, Middle East flare-ups: short-term equity selloff, treasury bid"
+
+- id: link.macro.recession_risk→equity_pressure
+  premise_belief_id: belief.market.recession_probability_up
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.75
+  citation: "Recession concern compresses multiples; reliable medium-horizon"
+
+- id: link.macro.10y_yield_spike→equity_pressure
+  premise_belief_id: belief.macro.ten_year_yield_spike
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.60
+  citation: "Higher discount rate compresses growth-stock multiples; rate-rotation effect"
+
+# ───── SECTOR scope ─────
+# These affect any company in the named sector.
+
+- id: link.sector.regulatory_scrutiny→equity_pressure
+  premise_belief_id: belief.sector.regulatory_scrutiny  # context: sector
+  conclusion_belief_id: belief.sector.equity_pressure   # context: sector
+  scope: sector
+  direction: positive
+  strength_prior: 0.65
+  citation: "Sector-wide regulatory action (EPA, FDA, FTC) historically depresses incumbent stocks"
+
+- id: link.sector.commodity_input_price_up→equity_pressure
+  premise_belief_id: belief.sector.commodity_input_price_up
+  conclusion_belief_id: belief.sector.equity_pressure
+  scope: sector
+  direction: positive
+  strength_prior: 0.60
+  citation: "Cost-input shock; depends on pricing power but generally negative short-horizon"
+
+- id: link.sector.demand_drop→equity_pressure
+  premise_belief_id: belief.sector.consumer_demand_drop
+  conclusion_belief_id: belief.sector.equity_pressure
+  scope: sector
+  direction: positive
+  strength_prior: 0.70
+  citation: "Direct revenue impact for consumer-facing sectors"
+
+- id: link.sector.subsidies_announced→equity_lift
+  premise_belief_id: belief.sector.govt_subsidies_announced
+  conclusion_belief_id: belief.sector.equity_pressure
+  scope: sector
+  direction: negative
+  strength_prior: 0.60
+  citation: "Subsidies inject capex/demand into sector incumbents"
+
+# ───── COMPANY scope ─────
+# Per-ticker. Context = {ticker: X}. Most surface-level, most numerous.
+
+- id: link.company.earnings_beat→next_day_up
+  premise_belief_id: belief.company.earnings_beat
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.65
+  citation: "Earnings surprise drift — beat → up; classic post-earnings announcement effect"
+
+- id: link.company.earnings_miss→next_day_down
+  premise_belief_id: belief.company.earnings_miss
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.65
+  citation: "Mirror of above"
+
+- id: link.company.guidance_cut→next_day_down
+  premise_belief_id: belief.company.guidance_cut
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.75
+  citation: "Forward guidance generally moves stocks more than backward earnings"
+
+- id: link.company.regulatory_action→next_day_down
+  premise_belief_id: belief.company.regulatory_action_announced
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.70
+  citation: "SEC/DOJ/EU/CMA/FTC actions reliably negative short-horizon"
+
+- id: link.company.regulatory_clearance→next_day_up
+  premise_belief_id: belief.company.regulatory_clearance_received
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.55
+  citation: "Cleared overhang → relief rally; weaker because often priced in"
+
+- id: link.company.product_launch_positive→next_day_up
+  premise_belief_id: belief.company.major_product_launch_positive_reception
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.50
+  citation: "Often pre-priced; magnitude depends on surprise vs expectation"
+
+- id: link.company.activist_filing→next_day_up
+  premise_belief_id: belief.company.activist_investor_takes_stake
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.65
+  citation: "13D / 13F filings revealing activist position reliably positive day-1"
+
+- id: link.company.ceo_departure_unplanned→next_day_down
+  premise_belief_id: belief.company.ceo_departure_unplanned
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.65
+  citation: "Sudden departure signals trouble; planned succession is neutral"
+
+- id: link.company.ma_acquirer→next_day_down
+  premise_belief_id: belief.company.acting_as_acquirer_in_announced_ma
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.55
+  citation: "Acquirer typically dips on M&A announcement (deal premium concern)"
+
+- id: link.company.ma_target→next_day_up
+  premise_belief_id: belief.company.target_in_announced_ma
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.85
+  citation: "Target jumps to deal price; very high reliability"
+
+- id: link.company.lawsuit_filed→next_day_down
+  premise_belief_id: belief.company.material_lawsuit_filed
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.45
+  citation: "Most lawsuits don't move stocks; magnitude classification critical"
+
+- id: link.company.dividend_increase→next_day_up
+  premise_belief_id: belief.company.dividend_increase_announced
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.45
+  citation: "Mild positive; cap return signal"
+
+- id: link.company.buyback_announced→next_day_up
+  premise_belief_id: belief.company.buyback_program_announced
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: positive
+  strength_prior: 0.55
+  citation: "Larger effect than dividends; demand-side support"
+
+- id: link.company.broken_support_level→next_day_down
+  premise_belief_id: belief.company.technical_support_broken
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.45
+  citation: "Technical signal — weaker prior; HFT exacerbation but mean-reverts"
+
+- id: link.company.short_interest_spike→next_day_down
+  premise_belief_id: belief.company.short_interest_high_and_rising
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.40
+  citation: "Mixed: can squeeze up or grind down; magnitude-dependent"
+
+# ───── CROSS-SCOPE LINKS ─────
+# Macro/sector beliefs feeding company-level outcomes — these are how
+# market trends propagate to individual stocks.
+
+- id: link.macro_pressure→company_outcome
+  premise_belief_id: belief.market.equity_risk_premium_up
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company  # propagation target
+  direction: negative
+  strength_prior: 0.55
+  citation: "Beta exposure: market pressure drags individual names; weak per-name link"
+
+- id: link.sector_pressure→company_outcome
+  premise_belief_id: belief.sector.equity_pressure
+  conclusion_belief_id: outcome.company.next_day_up
+  scope: company
+  direction: negative
+  strength_prior: 0.65
+  citation: "Sector beta: closer to per-name than macro; medium-strength link"
+
+# ───── POLYMARKET-BOUND STATE BELIEFS ─────
+# These state beliefs are bound to specific live Polymarket markets via
+# polymarket_market_id. While the market is open, current_p reads through
+# from the market price. On resolution, snaps to 0/1 and propagates.
+#
+# Listed below as belief→link pairs: each entry is the bound state belief
+# and the link from that belief to the appropriate market-level conclusion.
+# The market_id slugs are placeholders; bind to live markets at wire time.
+
+- id: belief.macro.fed_cuts_by_july_2026
+  kind: state_belief
+  statement_template: "Fed cuts rates at or before July 2026 FOMC"
+  scope: macro
+  prior_p: 0.5
+  polymarket_market_id: "fed-rate-cut-by-july-2026"  # placeholder slug
+  decay_class: glacial
+  citation: "Fed-path expectations bound to live crowd estimate"
+
+- id: link.fed_cuts→equity_lift
+  premise_belief_id: belief.macro.fed_cuts_by_july_2026
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: negative  # rate cuts COMPRESS risk premium
+  strength_prior: 0.65
+  citation: "Rate cuts traditionally support equity multiples"
+
+- id: belief.macro.recession_called_2026
+  kind: state_belief
+  statement_template: "NBER calls a US recession in 2026"
+  scope: macro
+  prior_p: 0.20  # base rate; only ~20% of years see NBER recession calls
+  polymarket_market_id: "us-recession-2026"
+  decay_class: glacial
+  citation: "Recession-called market — direct binding to Polymarket"
+
+- id: link.recession_called→equity_pressure
+  premise_belief_id: belief.macro.recession_called_2026
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: macro
+  direction: positive
+  strength_prior: 0.85
+  citation: "Recession declarations correlate strongly with equity drawdowns"
+
+- id: belief.sector.major_ai_regulation_passes_2026
+  kind: state_belief
+  statement_template: "A major US federal AI regulation bill passes in 2026"
+  context: {sector: "ai_tech"}
+  scope: sector
+  prior_p: 0.35
+  polymarket_market_id: "ai-regulation-2026"
+  decay_class: glacial
+  citation: "Sector-level regulatory binding"
+
+- id: link.ai_regulation→ai_sector_pressure
+  premise_belief_id: belief.sector.major_ai_regulation_passes_2026
+  conclusion_belief_id: belief.sector.equity_pressure  # context: ai_tech
+  scope: sector
+  direction: positive
+  strength_prior: 0.50
+  citation: "Regulation impact on AI-tier names varies — could compress or boost incumbents"
+
+# ───── CROSS-CORRELATION beliefs (emitted by cross_correlation herbivore) ─────
+# Pure-numeric species — no LLM. Activates these market-scope beliefs based
+# on rolling correlation matrix structure over the watchlist universe.
+# See trophic/beliefs/herbivores/cross_correlation.py for emission logic.
+
+# Cluster regime beliefs — one pair (high / low) per defined cluster.
+# "_high" = cluster moving as one unit; "_low" = cluster has broken / dispersed.
+# Both lean neutral as priors — these describe regime, not direction.
+
+- id: belief.market.cluster_correlation_tech_high
+  kind: state_belief
+  statement_template: "Tech cluster (AAPL/MSFT/GOOG/AVGO/CSCO/AMZN) is moving as a single unit (intra-corr ≥ 0.40)"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+  citation: "Cluster-cohesion regime detector (cross_correlation herb)"
+
+- id: belief.market.cluster_correlation_tech_low
+  kind: state_belief
+  statement_template: "Tech cluster has broken; single-stock dispersion within tech (intra-corr ≤ 0.10)"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+  citation: "Cluster-break regime detector"
+
+- id: belief.market.cluster_correlation_financial_high
+  kind: state_belief
+  statement_template: "Financial cluster (JPM/MA/V) is moving as a single unit"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_financial_low
+  kind: state_belief
+  statement_template: "Financial cluster has broken / dispersed"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_consumer_staples_high
+  kind: state_belief
+  statement_template: "Consumer staples cluster (KO/PEP/PG/WMT/MCD) is moving as a single unit (defensive bid)"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_consumer_staples_low
+  kind: state_belief
+  statement_template: "Consumer staples cluster has broken"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_consumer_disc_high
+  kind: state_belief
+  statement_template: "Consumer discretionary cluster (HD/AMZN) is correlated"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_consumer_disc_low
+  kind: state_belief
+  statement_template: "Consumer discretionary cluster has broken"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_health_high
+  kind: state_belief
+  statement_template: "Health cluster (JNJ/MRK/UNH/ABBV) is moving as a single unit"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_health_low
+  kind: state_belief
+  statement_template: "Health cluster has broken"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_energy_high
+  kind: state_belief
+  statement_template: "Energy cluster (CVX) — singleton placeholder; expand when universe grows"
+  scope: market
+  prior_p: 0.40
+  decay_class: normal
+
+- id: belief.market.cluster_correlation_energy_low
+  kind: state_belief
+  statement_template: "Energy cluster diverging from peers"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+
+# Global dispersion regime
+- id: belief.market.cross_asset_dispersion_high
+  kind: state_belief
+  statement_template: "Single-stock dispersion is high; alpha environment over beta (mean |off-diag corr| ≤ 0.25)"
+  scope: market
+  prior_p: 0.30
+  decay_class: normal
+  citation: "Dispersion regime detector (cross_correlation herb)"
+
+# Lead-lag template — instantiated per lead/follow pair when validated.
+# Not seeded with any pairs yet; the herb logs the matrix and we'll
+# turn on activations after out-of-sample validation.
+- id: belief.company.lead_signal_active
+  kind: state_belief
+  statement_template: "Prior-day move in {ticker_lead} historically predicts current-day move in {ticker_follow}"
+  scope: company
+  prior_p: 0.50
+  decay_class: fast
+  citation: "Lead-lag signal — placeholder template, instantiated per validated pair"
+
+# ───── Cross-correlation links into existing market/outcome layer ─────
+# When a cluster is high-correlation, evidence about ANY member is
+# stronger evidence about the whole cluster's direction. We model this by
+# linking cluster_high beliefs to equity_pressure/risk premium beliefs:
+# a cohesive cluster amplifies macro signal flow into its members.
+
+- id: link.cluster_tech_high→equity_amplification
+  premise_belief_id: belief.market.cluster_correlation_tech_high
+  conclusion_belief_id: belief.market.us_equity_pressure_up
+  scope: market
+  direction: positive
+  strength_prior: 0.30
+  citation: "When tech cluster is cohesive, macro pressure transmits more uniformly into equity"
+
+- id: link.dispersion_high→single_stock_alpha
+  premise_belief_id: belief.market.cross_asset_dispersion_high
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: market
+  direction: negative  # high dispersion → less systemic risk → mild risk-premium compression
+  strength_prior: 0.25
+  citation: "High dispersion = single-stock alpha environment, slight risk-premium compression"
+
+- id: link.cluster_consumer_staples_high→defensive_rotation
+  premise_belief_id: belief.market.cluster_correlation_consumer_staples_high
+  conclusion_belief_id: belief.market.equity_risk_premium_up
+  scope: market
+  direction: positive
+  strength_prior: 0.40
+  citation: "Defensive cluster cohesion historically signals risk-off rotation"

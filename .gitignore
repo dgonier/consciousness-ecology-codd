@@ -3,6 +3,11 @@
 # Aggressive about big files (checkpoints, datasets, logs) since this repo
 # trains on a 4090 and produces 2GB+ artifacts on every run.
 # =========================================================================
+.env
+
+# ---- viz/smoke artifacts (regenerable, large) ----
+viz_beliefs/
+*.png
 
 # ---- model artifacts ----
 checkpoints/

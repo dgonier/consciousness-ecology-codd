@@ -37,8 +37,22 @@ SCENARIOS = [
     ("AMZN", "2015-12-15"),
 ]
 
+# Bare ticker symbols match too much ambient web text. Search the company
+# name instead (kept alongside the ticker so it still grounds).
+TICKER_NAMES = {
+    "AAPL": "Apple",
+    "GOOG": "Google Alphabet",
+    "GOOGL": "Google Alphabet",
+    "FB":   "Facebook",
+    "AMZN": "Amazon",
+    "MSFT": "Microsoft",
+    "TSLA": "Tesla",
+    "NFLX": "Netflix",
+}
 
 def main() -> int:
+    # Defaults: 5d window, finance allowlist, low-quality URL filter,
+    # fallback retry without allowlist.
     tool = TavilyResearchTool(window_days=5)
     if not tool.is_available():
         print("ERROR: TAVILY_API_KEY not in env")
@@ -48,8 +62,9 @@ def main() -> int:
     total = 0
     in_window = 0
     for ticker, as_of in SCENARIOS:
-        print(f"=== {ticker} as_of={as_of} (window {tool.window_days}d back) ===")
-        snippets = tool.query(ticker, as_of, focus="stock news earnings", n_results=5)
+        name = TICKER_NAMES.get(ticker, ticker)
+        print(f"=== {ticker} ({name}) as_of={as_of} (window {tool.window_days}d back) ===")
+        snippets = tool.query(name, as_of, focus="stock earnings", n_results=5)
         print(f"  returned: {len(snippets)}")
         total += len(snippets)
         for i, s in enumerate(snippets, 1):
