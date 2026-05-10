@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Belief Timeline · codd</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=ord4" />
+
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#1a1815"/>
+      <g fill="none" stroke="#d97757" stroke-width="2">
+        <rect x="22" y="22" width="56" height="56" rx="3"/>
+        <line x1="22" y1="40" x2="78" y2="40"/>
+        <line x1="22" y1="58" x2="78" y2="58"/>
+        <line x1="40" y1="22" x2="40" y2="78"/>
+        <line x1="58" y1="22" x2="58" y2="78"/>
+      </g>
+      <circle cx="40" cy="40" r="4" fill="#74b86d"/>
+      <circle cx="58" cy="58" r="4" fill="#d76868"/>
+      <circle cx="58" cy="40" r="3" fill="#d97757"/>
+    </svg>
+  </template>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" data-presets="react" src="app.jsx?v=hold1"></script>
+  <script type="text/babel" data-presets="react" src="viz-grid.jsx?v=hold1"></script>
+  <script type="text/babel" data-presets="react" src="viz-holdings.jsx?v=hold1"></script>
+  <script type="text/babel" data-presets="react" src="viz-context.jsx?v=hold1"></script>
+  <script type="text/babel" data-presets="react" src="viz-spotlight.jsx?v=ord4"></script>
+  <script type="text/babel" data-presets="react" src="viz-below.jsx?v=hold1"></script>
+  <script type="text/babel" data-presets="react" src="viz-scrubber.jsx?v=hold1"></script>
+
+  <script type="text/babel" data-presets="react">
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "label": "run_2026-05-10_pm_v3_3_9way",
+  "git_sha": "c8a9d3e",
+  "feature_flags": "retry=2,yield=0.04,rotate=on,directive=on,oracles=next_day,hexis=off,context=16384,bedrock=sonnet4_6+opus4_6,async=off,decomposer=off",
+  "final_equities": "ECOLOGY=$108,321 \u00b7 BARE=$109,674",
+  "note": "9-way model-ablation sweep: 3 apex models (Qwen3.5-4B local vLLM, Bedrock Sonnet 4.6, Bedrock Opus 4.6) x 3 pipelines (BARE, ECOLOGY, ORACLE-next-day). Pydantic Order schema landed mid-run. ORACLE saw single-day forward returns (per-day), not full-window. Tax 37%, slippage 5bps, cash yield 4% annual, 2 retries on validator rejection. Decomposer NOT run."
+}
