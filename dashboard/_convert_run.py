@@ -185,35 +185,42 @@ def buyhold_series(days: list[dict]) -> list[float]:
 
 
 def build_manifest() -> dict:
-    """The v3 source has no MANIFEST. Synthesize the catalog the dashboard
-    expects from the canonical TICKERS x TEMPLATES grid (company-scope only).
-    The dashboard's belief_catalog is read by the context-strip rollup."""
-    catalog = []
+    """Synthesize a manifest in the shape ContextStrip expects:
+    `belief_catalog.nodes[]` with {id, scope, statement_template, decay_class,
+    prior_p}. The v3 source has no macro/sector beliefs to surface, so we emit
+    only the canonical company grid; the macro row will be empty (dashboard
+    handles this — `groups.macro.length` = 0)."""
+    nodes = []
     for tpl in TEMPLATES:
         for tkr in TICKERS:
-            catalog.append({
-                "belief_id": f"belief.company.{tpl}__ticker_{tkr}",
+            nodes.append({
+                "id": f"belief.company.{tpl}__ticker_{tkr}",
                 "scope": "company",
-                "template": tpl,
-                "ticker": tkr,
-                "statement": f"[{tkr}] (stub for belief.company.{tpl})",
+                "statement_template": f"[{tkr}] (stub for belief.company.{tpl})",
                 "decay_class": "event",
-                "prior": 0.5,
+                "prior_p": 0.5,
             })
-    # No macro/sector beliefs in this run → leave totals modest.
+    outcomes = [
+        {
+            "id": f"outcome.company.next_day_direction__ticker_{tkr}",
+            "scope": "company",
+            "ticker": tkr,
+        }
+        for tkr in TICKERS
+    ]
     return {
         "schema_version": "2.0",
-        "n_state_beliefs": len(catalog),
-        "n_outcomes": len(TICKERS),
+        "description": "Synthesized from v3 9-way ablation run; macro/sector beliefs not present in source.",
+        "n_state_beliefs": len(nodes),
+        "n_outcome_beliefs": len(outcomes),
         "n_links": 0,
-        "rollups": {
-            "stub": 0,
-            "decomposed": 0,
+        "links_by_kind": {},
+        "belief_catalog": {
+            "nodes": nodes,
+            "outcomes": outcomes,
         },
-        "macro_beliefs": [],
-        "sector_beliefs": [],
-        "market_beliefs": [],
-        "belief_catalog": catalog,
+        "dates": [],
+        "portfolio_summary": {},
     }
 
 
