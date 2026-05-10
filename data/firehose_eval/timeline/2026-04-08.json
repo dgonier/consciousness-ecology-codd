@@ -1,0 +1,465 @@
+{
+ "date": "2026-04-08",
+ "prev_trading_day": "2026-04-07",
+ "n_news": 49,
+ "n_activations": 26,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.9561,
+   "delta": 0.4561,
+   "n_activations": 4,
+   "ticker": "AVGO",
+   "sample_reasoning": "Author cites strong AI investment returns and high chip utilization, implying positive reception of AI infrastructure products."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.9382,
+   "delta": 0.4382,
+   "n_activations": 4,
+   "ticker": "GOOG",
+   "sample_reasoning": "AI ad tools driving 80% revenue growth for major clients and $82.28B Q4 revenue (up 13.5%) confirms strong market reception."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article cites improved financial positions, strong free cash flow, and revenue growth despite massive AI capex, indicating successful investment returns."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "MSFT",
+   "sample_reasoning": "Expansion of strategic partnership with Publicis Groupe to build AI-powered marketing solution on Azure and Copilot Studio."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8022,
+   "delta": 0.3022,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Uber expanding AWS partnership and deploying new chips indicates significant demand for AMZN's cloud infrastructure and AI services."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "30% drawdown and plummeting stock indicate technical support failure."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.7389,
+   "delta": 0.2389,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "Stock declined on foldable iPhone delay concerns, suggesting potential breakdown in technical support levels."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article cites improved financial positions, strong free cash flow, and revenue growth despite massive AI capex, indicating successful investment returns."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "CEO confirms successful AI deployment with 1:1 ROI, 150k employees usage, and $2B savings, signaling strong internal adoption and efficiency gains."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "JPM revalued loan assets, indicating a proactive risk management step or regulatory pressure, though not a formal announcement."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Ackman's public declaration of 'stupidly cheap' valuations for high-quality stocks like MSFT signals potential activist interest or value thesis, increasing odd"
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Similar to MSFT, Ackman's broad assertion of extreme undervaluation for high-quality tech stocks like GOOG suggests potential activist activity or value investm"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8492,
+   "delta": 0.3492,
+   "salience": 0.6719,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.924,
+     "link_strength": 0.58
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.804,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8304,
+   "delta": 0.3304,
+   "salience": 0.697,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.11,
+     "link_strength": 0.41
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.359,
+     "link_strength": 0.45
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.119,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8303,
+   "delta": 0.3303,
+   "salience": 0.5936,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.797,
+     "link_strength": 0.5
+    },
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": 0.681,
+     "link_strength": 0.53
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.109,
+     "link_strength": 0.45
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.78,
+   "delta": 0.28,
+   "salience": 0.6345,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.266,
+     "link_strength": 0.41
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3709,
+   "delta": -0.1291,
+   "salience": 0.1974,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.528,
+     "link_strength": 0.51
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.0213,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.02529,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.03499,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.04988,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.03743,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.04292,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.03557,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.05455,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.01212,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.03554,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.01818,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.01774,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.00709,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.0327,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.00548,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01038,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.02548,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.00569,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.02119,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.03894,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.85,
+   "reason": "Strong earnings beat and major product launch reception drive high conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.83,
+   "reason": "Positive product launch reception and earnings beat support strong upside potential.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.83,
+   "reason": "Major product launch reception outweighs technical support break concerns.",
+   "rank": 3
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.78,
+   "reason": "Strong positive reception to major product launch provides solid upside.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.37,
+   "reason": "Technical support broken indicates significant downside risk.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Surged 4-6% on ceasefire relief and AI ad revenue growth, with strong technical momentum breaking above resistance.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Benefiting from geopolitical de-risking, AWS expansion, and resilient consumer spending signals despite AI capex fears.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Rallied on ceasefire news and AI integration, supported by analyst views that growth stocks remain undervalued.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Declined 2.2% on foldable iPhone engineering delays and muted App Store growth amidst broader tech rotation.",
+   "rank": 4
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.4,
+   "reason": "Shares fell 5.3% following a 15% crash in oil prices triggered by the U.S.-Iran ceasefire agreement.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals with AI agentic trends supporting the stock but broader market rotation creating near-term uncertainty.",
+   "rank": 6
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Acting as a safe-haven alternative to AI stocks, but lacks specific catalysts to outperform the broader market today.",
+   "rank": 7
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Included in the relief rally on the ceasefire but lacks the direct tech or energy exposure of other watchlist members.",
+   "rank": 8
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 46.24,
+  "bare_s": 7.09
+ }
+}

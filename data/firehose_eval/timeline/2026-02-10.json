@@ -1,0 +1,586 @@
+{
+ "date": "2026-02-10",
+ "prev_trading_day": "2026-02-09",
+ "n_news": 40,
+ "n_activations": 17,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.8889,
+   "delta": 0.3889,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Waymo's $16B funding validates Alphabet's AI strategy, supported by Gemini's 750M MAU and Cloud's 48% growth, signaling strong market reception."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.8676,
+   "delta": 0.3676,
+   "n_activations": 2,
+   "ticker": "MRK",
+   "sample_reasoning": "Clinical progress with mRNA-4157 cancer vaccine candidate indicates potential future growth and positive reception."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.8022,
+   "delta": 0.3022,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms Apple's 'Apple Intelligence' features are being successfully deployed via partnerships, outperforming competitors on profitability while avoidi"
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_KO",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "KO",
+   "sample_reasoning": "Article explicitly states KO missed revenue due to currency headwinds and impairment charges, confirming an earnings miss."
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Submission of flu vaccine mRNA-1010 for regulatory approval implies a high probability of clearance, driving stock surge."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "OpenAI returning to strong monthly growth of over 10% indicates successful AI integration and product momentum."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "CEO selling 32,500 shares combined with general distribution pressure suggests technical support is being tested or broken."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states stock faces 'negative momentum indicators' despite fundamentals, signaling technical weakness."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.5871,
+   "p_after": 0.6437,
+   "delta": 0.0566,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.5871,
+   "p_after": 0.6437,
+   "delta": 0.0566,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cross_asset_dispersion_high",
+   "p_before": 0.8957,
+   "p_after": 0.9399,
+   "delta": 0.0442,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "global mean |off-diag corr| = 0.24 \u2264 0.25; single-stock dispersion regime"
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PG",
+   "sample_reasoning": "sympathy from KO (20d corr +0.64); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_PEP",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PEP",
+   "sample_reasoning": "sympathy from KO (20d corr +0.60); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_consumer_staples_high",
+   "p_before": 0.9732,
+   "p_after": 0.9878,
+   "delta": 0.0146,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-consumer_staples corr = +0.45 (\u2265 0.40)"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.802,
+   "delta": 0.302,
+   "salience": 0.6036,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.999,
+     "link_strength": 0.53
+    },
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 0.4,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6584,
+   "delta": 0.1584,
+   "salience": 0.2624,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.656,
+     "link_strength": 0.47
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.KO.next_day_direction",
+   "ticker": "KO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3543,
+   "delta": -0.1457,
+   "salience": 0.2331,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.6,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6288,
+   "delta": 0.1288,
+   "salience": 0.2391,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.857,
+     "link_strength": 0.41
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5709,
+   "delta": 0.0709,
+   "salience": 0.1042,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.47,
+     "link_strength": 0.59
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PEP.next_day_direction",
+   "ticker": "PEP",
+   "p_up_before": 0.5,
+   "p_up_after": 0.47,
+   "delta": -0.03,
+   "salience": 0.0336,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.12,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PG.next_day_direction",
+   "ticker": "PG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.47,
+   "delta": -0.03,
+   "salience": 0.0336,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.12,
+     "link_strength": 0.75
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": -0.00342,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00367,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.00843,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.01018,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.00565,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00186,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.01779,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.02278,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": -0.00122,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.01186,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.01488,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00945,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "flat",
+   "actual_return": 0.00114,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": -0.00425,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": -0.0008,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": 0.003,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.01112,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.009,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00796,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.01798,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MRK",
+   "action": "BUY",
+   "p_up": 0.802,
+   "reason": "Strong dual drivers: major product launch reception (0.868) and regulatory clearance (0.69) with no conflicts.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.658,
+   "reason": "Positive product launch reception (0.802) with no conflicting signals.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.629,
+   "reason": "Strong product launch reception (0.889) outweighs weak technical support break conflict.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.571,
+   "reason": "Product launch reception (0.69) slightly offsets technical support break; net neutral.",
+   "rank": 4
+  },
+  {
+   "ticker": "KO",
+   "action": "SELL",
+   "p_up": 0.354,
+   "reason": "Earnings miss (0.69) is a strong negative driver with no conflicting positive signals.",
+   "rank": 5
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Weak earnings miss signal (0.54) indicates low conviction; maintain watch.",
+   "rank": 6
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Weak earnings miss signal (0.54) indicates low conviction; maintain watch.",
+   "rank": 7
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Record earnings beat and conservative AI strategy drive strong buying pressure despite broader tech sector concerns.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals with AI optimism offset by insider selling and leadership instability at Musk-linked entities.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Quality score surge and AI efficiency gains counteract broader software sector sell-off and insider selling risks.",
+   "rank": 3
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Durable growth narrative persists but faces UBS downgrade on AI valuation concerns and unrelated corporate news noise.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Nvidia competition fears weigh on sentiment, though TSMC sales growth provides a partial offset.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Sector rebound driven by JPM's pushback against software sell-off, though broader banking sector remains mixed.",
+   "rank": 6
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Positive clinical trial expansion news offers support, but no strong directional catalyst currently dominates.",
+   "rank": 7
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "SaaS and cloud collaboration market growth provides long-term tailwinds, but lacks immediate explosive catalyst.",
+   "rank": 8
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Stable energy play with no specific news catalysts to drive significant directional bias today.",
+   "rank": 9
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Retail sector remains resilient but lacks specific earnings or product news to trigger a strong directional move.",
+   "rank": 10
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Defensive healthcare stock with no immediate catalysts to drive significant price movement.",
+   "rank": 11
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mixed earnings results (EPS beat, revenue miss) create uncertainty, preventing a clear directional bias.",
+   "rank": 12
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Payment processing sector remains stable but lacks specific news to drive a strong directional move.",
+   "rank": 13
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Restaurants sector remains resilient but lacks specific news to drive a strong directional move.",
+   "rank": 14
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Clinical progress news provides support, but no explosive catalyst to drive a strong directional move.",
+   "rank": 15
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Stable beverage company with no specific news catalysts to drive significant directional bias.",
+   "rank": 16
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Defensive consumer staple with no immediate catalysts to drive significant price movement.",
+   "rank": 17
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Healthcare sector remains stable but lacks specific news to drive a strong directional move.",
+   "rank": 18
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Retail sector remains resilient but lacks specific news to drive a strong directional move.",
+   "rank": 19
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 30.75,
+  "bare_s": 12.28
+ }
+}

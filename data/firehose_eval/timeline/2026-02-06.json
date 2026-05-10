@@ -1,0 +1,492 @@
+{
+ "date": "2026-02-06",
+ "prev_trading_day": "2026-02-05",
+ "n_news": 46,
+ "n_activations": 20,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.0718,
+   "delta": -0.4282,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "9% plunge after announcing $200B capex increase signals severe margin pressure and reduced near-term profitability guidance."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8889,
+   "delta": 0.3889,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Amazon's $200B capex signals strong commitment to AI/data center infrastructure, directly boosting demand for Arm's chips."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8721,
+   "delta": 0.3721,
+   "n_activations": 3,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article explicitly states Amazon 'beat earnings expectations' despite stock decline."
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article explicitly states the company missed EPS estimates."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article confirms 18% revenue and 31% EPS growth, explicitly stating 'strong Q4 earnings'."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Analyst downgraded stock citing overly optimistic fiscal 2027 projections and higher capex forecasts."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Stock declined after announcing $175-185B capex plan, roughly double 2025 spending, signaling higher future costs."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Immutep's successful 50% enrollment in a Phase III trial for KEYTRUDA (Merck's drug) indicates strong clinical progress and positive reception for the product c"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Microsoft's $9.7B contract with IREN secures long-term AI infrastructure demand, signaling strong product/service adoption."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article identifies Broadcom as a beneficiary of $600B Big Tech AI capex, implying positive demand for its chips/networking equipment."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article cites 650M MAU for Gemini and integration with Apple Siri as evidence of positive product reception."
+  },
+  {
+   "belief_id": "belief.market.cross_asset_dispersion_high",
+   "p_before": 0.7215,
+   "p_after": 0.8251,
+   "delta": 0.1036,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "global mean |off-diag corr| = 0.24 \u2264 0.25; single-stock dispersion regime"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_consumer_staples_high",
+   "p_before": 0.8801,
+   "p_after": 0.9423,
+   "delta": 0.0621,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-consumer_staples corr = +0.45 (\u2265 0.40)"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.4681,
+   "p_after": 0.528,
+   "delta": 0.0598,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.4681,
+   "p_after": 0.528,
+   "delta": 0.0598,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9361,
+   "delta": 0.4361,
+   "salience": 1.2735,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 1.92,
+     "link_strength": 0.75
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.99,
+     "link_strength": 0.52
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.975,
+     "link_strength": 0.47
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8155,
+   "delta": 0.3155,
+   "salience": 0.5237,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.66,
+     "link_strength": 0.52
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.562,
+     "link_strength": 0.7
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.264,
+     "link_strength": 0.44
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.803,
+   "delta": 0.303,
+   "salience": 0.5999,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.98,
+     "link_strength": 0.77
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.425,
+     "link_strength": 0.53
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5987,
+   "delta": 0.0987,
+   "salience": 0.1382,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.4,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5747,
+   "delta": 0.0747,
+   "salience": 0.0972,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.301,
+     "link_strength": 0.5
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.00801,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.02014,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.05555,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.07217,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.02987,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.00909,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.02484,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.00727,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00925,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.03946,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00662,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.00571,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.01138,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.0182,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.01898,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01767,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.00353,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.03016,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00744,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.0334,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.9361,
+   "reason": "Strong earnings beat and product launch offset guidance cut; high confidence despite 1 conflict.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.8155,
+   "reason": "Earnings beat and positive product reception outweigh guidance cut; clean causal chain.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.803,
+   "reason": "Major product launch drives upside, partially offset by guidance cut; medium confidence.",
+   "rank": 3
+  },
+  {
+   "ticker": "MRK",
+   "action": "BUY",
+   "p_up": 0.5987,
+   "reason": "Positive product reception provides modest upside; low confidence but above buy threshold.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5747,
+   "reason": "Positive product reception suggests neutral-to-positive bias; low confidence warrants monitoring.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Amazon faces significant downside pressure following a 10% drop due to a massive $200B AI capex announcement that spooked investors despite solid earnings.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "SELL",
+   "p_up": 0.44,
+   "reason": "Microsoft is trailing the broader tech rally and downgraded to 'hold' amid fears of an AI bubble and heavy capital expenditure spending.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Alphabet showed resilience with strong cloud momentum and earnings beats, though it shares in the broader market sell-off on AI spending concerns.",
+   "rank": 3
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Nvidia and Broadcom benefit from the AI infrastructure boom and are positioned to capture the massive capital expenditure wave from Big Tech.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Apple remains a core holding with potential upside from the in-vehicle digital experience market, though it faces general tech sector volatility.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "JPMorgan is viewed as a potential long-term hedge against inflation and gold, with strategic tech investments adding stability.",
+   "rank": 6
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "AbbVie faces headwinds from CVS replacing its branded drugs with biosimilars, but remains a defensive healthcare play.",
+   "rank": 7
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Cisco benefits from the long-term growth of the 5G equipment market, though it currently lacks the immediate catalyst of the AI capex boom.",
+   "rank": 8
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 0.04,
+  "bare_s": 0.0
+ }
+}

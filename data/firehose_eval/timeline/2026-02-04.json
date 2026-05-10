@@ -1,0 +1,636 @@
+{
+ "date": "2026-02-04",
+ "prev_trading_day": "2026-02-03",
+ "n_news": 52,
+ "n_activations": 25,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_ABBV",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "ABBV",
+   "sample_reasoning": "Company reported Q4 2025 sales of $16.62B, beating consensus estimates with 10% growth and EPS of $2.71 (up 25.5%)."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "DOJ filed cross-appeal to force Chrome sale and restrict deals, escalating antitrust pressure."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Report confirms AI chip revenue accelerating to $6.5B with $8.2B guidance, indicating strong performance."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly cites 'slowing Azure growth guidance' as a primary driver of the stock decline."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "Article confirms 18% revenue and 24% earnings growth, explicitly stating strong Q4 results."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Azure growth driven by AI demand is 39% YoY, indicating strong product reception."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_ABBV",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "ABBV",
+   "sample_reasoning": "Shares fell 6.7% post-earnings due to eroding Humira sales and persistent challenges in the aesthetics segment, despite guidance."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_ABBV",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "ABBV",
+   "sample_reasoning": "Article confirms 54 consecutive years of dividend increases and healthy cash flow supporting growth."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Druckenmiller opened a new position in Amazon, signaling confidence in the company's AI exposure and valuation relative to peers."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Druckenmiller opened a new position in Alphabet, signaling confidence in the company's AI exposure and valuation relative to peers."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states earnings beat expectations despite sell-off."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_consumer_staples_high",
+   "p_before": 0.5974,
+   "p_after": 0.7675,
+   "delta": 0.1701,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-consumer_staples corr = +0.45 (\u2265 0.40)"
+  },
+  {
+   "belief_id": "belief.market.cross_asset_dispersion_high",
+   "p_before": 0.4385,
+   "p_after": 0.5872,
+   "delta": 0.1487,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "global mean |off-diag corr| = 0.24 \u2264 0.25; single-stock dispersion regime"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article highlights AI integration into consumer services and automation improving margins, suggesting positive reception of new capabilities."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "sympathy from MA (20d corr +0.84); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "Proposed 10% rate cap and CCCA could reduce volume by 6-9%, creating near-term headwinds."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "10% sell-off occurred, but article frames it as a buying opportunity, not a breakdown."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Nationwide expansion to 4,300 stores indicates significant retail traction and positive market reception for the new product line."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Stock surged 2.94% to hit $1T market cap, indicating strong buying pressure and potential breakout above key resistance levels."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "sympathy from MA (20d corr +0.84); source magnitude=weak, source dir=decreases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.3527,
+   "p_after": 0.4092,
+   "delta": 0.0565,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.3527,
+   "p_after": 0.4092,
+   "delta": 0.0565,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=weak, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.ABBV.next_day_direction",
+   "ticker": "ABBV",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9079,
+   "delta": 0.4079,
+   "salience": 0.9822,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 1.408,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.6,
+     "link_strength": 0.75
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.28,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8977,
+   "delta": 0.3977,
+   "salience": 0.7795,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.96,
+     "link_strength": 0.75
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.64,
+     "link_strength": 0.5
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.44,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MA.next_day_direction",
+   "ticker": "MA",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7077,
+   "delta": 0.2077,
+   "salience": 0.3538,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.704,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.18,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6691,
+   "delta": 0.1691,
+   "salience": 0.2881,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.704,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6593,
+   "delta": 0.1593,
+   "salience": 0.2166,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.36,
+     "link_strength": 0.45
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.3,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3691,
+   "delta": -0.1309,
+   "salience": 0.2482,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": -0.896,
+     "link_strength": 0.7
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.V.next_day_direction",
+   "ticker": "V",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6248,
+   "delta": 0.1248,
+   "salience": 0.166,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.33,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.18,
+     "link_strength": 0.75
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.02601,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.03789,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.02359,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.03834,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.02346,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01792,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.0216,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.01601,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00588,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.00769,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00598,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00508,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.01318,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.0215,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.00725,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.02045,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.00998,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.02907,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.0031,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "flat",
+   "actual_return": 0.00227,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "ABBV",
+   "action": "BUY",
+   "p_up": 0.91,
+   "reason": "Strong earnings beat (+0.43) outweighs guidance cut; high dividend probability adds safety.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.9,
+   "reason": "Major product launch reception and earnings beat drive upside; guidance cut is minor relative to momentum.",
+   "rank": 2
+  },
+  {
+   "ticker": "MA",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Earnings beat (+0.28) provides solid upside; guidance cut is negligible.",
+   "rank": 3
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.67,
+   "reason": "Earnings beat (+0.28) is the primary driver; single driver but sufficient for buy.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.66,
+   "reason": "Activist stake and product launch reception provide dual positive drivers.",
+   "rank": 5
+  },
+  {
+   "ticker": "GOOG",
+   "action": "SELL",
+   "p_up": 0.37,
+   "reason": "Regulatory action announced is a strong negative driver; activist stake is insufficient to offset.",
+   "rank": 6
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "GOOG",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Antitrust legal threats and AI skepticism are driving significant selling pressure despite record revenue expectations.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mixed signals with record revenue expectations offset by antitrust scrutiny and capital rotation away from mega-cap tech.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Strong AI positioning and analyst buy ratings contrast with recent market-wide tech selloffs and valuation concerns.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Stock declined 11% in January despite earnings beats, indicating lingering investor concerns about AI growth sustainability.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Positioned as the 'Uncle Sam of AI' with accelerating AI chip revenue, offering a compelling non-mag7 growth play.",
+   "rank": 5
+  },
+  {
+   "ticker": "ABBV",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Beat earnings expectations with strong growth in new immunology portfolio, providing a solid defensive income play.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "Bull market is broadening into cyclical sectors, and upcoming investor days suggest positive momentum for financials.",
+   "rank": 7
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Strong dividend history and financials make it a viable income play amidst tech rotation, though energy sector volatility remains.",
+   "rank": 8
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Benefiting from the rotation into cyclical stocks as investors flee mega-cap tech, offering value exposure.",
+   "rank": 9
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Defensive retail sector gaining relative strength as the Nasdaq tumbles, providing a safe haven for capital.",
+   "rank": 10
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 0.05,
+  "bare_s": 0.0
+ }
+}

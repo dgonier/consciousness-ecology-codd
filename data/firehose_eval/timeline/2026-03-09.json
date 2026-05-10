@@ -1,0 +1,532 @@
+{
+ "date": "2026-03-09",
+ "prev_trading_day": "2026-03-06",
+ "n_news": 28,
+ "n_activations": 14,
+ "n_observations": 6,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms $841B in buybacks since 2013, reducing shares by 43.3% and boosting EPS."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "Stock down 40% from 52-week high with negative trends and flat guidance suggests key technical levels are breached."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Tiger Global, a major activist firm, shifted its top holding to Alphabet, citing strong fundamentals and attractive valuation, signaling strong conviction."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7311,
+   "delta": 0.2311,
+   "n_activations": 3,
+   "ticker": "MSFT",
+   "sample_reasoning": "Verified partner status indicates positive reception of Microsoft's AI cloud ecosystem expansion, though not a direct product launch."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.3543,
+   "delta": -0.1457,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article notes 25% drop from ATH due to AI spending concerns, though author disputes this as unfounded."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.5987,
+   "delta": 0.0987,
+   "n_activations": 1,
+   "ticker": "PG",
+   "sample_reasoning": "sympathy from MCD (20d corr +0.59); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.5987,
+   "delta": 0.0987,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "sympathy from MCD (20d corr +0.56); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article implies positive market reception for AI sector, including Alphabet, but lacks specific product launch data or concrete numbers."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9856,
+   "p_after": 0.9884,
+   "delta": 0.0028,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9856,
+   "p_after": 0.9884,
+   "delta": 0.0028,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7068,
+   "delta": 0.2068,
+   "salience": 0.3258,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.575,
+     "link_strength": 0.58
+    },
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": 0.305,
+     "link_strength": 0.51
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MCD.next_day_direction",
+   "ticker": "MCD",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3407,
+   "delta": -0.1593,
+   "salience": 0.2644,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.66,
+     "link_strength": 0.52
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6351,
+   "delta": 0.1351,
+   "salience": 0.2022,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.497,
+     "link_strength": 0.39
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.057,
+     "link_strength": 0.36
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6253,
+   "delta": 0.1253,
+   "salience": 0.1894,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.512,
+     "link_strength": 0.4
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PG.next_day_direction",
+   "ticker": "PG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4424,
+   "delta": -0.0576,
+   "salience": 0.0709,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.231,
+     "link_strength": 0.58
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4518,
+   "delta": -0.0482,
+   "salience": 0.0575,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.193,
+     "link_strength": 0.48
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.0094,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.01156,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": 0.00131,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.04621,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.0309,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00263,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.02585,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01218,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00911,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": 0.00152,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00987,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.00884,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.00835,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.0114,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": 0.0011,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01317,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.01035,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": -0.00457,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": -0.00438,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "flat",
+   "actual_return": 0.00436,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.7068,
+   "reason": "Strong product launch reception (+0.23) outweighs technical support break (-0.15). High conviction multi-driver signal.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.6351,
+   "reason": "Activist stake (+0.28) and product launch (+0.04) provide clear upside. No conflicting signals.",
+   "rank": 2
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.6253,
+   "reason": "Buyback program announcement (+0.28) drives probability up. Low confidence but action aligns with p_up > 0.55.",
+   "rank": 3
+  },
+  {
+   "ticker": "MCD",
+   "action": "SELL",
+   "p_up": 0.3407,
+   "reason": "Technical support broken (+0.28) is a strong bearish driver. p_up < 0.45 confirms sell signal.",
+   "rank": 4
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.4424,
+   "reason": "Technical support broken (+0.10) creates slight downside risk. p_up < 0.45 suggests caution, but low salience warrants monitoring.",
+   "rank": 5
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.4518,
+   "reason": "Technical support broken (+0.10) indicates minor bearish pressure. p_up just above 0.45, but low salience keeps it on watch.",
+   "rank": 6
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Strong buyback history and smart home growth support the stock, but stretched valuations and geopolitical risks create mixed signals.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "AI leadership and strong revenue growth are offset by concerns over an AI bubble, high valuations, and rising energy costs.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Despite being a Buffett buy and benefiting from AI, the company faces margin compression risks from surging oil prices and high valuations.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Recommended by Buffett and gaining institutional favor, yet exposed to similar inflation and valuation risks as peers.",
+   "rank": 4
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Oil prices have surged significantly, but the sector has underperformed despite the price spike, suggesting a lag in stock reaction.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "CEO warnings about inflation and market exuberance suggest potential headwinds, though the bank remains a defensive anchor.",
+   "rank": 6
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Consumer discretionary resilience is mixed with broader market concerns about economic weakness and high valuations.",
+   "rank": 7
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Costco's outperformance highlights retail strength, but Amazon's competitive pressure and macro risks keep the outlook neutral.",
+   "rank": 8
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Cited as a Buffett buy with durable business models, but faces similar valuation and geopolitical risks as the broader tech sector.",
+   "rank": 9
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "A Buffett holding with defensive characteristics, though it lacks the explosive growth catalysts driving other consumer stocks.",
+   "rank": 10
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Hit fresh highs recently, but faces structural competitive pressures and declining comparable sales that limit upside potential.",
+   "rank": 11
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Stable pharmaceutical profile with no specific negative catalysts, but lacks the strong growth or defensive momentum of peers.",
+   "rank": 12
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Benefiting from AI infrastructure demand, but high valuations and sector concentration risks suggest a cautious approach.",
+   "rank": 13
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Solid fundamentals and dividend history, but overshadowed by the broader tech sector's valuation concerns and AI hype.",
+   "rank": 14
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Defensive healthcare stock with no specific negative news, but lacks the growth catalysts to justify a bullish tilt.",
+   "rank": 15
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Vaccine market growth offers potential, but the company remains a defensive play without strong momentum indicators.",
+   "rank": 16
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Steady consumer staple performance, but no specific catalysts to drive it above the neutral threshold.",
+   "rank": 17
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Consistent dividend and pricing power, yet the broader market's valuation concerns dampen enthusiasm for consumer staples.",
+   "rank": 18
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Healthcare sector stability is evident, but no specific positive news or momentum to warrant a bullish action.",
+   "rank": 19
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 22.6,
+  "bare_s": 14.33
+ }
+}

@@ -1,0 +1,510 @@
+{
+ "date": "2026-02-24",
+ "prev_trading_day": "2026-02-23",
+ "n_news": 36,
+ "n_activations": 17,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.9593,
+   "delta": 0.4593,
+   "n_activations": 3,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article positions Broadcom as the inference leader via ASIC tech and custom chip partnerships with major hyperscalers, suggesting positive market reception for "
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Duquesne Family Office increased stake by 69% to $170M and bought call options, signaling strong conviction despite market pressure."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Sale of 77% stake explicitly linked to tariff concerns and AI strategy worries, signaling regulatory or strategic headwinds."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Ackman holds 14%+ stake, signaling strong conviction in AI positioning and valuation."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Walmart authorized a record $30B buyback, its largest ever, signaling strong confidence and capital return commitment."
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Partnership with SWEPCO for infrastructure costs implies regulatory approval for data center construction in Louisiana."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_JPM",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "JPM",
+   "sample_reasoning": "Shares fell 4.22% despite positive AI guidance due to specific concerns over private credit and AI-related credit risks, indicating market skepticism about the "
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5987,
+   "delta": 0.0987,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article mentions shift may be a response to tariffs, implying regulatory context, but does not confirm specific clearance or approval."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Wix integration with Google Search/Maps/AI Mode is a strategic partnership enhancing Google's ecosystem utility, likely driving incremental engagement."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9105,
+   "p_after": 0.926,
+   "delta": 0.0155,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9105,
+   "p_after": 0.926,
+   "delta": 0.0155,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cross_asset_dispersion_high",
+   "p_before": 0.9992,
+   "p_after": 0.9995,
+   "delta": 0.0003,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "global mean |off-diag corr| = 0.24 \u2264 0.25; single-stock dispersion regime"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9075,
+   "delta": 0.4075,
+   "salience": 0.8201,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 1.012,
+     "link_strength": 0.4
+    },
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": 0.896,
+     "link_strength": 0.7
+    },
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 0.375,
+     "link_strength": 0.47
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8372,
+   "delta": 0.3372,
+   "salience": 0.8894,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.638,
+     "link_strength": 0.52
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.JPM.next_day_direction",
+   "ticker": "JPM",
+   "p_up_before": 0.5,
+   "p_up_after": 0.637,
+   "delta": 0.137,
+   "salience": 0.2141,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.562,
+     "link_strength": 0.7
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6286,
+   "delta": 0.1286,
+   "salience": 0.1858,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.445,
+     "link_strength": 0.35
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.081,
+     "link_strength": 0.34
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6177,
+   "delta": 0.1177,
+   "salience": 0.1743,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.48,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MCD.next_day_direction",
+   "ticker": "MCD",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5436,
+   "delta": 0.0436,
+   "salience": 0.0513,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.175,
+     "link_strength": 0.44
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.53,
+   "delta": 0.03,
+   "salience": 0.0336,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 0.12,
+     "link_strength": 0.5
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.02239,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00453,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.01603,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.01468,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.00515,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": 0.00233,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": -0.00247,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.01987,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": 0.00179,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": -0.00124,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": 0.00199,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00397,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "flat",
+   "actual_return": -0.00451,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": 0.00089,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.01178,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.00725,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.00067,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.02972,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00228,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00747,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.91,
+   "reason": "Strong activist stake (+0.43) outweighs regulatory risk; regulatory clearance likely.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.84,
+   "reason": "Major product launch receiving highly positive market reception.",
+   "rank": 2
+  },
+  {
+   "ticker": "JPM",
+   "action": "SELL",
+   "p_up": 0.31,
+   "reason": "Guidance cut (-0.19) indicates significant downside risk; override BUY signal.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.63,
+   "reason": "Activist stake and product launch provide moderate upside potential.",
+   "rank": 4
+  },
+  {
+   "ticker": "WMT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Buyback program announced signals management confidence and capital return.",
+   "rank": 5
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.54,
+   "reason": "Buyback program offers slight upside but lacks strong conviction for trade.",
+   "rank": 6
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Regulatory clearance is a neutral positive; insufficient catalyst for action.",
+   "rank": 7
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong institutional accumulation by hedge funds and Buffett's Berkshire stake reduction signals confidence in long-term growth despite recent price declines.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Positioned as a breakout growth stock benefiting from the AI inference era and major contracts with Alphabet and Anthropic.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Recommended as a buying opportunity with strong AI momentum and significant growth in the endpoint protection and digital twins markets.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals with new AI integrations and Wix partnerships offset by cautious sentiment regarding Salesforce and Tesla's robotaxi issues.",
+   "rank": 4
+  },
+  {
+   "ticker": "JPM",
+   "action": "BUY",
+   "p_up": 0.56,
+   "reason": "CEO Jamie Dimon's prediction of the bank being a winner in the AI race and increased tech spending to $19.8 billion supports bullish sentiment.",
+   "rank": 5
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Production expansion in Texas is positive, but significant AI competition risks regarding Siri upgrades create uncertainty.",
+   "rank": 6
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Recommended as a high-yield energy stock for long-term dividend income, though specific short-term catalysts are less defined than in tech.",
+   "rank": 7
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Potential upside from Hinge Health's AI moat and cost-reduction solutions, but lacks immediate directional clarity compared to tech leaders.",
+   "rank": 8
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 30.57,
+  "bare_s": 6.03
+ }
+}

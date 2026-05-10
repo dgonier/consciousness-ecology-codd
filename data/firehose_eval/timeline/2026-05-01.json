@@ -1,0 +1,589 @@
+{
+ "date": "2026-05-01",
+ "prev_trading_day": "2026-04-30",
+ "n_news": 38,
+ "n_activations": 32,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.9994,
+   "delta": 0.4994,
+   "n_activations": 6,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article explicitly states Q2 2026 earnings beat estimates."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.9427,
+   "delta": 0.4427,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article explicitly states Alphabet (GOOG) surged 10% on 'strong earnings', confirming a beat."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.9105,
+   "delta": 0.4105,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "Company authorized a $100 billion share repurchase program."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.852,
+   "delta": 0.352,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "Quarterly dividend raised 4% to $0.27 per share."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Buffett sold 77% of stake citing valuation concerns and AI spending, signaling deep disagreement with long-term strategy."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Buffett invested $4B+ viewing Google as a virtual monopoly with strong competitive advantages and attractive valuation."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_ABBV",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "ABBV",
+   "sample_reasoning": "Eli Lilly agreed to acquire Centessa Pharmaceuticals (spun out from Nxera) for up to $7.8B, with ABBV retaining rights to milestone and royalty payments."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Q1 2026 earnings showed accelerating revenue growth in AWS driven by AI, making it the best-performing Magnificent Seven stock."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article states $190B capex guidance for 2026 is unsustainable, threatening buybacks/dividends and shifting to bonds."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article states $200B capex guidance for 2026 is unsustainable, threatening buybacks/dividends and shifting to bonds."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "AI-driven rally directly attributed to Larry Page's wealth surge implies strong market reception of AI products/services."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article cites $8.4B Q1 revenue from AI division, indicating massive growth in custom AI chips."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article states high oil prices enable increased dividends for major producers like CVX, implying likelihood of announcement."
+  },
+  {
+   "belief_id": "belief.company.buyback_program_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article explicitly mentions share buybacks are enabled by the cash flow boost from high oil prices."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.3635,
+   "delta": -0.1365,
+   "n_activations": 2,
+   "ticker": "AAPL",
+   "sample_reasoning": "Guidance is 14-17% vs Street ~9%, indicating a significant upward revision."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states 'strong Q3 2026 earnings with 18% revenue growth' and '$37 billion AI business run rate', confirming a beat."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article confirms Alphabet holds ~14% stake in Anthropic, an early investor position."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article confirms Amazon committed $4 billion as an early investor in Anthropic."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Raised CapEx guidance to $180-190B, implying higher future spending than previously implied."
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.997,
+   "delta": 0.497,
+   "salience": 2.4041,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 3.837,
+     "link_strength": 0.52
+    },
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.952,
+     "link_strength": 0.41
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.613,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9387,
+   "delta": 0.4387,
+   "salience": 0.8335,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.9,
+     "link_strength": 0.7
+    },
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": 0.886,
+     "link_strength": 0.69
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.792,
+     "link_strength": 0.62
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8633,
+   "delta": 0.3633,
+   "salience": 0.9479,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 1.609,
+     "link_strength": 0.57
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.759,
+     "link_strength": 0.59
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.177,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7332,
+   "delta": 0.2332,
+   "salience": 0.4379,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.878,
+     "link_strength": 0.69
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.133,
+     "link_strength": 0.42
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.ABBV.next_day_direction",
+   "ticker": "ABBV",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7231,
+   "delta": 0.2231,
+   "salience": 0.4373,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 0.96,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6758,
+   "delta": 0.1758,
+   "salience": 0.2435,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.385,
+     "link_strength": 0.48
+    },
+    {
+     "parent_template": "buyback_program_announced",
+     "contribution_log_odds": 0.35,
+     "link_strength": 0.44
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6541,
+   "delta": 0.1541,
+   "salience": 0.2524,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.637,
+     "link_strength": 0.5
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.03239,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.02234,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.01207,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.00922,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": 0.00383,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.01386,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": 0.00335,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01496,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.01157,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": -0.00243,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": -0.00229,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.01483,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.02367,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.02729,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.01633,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.00681,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": 0.00116,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "flat",
+   "actual_return": -0.00459,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "down",
+   "actual_return": -0.00549,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "flat",
+   "actual_return": -0.0025,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.997,
+   "reason": "Strong earnings beat (+0.50) and buyback program announced; high confidence with no conflicts.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.939,
+   "reason": "Earnings beat (+0.28) outweighs negative guidance cut and CEO departure signals; net positive momentum.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.863,
+   "reason": "Earnings beat and major product launch drive upside; CEO departure conflict is minor relative to positive drivers.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.733,
+   "reason": "Earnings beat (+0.08) combined with negative guidance cut yields solid buy signal; low conflict.",
+   "rank": 4
+  },
+  {
+   "ticker": "ABBV",
+   "action": "BUY",
+   "p_up": 0.723,
+   "reason": "Clear upside from announced major acquisition target; single strong driver with no conflicts.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.654,
+   "reason": "Positive reception to major product launch provides sufficient upside probability.",
+   "rank": 6
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.676,
+   "reason": "Dividend increase and buyback program announced create a dual-driver bullish case.",
+   "rank": 7
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Strong Q2 earnings beat, aggressive buyback authorization, and robust guidance drive a broad tech rally.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Analysts recommend Broadcom as a top AI chip play with projected 72% revenue growth driven by GPU demand.",
+   "rank": 2
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Geopolitical tensions causing an oil price surge to record highs significantly boost energy sector cash flow visibility.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Despite strong earnings and AI growth, Goldman Sachs warns of high cloud capex burn rates creating near-term headwinds.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "AWS growth is accelerating but the stock faces mixed sentiment due to Buffett's recent stake reduction and high capex concerns.",
+   "rank": 5
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Earnings beat was overshadowed by a sharp 8.6% drop due to investors reacting negatively to increased AI capital expenditure guidance.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "While the stock is in focus, macro concerns regarding US debt levels exceeding 100% of GDP create uncertainty.",
+   "rank": 7
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Strong operational results from Nxera Pharma provide support, but the stock lacks the immediate catalyst strength of the tech leaders.",
+   "rank": 8
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 46.49,
+  "bare_s": 5.75
+ }
+}

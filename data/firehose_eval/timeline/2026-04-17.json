@@ -1,0 +1,603 @@
+{
+ "date": "2026-04-17",
+ "prev_trading_day": "2026-04-16",
+ "n_news": 41,
+ "n_activations": 18,
+ "n_observations": 9,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.9168,
+   "delta": 0.4168,
+   "n_activations": 3,
+   "ticker": "AAPL",
+   "sample_reasoning": "Record sales and 20% YoY shipment surge indicate performance significantly exceeding conservative Wall Street estimates."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article confirms $11.6B acquisition of Globalstar to accelerate satellite internet, a material strategic event."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.8889,
+   "delta": 0.3889,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Alphabet secures major infrastructure deal (TPUs) for Anthropic, cementing Google Cloud's role as a dominant AI infrastructure provider regardless of model winn"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Historically low valuation (P/E 32) and margin improvements suggest price is far below intrinsic value, indicating a broken support level."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article explicitly states Alphabet's early stake could yield $100B gains, confirming a major financial stakeholder with significant upside potential."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "New oil discovery at Bandit prospect and asset swap with PDVSA expand production capacity and revenue potential."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Partnership with Expert.ai for Azure Marketplace indicates positive reception of new AI capabilities, driving stock up 1.11%."
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_PEP",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "PEP",
+   "sample_reasoning": "Net loss increased from \u20ac23.4M to \u20ac34.3M, confirming a miss on profitability despite expense cuts."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article suggests potential custom chip partnership with Anthropic could boost margins, but it is speculative and early-stage."
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_KO",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "KO",
+   "sample_reasoning": "sympathy from PEP (20d corr +0.60); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.earnings_miss__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PG",
+   "sample_reasoning": "sympathy from PEP (20d corr +0.55); source magnitude=medium, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8444,
+   "delta": 0.3444,
+   "salience": 0.7089,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.058,
+     "link_strength": 0.51
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.633,
+     "link_strength": 0.49
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.1571,
+   "delta": -0.3429,
+   "salience": 0.6707,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.956,
+     "link_strength": 0.44
+    },
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.724,
+     "link_strength": 0.57
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7614,
+   "delta": 0.2614,
+   "salience": 0.5646,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 1.16,
+     "link_strength": 0.48
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PEP.next_day_direction",
+   "ticker": "PEP",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3488,
+   "delta": -0.1512,
+   "salience": 0.2455,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.624,
+     "link_strength": 0.78
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6097,
+   "delta": 0.1097,
+   "salience": 0.1586,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.446,
+     "link_strength": 0.56
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5817,
+   "delta": 0.0817,
+   "salience": 0.1086,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.33,
+     "link_strength": 0.41
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.KO.next_day_direction",
+   "ticker": "KO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4688,
+   "delta": -0.0312,
+   "salience": 0.0351,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.125,
+     "link_strength": 0.78
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PG.next_day_direction",
+   "ticker": "PG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4705,
+   "delta": -0.0295,
+   "salience": 0.033,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_miss",
+     "contribution_log_odds": -0.118,
+     "link_strength": 0.74
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5206,
+   "delta": 0.0206,
+   "salience": 0.0223,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.082,
+     "link_strength": 0.51
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.02593,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00292,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": 0.00344,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.02025,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.02071,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.02211,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.01992,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.03633,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": -0.00153,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": 0.0011,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00745,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00532,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.01433,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.03127,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.00602,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": -0.00448,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.02669,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.02601,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00609,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.02147,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.8444,
+   "reason": "Strong dual drivers: major product launch reception (+0.39) and activist investor stake (+0.28) with no conflicts.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.7614,
+   "reason": "Solid earnings beat (+0.42) with clean causal chain and no conflicting signals.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.6097,
+   "reason": "Positive product launch reception (+0.19) supports buy thesis; low confidence but directionally sound.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.5817,
+   "reason": "Product launch reception (+0.19) tips the scale to buy; low confidence but above neutral threshold.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.1571,
+   "reason": "Bearish drivers: acting as acquirer (-0.40) and broken technical support (-0.28) create strong sell signal.",
+   "rank": 5
+  },
+  {
+   "ticker": "PEP",
+   "action": "SELL",
+   "p_up": 0.3488,
+   "reason": "Earnings miss (-0.19) is a significant negative driver; p_up remains below 0.45 threshold.",
+   "rank": 6
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.4688,
+   "reason": "Minimal earnings miss signal (-0.04) keeps stock near neutral; insufficient data for clear direction.",
+   "rank": 7
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.4705,
+   "reason": "Minimal earnings miss signal (-0.04) keeps stock near neutral; insufficient data for clear direction.",
+   "rank": 8
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5206,
+   "reason": "Weak product launch signal (+0.04) keeps stock near neutral; insufficient data for clear direction.",
+   "rank": 9
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.72,
+   "reason": "Alphabet benefits from Anthropic's explosive growth and AI robotics breakthroughs, driving strong momentum toward record highs.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Microsoft leads the Magnificent Seven with strong AI partnerships and attractive valuations despite broader market volatility.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.65,
+   "reason": "Amazon offers a historically low valuation with significant upside from its Globalstar acquisition and AWS growth acceleration.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals from China market share gains and AI compute strategy debates create uncertainty despite strong earnings.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Broadcom stands to gain from Anthropic's custom chip plans, offering a strategic play on the AI hardware demand cycle.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Geopolitical tensions eased by the Lebanon ceasefire caused oil prices to drop sharply, weighing on Chevron's stock.",
+   "rank": 6
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Emerging psychedelic therapy trends offer long-term potential, but current market focus remains on high-growth tech.",
+   "rank": 7
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Coca-Cola remains a stable dividend play but lacks the immediate catalysts driving the current tech rally.",
+   "rank": 8
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mixed analyst sentiment and sector rotation make the financial sector a neutral watch for the near term.",
+   "rank": 9
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "PepsiCo is a solid dividend stock but currently lacks the explosive growth narrative of the AI sector.",
+   "rank": 10
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Procter & Gamble offers defensive stability but is not positioned for the current market's aggressive growth bias.",
+   "rank": 11
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "AbbVie's potential in mental health treatments is promising, yet the stock is currently underperforming the broader market.",
+   "rank": 12
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "UnitedHealth Group remains a strong defensive play but lacks the specific catalysts driving the current tech rally.",
+   "rank": 13
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mastercard is a solid financial technology play but currently lacks the specific momentum of its peers.",
+   "rank": 14
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Home Depot offers defensive value but is not positioned for the current market's aggressive growth bias.",
+   "rank": 15
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "McDonald's remains a stable dividend play but lacks the explosive growth narrative of the AI sector.",
+   "rank": 16
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Cisco is a solid telecom play but currently lacks the specific catalysts driving the current market's aggressive growth bias.",
+   "rank": 17
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Walmart offers defensive stability but is not positioned for the current market's aggressive growth bias.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 34.67,
+  "bare_s": 13.67
+ }
+}

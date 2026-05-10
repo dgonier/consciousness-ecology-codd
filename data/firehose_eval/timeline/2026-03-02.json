@@ -1,0 +1,384 @@
+{
+ "date": "2026-03-02",
+ "prev_trading_day": "2026-02-27",
+ "n_news": 12,
+ "n_activations": 9,
+ "n_observations": 4,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.1795,
+   "delta": -0.3205,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Selling 75% of stake due to valuation concerns signals loss of confidence, reducing activist/institutional support."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article confirms Buffett sold 4.3% of Apple as his final move as CEO, signaling leadership transition."
+  },
+  {
+   "belief_id": "belief.company.ceo_departure_unplanned__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article confirms Buffett sold 77% of Amazon as his final move as CEO, signaling leadership transition."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Buffett bought Chevron; while not a direct acquisition, it signals capital allocation shift to energy."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Yarvis is a new AI assistant integrating with Teams/email to reduce friction, addressing a known 70% failure rate in digital transformations."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9596,
+   "p_after": 0.9669,
+   "delta": 0.0073,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9596,
+   "p_after": 0.9669,
+   "delta": 0.0073,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.2323,
+   "delta": -0.2677,
+   "salience": 0.4393,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": -0.641,
+     "link_strength": 0.42
+    },
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": -0.554,
+     "link_strength": 0.69
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3729,
+   "delta": -0.1271,
+   "salience": 0.1933,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "ceo_departure_unplanned",
+     "contribution_log_odds": -0.52,
+     "link_strength": 0.65
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.531,
+   "delta": 0.031,
+   "salience": 0.0348,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.124,
+     "link_strength": 0.52
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.476,
+   "delta": -0.024,
+   "salience": 0.0263,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.096,
+     "link_strength": 0.4
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": 0.00204,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.00939,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.00767,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "flat",
+   "actual_return": -0.00228,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": -0.0005,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01521,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.01628,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.02603,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": 0.00052,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.00912,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.01643,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.00733,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.0183,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01946,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.01479,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.01449,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.02207,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.00566,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00116,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.00664,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.23,
+   "reason": "Strong bearish drivers: activist stake dilution (-0.32) and unplanned CEO departure (-0.55) create a weak upward probability of 0.23.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.37,
+   "reason": "Bearish signal driven by high probability (0.69) of unplanned CEO departure, resulting in a low p_up of 0.37.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Neutral stance maintained; positive product launch reception (+0.06) slightly offsets noise, keeping p_up at 0.53.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Neutral stance; announced acquisition activity (+0.06) provides slight upside bias, resulting in p_up of 0.48.",
+   "rank": 4
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Bearish signal driven by Berkshire Hathaway selling 75% of its stake due to valuation concerns and a shift away from tech.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "SELL",
+   "p_up": 0.4,
+   "reason": "Bearish sentiment from Peter Thiel's massive portfolio liquidation and concerns regarding AI advertising in ChatGPT.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mixed signals with Berkshire selling Apple but buying consumer goods, alongside analyst praise for Zillow's resilience.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Inclusion in Berkshire's final consumer-focused buys suggests potential value, though no specific directional catalyst.",
+   "rank": 4
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mentioned in Berkshire's portfolio context and compared in AI ETF analysis, but lacks a dominant directional driver.",
+   "rank": 5
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Listed in Berkshire's final investment moves, indicating potential stability or value play.",
+   "rank": 6
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Benefiting from projected growth in the global antibiotics market, offering a defensive growth narrative.",
+   "rank": 7
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Aligned with the antibiotics market growth forecast, providing a solid fundamental backdrop.",
+   "rank": 8
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Featured in a financial manifesto discussion, suggesting a focus on long-term value principles.",
+   "rank": 9
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 13.26,
+  "bare_s": 6.23
+ }
+}
