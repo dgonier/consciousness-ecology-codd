@@ -19,10 +19,11 @@ from .base import ResearchSnippet, ResearchTool
 from .openai_search import OpenAIWebSearchTool
 from .google_search import GoogleCSEResearchTool
 from .serper_search import SerperResearchTool
+from .tavily_search import TavilyResearchTool
 from .mock import MockResearchTool
 
 __all__ = [
     "ResearchSnippet", "ResearchTool",
     "OpenAIWebSearchTool", "GoogleCSEResearchTool",
-    "SerperResearchTool", "MockResearchTool",
+    "SerperResearchTool", "TavilyResearchTool", "MockResearchTool",
 ]

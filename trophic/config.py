@@ -14,7 +14,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 @dataclass
 class ModelConfig:
-    chat_model_id: str = "Qwen/Qwen3-4B"
+    chat_model_id: str = "Qwen/Qwen3.5-4B"
     embed_model_id: str = "Qwen/Qwen3-Embedding-0.6B"
     forecaster_model_id: str = "amazon/chronos-bolt-base"
     device: str = "cuda"

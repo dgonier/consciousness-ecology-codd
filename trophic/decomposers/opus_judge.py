@@ -36,9 +36,15 @@ def call_opus_for_json(
     model: str | None = None,
     max_tokens: int = 4096,
     temperature: float = 0.4,
+    request_timeout_s: int = 60,
 ) -> dict | None:
-    """Invoke Bedrock Opus and parse a single JSON object out of the
+    """Invoke Bedrock Opus/Sonnet and parse a single JSON object out of the
     response. Returns the dict, or None on parse failure.
+
+    `request_timeout_s` is a hard cap on each individual invoke_model
+    network call. Default 60s; override for shorter calls. This prevents
+    pipeline stalls when Bedrock takes forever to respond (a real failure
+    mode under load).
 
     The system prompt should instruct the model to return ONLY a JSON
     object, but real models still wrap with prose; we strip code-fence
@@ -46,6 +52,7 @@ def call_opus_for_json(
     """
     try:
         import boto3
+        from botocore.config import Config as BotocoreConfig
     except ImportError:
         return None
     model = model or DEFAULT_OPUS_MODEL
@@ -53,8 +60,17 @@ def call_opus_for_json(
         "AWS_REGION",
         os.environ.get("AWS_DEFAULT_REGION", "us-east-1"),
     )
+    # Hard timeouts on connect + read so a hanging Bedrock call can't
+    # stall the pipeline indefinitely.
+    boto_cfg = BotocoreConfig(
+        connect_timeout=10,
+        read_timeout=request_timeout_s,
+        retries={"max_attempts": 0},  # we handle retries ourselves
+    )
     try:
-        client = boto3.client("bedrock-runtime", region_name=region)
+        client = boto3.client(
+            "bedrock-runtime", region_name=region, config=boto_cfg,
+        )
     except Exception:
         return None
     body = {
@@ -64,8 +80,7 @@ def call_opus_for_json(
         "system": system,
         "messages": [{"role": "user", "content": user}],
     }
-    # Retry on transient throttling. Bedrock surfaces ThrottlingException
-    # under burst load; we back off exponentially up to 3 attempts.
+    # Retry on throttling AND on read timeouts. Both are transient.
     import time as _time
     last_err = None
     payload = None
@@ -85,6 +100,11 @@ def call_opus_for_json(
             if "throttl" in msg or "too many" in msg:
                 wait = 2 ** attempt * 5  # 5s, 10s, 20s
                 print(f"[opus_judge] throttled (attempt {attempt+1}/3), waiting {wait}s...")
+                _time.sleep(wait)
+                continue
+            if "timeout" in msg or "timed out" in msg or "readtimeout" in msg:
+                wait = 2 ** attempt * 2  # 2s, 4s, 8s
+                print(f"[opus_judge] read timeout (attempt {attempt+1}/3), retrying in {wait}s...")
                 _time.sleep(wait)
                 continue
             print(f"[opus_judge] bedrock invoke error: {e}")

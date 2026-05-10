@@ -11,12 +11,36 @@ from __future__ import annotations
 import datetime as _dt
 import json
 import os
+import re
 from urllib.request import Request, urlopen
 
 from .base import ResearchTool, ResearchSnippet
 
 
 TAVILY_ENDPOINT = "https://api.tavily.com/search"
+
+# Default financial-news allowlist used when caller doesn't supply one.
+DEFAULT_FINANCIAL_DOMAINS = [
+    "reuters.com", "bloomberg.com", "wsj.com", "cnbc.com",
+    "marketwatch.com", "ft.com", "seekingalpha.com", "fool.com",
+    "barrons.com", "investors.com", "forbes.com", "businessinsider.com",
+    "nytimes.com", "9to5mac.com",
+]
+
+# Author-index / pagination URLs that match a finance domain but carry no
+# article content. Filter these out post-hoc.
+_LOW_QUALITY_URL_RE = re.compile(
+    r"/(?:author|authors|contributor|contributors|page|category|tag|tags)[/\-]"
+    r"|articles?-(?:and-)?analysis"
+    r"|/page[/-]\d+",
+    re.IGNORECASE,
+)
+
+
+def _is_low_quality(url: str | None) -> bool:
+    if not url:
+        return False
+    return bool(_LOW_QUALITY_URL_RE.search(url))
 
 
 class TavilyResearchTool(ResearchTool):
@@ -27,10 +51,18 @@ class TavilyResearchTool(ResearchTool):
         api_key: str | None = None,
         window_days: int = 5,
         include_domains: list[str] | None = None,
+        fallback_no_domain: bool = True,
+        filter_low_quality: bool = True,
     ):
         self.api_key = api_key or os.environ.get("TAVILY_API_KEY")
         self.window_days = window_days
-        self.include_domains = include_domains
+        # Default to finance allowlist; pass [] to disable.
+        self.include_domains = (
+            include_domains if include_domains is not None
+            else list(DEFAULT_FINANCIAL_DOMAINS)
+        )
+        self.fallback_no_domain = fallback_no_domain
+        self.filter_low_quality = filter_low_quality
 
     def is_available(self) -> bool:
         return bool(self.api_key)
@@ -44,6 +76,20 @@ class TavilyResearchTool(ResearchTool):
         end = d.isoformat()
         start = (d - _dt.timedelta(days=window_days)).isoformat()
         return start, end
+
+    def _post(self, body: dict) -> list[dict]:
+        req = Request(
+            TAVILY_ENDPOINT,
+            data=json.dumps(body).encode("utf-8"),
+            headers={"Content-Type": "application/json", "User-Agent": "trophic/0.1"},
+        )
+        try:
+            with urlopen(req, timeout=20) as r:
+                data = json.loads(r.read().decode("utf-8"))
+        except Exception as e:
+            print(f"[tavily] query error: {e}")
+            return []
+        return data.get("results", []) or []
 
     def query(
         self,
@@ -63,7 +109,9 @@ class TavilyResearchTool(ResearchTool):
             "api_key": self.api_key,
             "query": q,
             "topic": "news",
-            "max_results": min(max(n_results, 1), 20),
+            # Request a few extra so post-hoc low-quality filtering still
+            # leaves us with n_results.
+            "max_results": min(max(n_results * 2, n_results + 3), 20),
         }
         window = self._date_window(as_of_date, self.window_days)
         if window:
@@ -71,21 +119,20 @@ class TavilyResearchTool(ResearchTool):
         if self.include_domains:
             body["include_domains"] = self.include_domains
 
-        req = Request(
-            TAVILY_ENDPOINT,
-            data=json.dumps(body).encode("utf-8"),
-            headers={"Content-Type": "application/json", "User-Agent": "trophic/0.1"},
-        )
-        try:
-            with urlopen(req, timeout=20) as r:
-                data = json.loads(r.read().decode("utf-8"))
-        except Exception as e:
-            print(f"[tavily] query error: {e}")
-            return []
+        results = self._post(body)
 
-        results = data.get("results", []) or []
+        # Fallback: if the allowlist returned nothing, retry without it.
+        if not results and self.include_domains and self.fallback_no_domain:
+            body.pop("include_domains", None)
+            results = self._post(body)
+
         snippets: list[ResearchSnippet] = []
-        for item in results[:n_results]:
+        for item in results:
+            if len(snippets) >= n_results:
+                break
+            url = item.get("url")
+            if self.filter_low_quality and _is_low_quality(url):
+                continue
             date = None
             pub = item.get("published_date")
             if pub:
