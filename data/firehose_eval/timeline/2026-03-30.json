@@ -1,0 +1,442 @@
+{
+ "date": "2026-03-30",
+ "prev_trading_day": "2026-03-27",
+ "n_news": 25,
+ "n_activations": 18,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.832,
+   "delta": 0.332,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Trading at significant discounts to 5-year average multiples suggests a breakdown in technical support levels, indicating undervaluation."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.8022,
+   "delta": 0.3022,
+   "n_activations": 2,
+   "ticker": "MSFT",
+   "sample_reasoning": "Stock fell 26% YTD despite strong results, suggesting potential breakdown of key technical support levels."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Revenue surged over 100% to $8.4B, indicating a significant positive earnings performance."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article confirms 17% revenue and 24% EPS growth, explicitly stating 'strong Q2 results'."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7685,
+   "delta": 0.2685,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article highlights strong market positions and new AI model Gemini as structural advantages for long-term growth."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Trading at significant discounts to 5-year average multiples suggests a breakdown in technical support levels, indicating undervaluation."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "UNH",
+   "sample_reasoning": "Added to SCHD with higher avg dividend growth (9.4%), implying dividend increase or growth acceleration."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.3543,
+   "delta": -0.1457,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article cites regulatory threats to App Store as a major challenge, implying potential future regulatory actions that could impact margins."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Author cites strong 24% AWS revenue growth and 23% ad growth, implying positive earnings performance despite stock decline."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "New AI feature announced with 18% capacity increase metric indicates positive reception and utility."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_ABBV",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "ABBV",
+   "sample_reasoning": "Removed from SCHD; while not explicitly stated, removal from high-quality dividend funds often signals lower growth prospects."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9992,
+   "p_after": 0.9993,
+   "delta": 0.0001,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9992,
+   "p_after": 0.9993,
+   "delta": 0.0001,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6327,
+   "delta": 0.1327,
+   "salience": 0.2049,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.544,
+     "link_strength": 0.42
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3719,
+   "delta": -0.1281,
+   "salience": 0.2543,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.985,
+     "link_strength": 0.62
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5972,
+   "delta": 0.0972,
+   "salience": 0.1355,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": 0.394,
+     "link_strength": 0.66
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.UNH.next_day_direction",
+   "ticker": "UNH",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5695,
+   "delta": 0.0695,
+   "salience": 0.089,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.28,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.463,
+   "delta": -0.037,
+   "salience": 0.0663,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.795,
+     "link_strength": 0.57
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.00872,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.01777,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.00808,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.02418,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "down",
+   "actual_return": -0.03604,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00208,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": -0.00226,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.00575,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00848,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": 0.00329,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.0074,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.02016,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.0086,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01279,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.00614,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.0247,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.01408,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.01069,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.0136,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "flat",
+   "actual_return": 0.00496,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.6327,
+   "reason": "Strong earnings beat signal with no conflicting signals; high conviction on positive momentum.",
+   "rank": 1
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.5972,
+   "reason": "Regulatory action announcement reduces downside risk, supporting a buy thesis despite neutral sentiment.",
+   "rank": 2
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5695,
+   "reason": "Dividend increase announced provides a positive catalyst, warranting continued observation.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.463,
+   "reason": "Technical support broken creates bearish pressure, but earnings beat conflict keeps it in watch status.",
+   "rank": 4
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.3719,
+   "reason": "Technical support broken with two conflicting positive signals; bearish technicals dominate the outlook.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Valuation metrics suggest a bargain entry with strong AWS growth, and recent market breadth improvements support a rebound.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Stock is significantly oversold with solid Q2 fundamentals, presenting a high-probability mean reversion opportunity.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mixed signals from AI dominance vs. legal headwinds and market volatility create an inconclusive short-term outlook.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "While recommended for AI exposure, concerns over iPhone saturation and China market share weaken the bullish case.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Explosive AI revenue growth driven by custom XPU chips provides a strong catalyst for continued outperformance.",
+   "rank": 5
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Market breadth deterioration and geopolitical tensions offset the recent market rebound, keeping the outlook neutral.",
+   "rank": 6
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Recent surge indicates potential momentum, but the turnaround plan remains unproven for immediate price action.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 27.1,
+  "bare_s": 4.83
+ }
+}

@@ -1,0 +1,583 @@
+{
+ "date": "2026-03-31",
+ "prev_trading_day": "2026-03-30",
+ "n_news": 57,
+ "n_activations": 31,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Announced $50B investment from OpenAI, a major strategic partner, effectively acting as a significant stakeholder in AWS growth."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.9105,
+   "delta": 0.4105,
+   "n_activations": 3,
+   "ticker": "GOOG",
+   "sample_reasoning": "Apple's $1B annual commitment to Gemini integration validates Google's AI platform success and market penetration."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8928,
+   "delta": 0.3928,
+   "n_activations": 3,
+   "ticker": "AMZN",
+   "sample_reasoning": "Zoox completed 350k rides and is expanding to major markets, signaling strong product-market fit and future revenue potential."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.8532,
+   "delta": 0.3532,
+   "n_activations": 3,
+   "ticker": "AAPL",
+   "sample_reasoning": "Buffett praises products as 'remarkable' and CEO leadership, indicating positive sentiment on product quality and management."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Druckenmiller increased positions in Q4 2025, marking second consecutive quarter of purchases, signaling strong conviction."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article confirms completion of Hess acquisition in 2025, generating $12.5B in future cash flow."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "Article confirms Q4 2025 earnings with 17.3% revenue growth and 19% annual EPS growth, indicating a significant beat."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "Value-Added Services division surged 22% in Q4, double core growth, signaling successful strategic pivot to high-margin AI/data services."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article highlights explosive growth in custom AI chip division with specific revenue trajectory to $100B."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.7389,
+   "delta": 0.2389,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "13% YTD decline amid tech selloffs suggests short-term price weakness, though fundamentals remain strong."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Cloud growth of 48% YoY significantly outpaces AWS, indicating strong execution and revenue beat."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "AWS growth of 24% YoY confirms strong cloud momentum, though slower than Google's performance."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "Article explicitly states Dow is down 10% and identifies V as a buy opportunity in this context, implying support levels are breached."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article explicitly states Nasdaq is down 12.6% and identifies MSFT as a buy opportunity, implying support levels are breached."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites 39% YoY Azure cloud growth as evidence of strong product performance despite sector sell-off."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "sympathy from MA (20d corr +0.84); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_V",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "V",
+   "sample_reasoning": "sympathy from MA (20d corr +0.84); source magnitude=strong, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "13% YTD decline amid tech selloffs indicates short-term price weakness, despite solid fundamentals."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MA",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "MA",
+   "sample_reasoning": "sympathy from V (20d corr +0.84); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9993,
+   "p_after": 0.9994,
+   "delta": 0.0001,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9993,
+   "p_after": 0.9994,
+   "delta": 0.0001,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.9496,
+   "delta": 0.4496,
+   "salience": 0.989,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 1.2,
+     "link_strength": 0.47
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.157,
+     "link_strength": 0.55
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.44,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MA.next_day_direction",
+   "ticker": "MA",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8002,
+   "delta": 0.3002,
+   "salience": 0.5325,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.774,
+     "link_strength": 0.6
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.753,
+     "link_strength": 0.59
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7457,
+   "delta": 0.2457,
+   "salience": 0.4319,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.757,
+     "link_strength": 0.33
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.592,
+     "link_strength": 0.46
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.299,
+     "link_strength": 0.37
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7079,
+   "delta": 0.2079,
+   "salience": 0.3918,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.885,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3823,
+   "delta": -0.1177,
+   "salience": 0.1743,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.48,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.604,
+   "delta": 0.104,
+   "salience": 0.1479,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.422,
+     "link_strength": 0.33
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.V.next_day_direction",
+   "ticker": "V",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5463,
+   "delta": 0.0463,
+   "salience": 0.0623,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.347,
+     "link_strength": 0.58
+    },
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.301,
+     "link_strength": 0.5
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.02903,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.0205,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.03643,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.05487,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.00714,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "down",
+   "actual_return": -0.01808,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.05023,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.01666,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.00804,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.03661,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "flat",
+   "actual_return": -0.00288,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.01146,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.00733,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.01854,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.03123,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.00976,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": -0.00193,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.03361,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00901,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00632,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.95,
+   "reason": "Strong activist stake + major product launch; earnings beat probability high. No conflicting signals.",
+   "rank": 1
+  },
+  {
+   "ticker": "MA",
+   "action": "BUY",
+   "p_up": 0.8,
+   "reason": "Earnings beat and product launch positive reception outweighs weak technical support conflict.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.75,
+   "reason": "Activist stake and product launch drive upside; earnings beat adds support despite technical conflict.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Strong product launch reception with no conflicting signals.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Product launch positive reception supports upside; low salience but clear directional bias.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "SELL",
+   "p_up": 0.38,
+   "reason": "Acquisition activity creates significant downside pressure; no conflicting bullish signals.",
+   "rank": 6
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong buy signal driven by a massive $50B OpenAI partnership, record AI order books, and deep value metrics despite recent sell-offs.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Bullish momentum from Stanley Druckenmiller's accumulation and strong Google Cloud growth, offering a better value play than peers.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mixed signals with strong AI fundamentals and order outlook but weighed down by broader market risk-off sentiment and correction fears.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Analyst upgrades suggest upside potential, but the company is lagging in AI development and faces valuation concerns.",
+   "rank": 4
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "AI infrastructure leader facing sector-wide rotation and valuation re-rating, though fundamentals remain robust.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Benefiting from geopolitical tensions and high oil prices, positioning itself as a top energy play for risk-on scenarios.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Included in the broad market rally but lacks specific catalysts compared to tech or energy leaders.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 47.7,
+  "bare_s": 6.31
+ }
+}

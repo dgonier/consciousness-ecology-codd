@@ -1,0 +1,503 @@
+{
+ "date": "2026-04-02",
+ "prev_trading_day": "2026-04-01",
+ "n_news": 52,
+ "n_activations": 17,
+ "n_observations": 7,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms $6.7B acquisition of Terns, explicitly stating it bolsters pipeline and reinforces M&A strategy."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.8989,
+   "delta": 0.3989,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms $6.7B acquisition of Terns Pharmaceutical, explicitly stating it bolsters pipeline."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article reports Amazon is in discussions to acquire Globalstar for $9B to accelerate satellite broadband, indicating a clear M&A intent."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Microsoft secured $46B in long-term AI cloud contracts with Nebius, confirming massive demand for its GPU infrastructure and cloud services."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Analysts view the strategic pivot to third-party AI as positive, citing market share retention and revenue generation opportunities."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Engine No. 1 (activist fund) is finalizing a major strategic deal, signaling strong support and potential capital injection."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Article confirms 63 consecutive years of dividend increases, indicating a stable, long-term commitment to shareholder returns."
+  },
+  {
+   "belief_id": "belief.company.material_lawsuit_filed__ticker_JNJ",
+   "p_before": 0.5,
+   "p_after": 0.31,
+   "delta": -0.19,
+   "n_activations": 1,
+   "ticker": "JNJ",
+   "sample_reasoning": "Article explicitly mentions 'tens of thousands of talc-related lawsuits' as a headwind, confirming significant ongoing litigation risk."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "Article notes Broadcom is gaining ground through custom AI accelerator chip partnerships with major AI companies, indicating positive market reception."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.5793,
+   "delta": 0.0793,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article states dividends increased for 14 consecutive years, implying current policy supports this trend."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article notes performance depends on oil prices; a decline could limit gains, implying potential downside risk to guidance."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article mentions 'acquisition talks' with Globalstar, which is a negotiation phase, not a confirmed activist stake or completed deal."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article mentions 'acquisition talks' with Globalstar, indicating potential target status, though not officially announced."
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7046,
+   "delta": 0.2046,
+   "salience": 0.5273,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 1.577,
+     "link_strength": 0.72
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.112,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.JNJ.next_day_direction",
+   "ticker": "JNJ",
+   "p_up_before": 0.5,
+   "p_up_after": 0.69,
+   "delta": 0.19,
+   "salience": 0.2888,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "material_lawsuit_filed",
+     "contribution_log_odds": 0.52,
+     "link_strength": 0.65
+    },
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.28,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6445,
+   "delta": 0.1445,
+   "salience": 0.2305,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.595,
+     "link_strength": 0.46
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6288,
+   "delta": 0.1288,
+   "salience": 0.1731,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.344,
+     "link_strength": 0.43
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.184,
+     "link_strength": 0.77
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6052,
+   "delta": 0.1052,
+   "salience": 0.1501,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.427,
+     "link_strength": 0.53
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4092,
+   "delta": -0.0908,
+   "salience": 0.1416,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.56,
+     "link_strength": 0.44
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5555,
+   "delta": 0.0555,
+   "salience": 0.0679,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.223,
+     "link_strength": 0.37
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": 0.00113,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.02856,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": -0.0038,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "flat",
+   "actual_return": 0.00338,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.01399,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.0079,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "flat",
+   "actual_return": -0.00149,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.02406,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": -0.00442,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": -0.00264,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00841,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00364,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "flat",
+   "actual_return": -0.00049,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": 0.00025,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "up",
+   "actual_return": 0.01107,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01526,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.00673,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.01197,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00767,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00842,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MRK",
+   "action": "BUY",
+   "p_up": 0.7046,
+   "reason": "Strong buy signal driven by target price increase and dividend hike, despite acquisition rumor conflict.",
+   "rank": 1
+  },
+  {
+   "ticker": "JNJ",
+   "action": "BUY",
+   "p_up": 0.69,
+   "reason": "Buy supported by dividend increase and reduced lawsuit risk probability.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.6445,
+   "reason": "Positive product launch reception drives conviction.",
+   "rank": 3
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.6288,
+   "reason": "Activist stake outweighs minor guidance cut concerns.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "BUY",
+   "p_up": 0.6052,
+   "reason": "Positive product launch reception supports upside.",
+   "rank": 5
+  },
+  {
+   "ticker": "AMZN",
+   "action": "SELL",
+   "p_up": 0.4092,
+   "reason": "Acquisition activity suggests overvaluation; conflicting signals reinforce bearish case.",
+   "rank": 6
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5555,
+   "reason": "Neutral stance due to mixed signals; product launch positive but low conviction.",
+   "rank": 7
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong bullish catalysts from reported $9B Globalstar acquisition and space sector rally outweigh broader market technical resistance.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Positive retail sentiment following Cramer's criticism and a confirmed $7B gas plant deal with Chevron provide fundamental support.",
+   "rank": 2
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.6,
+   "reason": "Oil prices surged over 10% due to Iran escalation fears, driving energy sector outperformance and specific project news.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals with positive AI strategy pivot news offset by Cramer's criticism and broader S&P 500 technical resistance.",
+   "rank": 4
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Neutral outlook as the stock faces semiconductor sector headwinds from geopolitical uncertainty despite AI capex tailwinds.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Positioned for AI inference growth but lacks immediate directional catalysts compared to AMZN or MSFT.",
+   "rank": 6
+  },
+  {
+   "ticker": "JNJ",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Bearish risk from Trump administration's reported 100% tariff threat on drugmakers without pricing deals.",
+   "rank": 7
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 34.41,
+  "bare_s": 6.32
+ }
+}

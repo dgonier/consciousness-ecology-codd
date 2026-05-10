@@ -1,0 +1,777 @@
+{
+ "date": "2026-04-07",
+ "prev_trading_day": "2026-04-06",
+ "n_news": 46,
+ "n_activations": 34,
+ "n_observations": 9,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "AVGO",
+   "sample_reasoning": "5-year deal with Google and 3.5GW capacity with Anthropic confirms major positive product/market reception."
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "UNH",
+   "sample_reasoning": "CMS Medicare Advantage reimbursement decision directly improved margins and drove 8% surge."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.1795,
+   "delta": -0.3205,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "China Supreme Court rejected Apple's appeal to invalidate Xiao-I's patents, confirming a significant legal setback for Apple's IP position."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Bill Ackman and Stanley Druckenmiller explicitly accumulating shares view it as undervalued, signaling strong activist/long-term conviction."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Offer price cut from $61 to $53 due to negative trial data indicates reduced valuation of the target in the announced M&A deal."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "75% ORR and 92% sustained response at 2-year mark for EVX-01 indicate exceptional clinical efficacy, a major positive reception for the personalized cancer vacc"
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "UNH",
+   "sample_reasoning": "CMS announced a 2.48% rate increase exceeding expectations, directly boosting revenue outlook for UnitedHealth."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.7685,
+   "delta": 0.2685,
+   "n_activations": 2,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article cites executives acknowledging overvaluation and predicting corrections, signaling potential breakdown in technical support levels."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "2.9% decline on weak market sentiment suggests potential breach of key support levels."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article cites 16% YoY revenue growth in Q1 FY2026, indicating a strong earnings performance."
+  },
+  {
+   "belief_id": "belief.company.short_interest_high_and_rising__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Insider selling of $16.1B over 2 years signals lack of confidence in valuation, correlating with high short interest in tech sector."
+  },
+  {
+   "belief_id": "belief.company.short_interest_high_and_rising__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Insider selling of $16.1B over 2 years signals lack of confidence in valuation, correlating with high short interest in tech sector."
+  },
+  {
+   "belief_id": "belief.company.short_interest_high_and_rising__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Insider selling of $16.1B over 2 years signals lack of confidence in valuation, correlating with high short interest in tech sector."
+  },
+  {
+   "belief_id": "belief.company.short_interest_high_and_rising__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Insider selling of $16.1B over 2 years signals lack of confidence in valuation, correlating with high short interest in tech sector."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article confirms strong Q4 growth across all divisions (e-commerce, AWS, advertising), validating positive performance."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_CVX",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "CVX",
+   "sample_reasoning": "Article confirms 43 consecutive years of raised payouts, indicating a sustained commitment to increasing dividends."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Google announced TurboQuant, a memory compression method reducing LLM memory requirements by 6x, indicating a significant positive product development."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_MRK",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "MRK",
+   "sample_reasoning": "Article confirms Merck announced acquisition of Terns Pharmaceuticals for $53/share in cash."
+  },
+  {
+   "belief_id": "belief.company.regulatory_clearance_received__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Tentative deal reached, but requires PRC approval. Reduces volume cutback risk, but outcome uncertain until regulatory clearance."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Article cites executives acknowledging overvaluation and predicting corrections, signaling potential breakdown in technical support levels."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article cites executives acknowledging overvaluation and predicting corrections, signaling potential breakdown in technical support levels."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article concludes Peloton is an unattractive target due to market size and revenue decline, reducing likelihood of acquisition."
+  },
+  {
+   "belief_id": "belief.company.guidance_cut__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.4403,
+   "delta": -0.0597,
+   "n_activations": 1,
+   "ticker": "AVGO",
+   "sample_reasoning": "CEO projection of $100B revenue in 2027 implies a significant upward revision to guidance, not a cut."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article notes strong revenue growth despite stock performance, implying product/market success."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_KO",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "KO",
+   "sample_reasoning": "Article describes KO as a 'defensive dividend stock' providing stability, suggesting reliable payouts."
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PG",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PG",
+   "sample_reasoning": "sympathy from KO (20d corr +0.64); source magnitude=weak, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.dividend_increase_announced__ticker_PEP",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "PEP",
+   "sample_reasoning": "sympathy from KO (20d corr +0.60); source magnitude=weak, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7581,
+   "delta": 0.2581,
+   "salience": 0.5037,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.952,
+     "link_strength": 0.37
+    },
+    {
+     "parent_template": "guidance_cut",
+     "contribution_log_odds": 0.191,
+     "link_strength": 0.79
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.2692,
+   "delta": -0.2308,
+   "salience": 0.3782,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.639,
+     "link_strength": 0.53
+    },
+    {
+     "parent_template": "short_interest_high_and_rising",
+     "contribution_log_odds": -0.36,
+     "link_strength": 0.45
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6796,
+   "delta": 0.1796,
+   "salience": 0.2949,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.642,
+     "link_strength": 0.5
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.462,
+     "link_strength": 0.58
+    },
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 0.282,
+     "link_strength": 0.47
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6486,
+   "delta": 0.1486,
+   "salience": 0.2788,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": 0.877,
+     "link_strength": 0.58
+    },
+    {
+     "parent_template": "earnings_beat",
+     "contribution_log_odds": 0.413,
+     "link_strength": 0.52
+    },
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": 0.09,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MRK.next_day_direction",
+   "ticker": "MRK",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3844,
+   "delta": -0.1156,
+   "salience": 0.2225,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": -0.924,
+     "link_strength": 0.72
+    },
+    {
+     "parent_template": "acting_as_acquirer_in_announced_ma",
+     "contribution_log_odds": -0.3,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4101,
+   "delta": -0.0899,
+   "salience": 0.1223,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "short_interest_high_and_rising",
+     "contribution_log_odds": -0.36,
+     "link_strength": 0.45
+    },
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.33,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.CVX.next_day_direction",
+   "ticker": "CVX",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5852,
+   "delta": 0.0852,
+   "salience": 0.1145,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.344,
+     "link_strength": 0.43
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.UNH.next_day_direction",
+   "ticker": "UNH",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5695,
+   "delta": 0.0695,
+   "salience": 0.153,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_clearance_received",
+     "contribution_log_odds": 1.2,
+     "link_strength": 0.47
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.PG.next_day_direction",
+   "ticker": "PG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5197,
+   "delta": 0.0197,
+   "salience": 0.0213,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "dividend_increase_announced",
+     "contribution_log_odds": 0.079,
+     "link_strength": 0.49
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.02071,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "flat",
+   "actual_return": -0.00155,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "flat",
+   "actual_return": 0.00461,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "up",
+   "actual_return": 0.06214,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": 0.00305,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01348,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.02106,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.02412,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.01062,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "up",
+   "actual_return": 0.0066,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.01696,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "down",
+   "actual_return": -0.00642,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.01585,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "down",
+   "actual_return": -0.01299,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": -0.00158,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.02246,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.0103,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.09372,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": -0.00257,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.03391,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.7581,
+   "reason": "Strong buy signal driven by major product launch reception (+0.43) outweighing minor guidance cut (-0.06). High confidence in positive momentum.",
+   "rank": 1
+  },
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.6796,
+   "reason": "Multiple positive drivers (activist stake, earnings beat, regulatory clearance) support a buy, despite moderate conflicting signals on short interest.",
+   "rank": 2
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.6486,
+   "reason": "Mixed signals: regulatory action announced is a negative driver, but earnings beat provides support. Net result is a watch rather than a clear buy.",
+   "rank": 3
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5695,
+   "reason": "Regulatory clearance received is a strong positive, but conflicting regulatory action announcement keeps the signal at a watch level.",
+   "rank": 4
+  },
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.5852,
+   "reason": "Clear buy signal based on announced dividend increase with no conflicting signals. Solid income play.",
+   "rank": 5
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5197,
+   "reason": "Dividend increase announced provides a slight positive bias, but the signal is weak and warrants monitoring rather than immediate action.",
+   "rank": 6
+  },
+  {
+   "ticker": "MSFT",
+   "action": "SELL",
+   "p_up": 0.2692,
+   "reason": "Strong bearish case: technical support broken and rising short interest indicate significant downside risk. SELL action is well-supported.",
+   "rank": 7
+  },
+  {
+   "ticker": "GOOG",
+   "action": "SELL",
+   "p_up": 0.4101,
+   "reason": "Bearish drivers (short interest, technical support broken) outweigh the positive product launch signal. Maintain SELL stance.",
+   "rank": 8
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.3844,
+   "reason": "Conflicting signals regarding M&A activity (target vs acquirer) create uncertainty. Low confidence warrants a watch.",
+   "rank": 9
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Oil prices remain elevated due to Middle East tensions and depleted stockpiles, driving CVX to outperform the S&P 500 with strong physical supply constraints.",
+   "rank": 1
+  },
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Broadcom secured major five-year AI chip deals with Google and Anthropic, positioning it as a critical infrastructure provider in the current AI correction.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "While insider selling and macro headwinds weigh on the stock, recent insider buying and a tentative USPS strike deal provide mixed signals for the next session.",
+   "rank": 3
+  },
+  {
+   "ticker": "MSFT",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Microsoft is identified as the largest drag on the S&P 500 with valuations reaching levels not seen in over 50 years, and insiders have sold billions.",
+   "rank": 4
+  },
+  {
+   "ticker": "GOOG",
+   "action": "SELL",
+   "p_up": 0.4,
+   "reason": "Google faces significant headwinds from AI correction fears, insider selling, and geopolitical risks regarding quantum computing threats to its security.",
+   "rank": 5
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.38,
+   "reason": "Apple stock declined sharply due to geopolitical tensions, UBS analyst downgrades, and heavy insider selling by major tech insiders.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "JPMorgan is positioned to outperform due to heavy investment banking reliance, though broader market weakness and private credit dislocations create uncertainty.",
+   "rank": 7
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Johnson & Johnson remains a defensive hold amidst market volatility, though it faces pressure from capital outflows in the staffing sector.",
+   "rank": 8
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Walmart is recommended as a growth stock despite market volatility, but faces potential headwinds from rising food costs and inflation concerns.",
+   "rank": 9
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Home Depot is a defensive play in a volatile market, though no specific bullish or bearish catalysts were identified in today's news firehose.",
+   "rank": 10
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Mastercard is a financial services play that could benefit from the JPMorgan report on investment banking, but lacks specific directional news today.",
+   "rank": 11
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Coca-Cola is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 12
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "PepsiCo is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 13
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "McDonald's is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 14
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "UnitedHealth Group is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 15
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "AbbVie is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 16
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Cisco Systems is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 17
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Merck is a defensive stock recommended by Warren Buffett backers, but lacks specific directional news today.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 54.9,
+  "bare_s": 13.53
+ }
+}

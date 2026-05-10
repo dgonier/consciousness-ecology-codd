@@ -1,0 +1,515 @@
+{
+ "date": "2026-02-27",
+ "prev_trading_day": "2026-02-26",
+ "n_news": 39,
+ "n_activations": 18,
+ "n_observations": 5,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.9593,
+   "delta": 0.4593,
+   "n_activations": 3,
+   "ticker": "AMZN",
+   "sample_reasoning": "Article cites accelerating AI growth in AWS as a primary driver for valuation expansion, indicating strong positive reception to AI initiatives."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "GOOG",
+   "sample_reasoning": "Duquesne Family Office increased stake by 277% due to AI growth, signaling strong conviction."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.9282,
+   "delta": 0.4282,
+   "n_activations": 2,
+   "ticker": "AMZN",
+   "sample_reasoning": "Duquesne Family Office increased stake by 69% due to AI infrastructure growth, signaling strong conviction."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.8205,
+   "delta": 0.3205,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Announced $50B investment in OpenAI with AWS as exclusive cloud provider and $100B agreement over 8 years."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "FTC settlement of $100M confirms regulatory action; material legal resolution."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_UNH",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "UNH",
+   "sample_reasoning": "Viking Global Investors, a major asset manager, purchased shares indicating significant institutional support and potential for turnaround."
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Analyst reinstated Buy rating with higher price target citing market share gains and profit growth expectations."
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Article states Apple no longer represents bargains, implying potential price weakness or support failure."
+  },
+  {
+   "belief_id": "belief.company.regulatory_action_announced__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.company.earnings_beat__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5399,
+   "delta": 0.0399,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=medium, source dir=increases"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9506,
+   "p_after": 0.9596,
+   "delta": 0.0091,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9506,
+   "p_after": 0.9596,
+   "delta": 0.0091,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.8837,
+   "delta": 0.3837,
+   "salience": 0.9698,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 1.527,
+     "link_strength": 0.48
+    },
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 1.109,
+     "link_strength": 0.43
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.7089,
+   "delta": 0.2089,
+   "salience": 0.3947,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.89,
+     "link_strength": 0.35
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.UNH.next_day_direction",
+   "ticker": "UNH",
+   "p_up_before": 0.5,
+   "p_up_after": 0.589,
+   "delta": 0.089,
+   "salience": 0.1211,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": 0.36,
+     "link_strength": 0.45
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4182,
+   "delta": -0.0818,
+   "salience": 0.1087,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.33,
+     "link_strength": 0.55
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4464,
+   "delta": -0.0536,
+   "salience": 0.0844,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "regulatory_action_announced",
+     "contribution_log_odds": -0.575,
+     "link_strength": 0.72
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "down",
+   "actual_return": -0.03213,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.03289,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.01,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.00668,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.01741,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01412,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.01393,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.01501,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "up",
+   "actual_return": 0.02037,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.01904,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.01317,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": 0.00474,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.01952,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "up",
+   "actual_return": 0.03789,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.02235,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "up",
+   "actual_return": 0.01289,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "up",
+   "actual_return": 0.02107,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.02306,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.01086,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.02837,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.85
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.88,
+   "reason": "Strong bullish drivers: major product launch reception and activist investor stake outweigh acquisition conflict.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.71,
+   "reason": "Activist investor stake provides clear upside potential with no conflicting signals.",
+   "rank": 2
+  },
+  {
+   "ticker": "UNH",
+   "action": "BUY",
+   "p_up": 0.59,
+   "reason": "Activist investor stake creates a net positive bias, crossing the 0.55 threshold for conviction.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Technical support broken is a bearish driver; p_up remains below 0.45, confirming sell signal.",
+   "rank": 4
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.45,
+   "reason": "Regulatory action creates downside risk that offsets earnings beat, resulting in a neutral watch stance.",
+   "rank": 5
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AMZN",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Strong institutional accumulation by Druckenmiller and Ackman alongside a massive $50B OpenAI investment bet suggests significant upside potential.",
+   "rank": 1
+  },
+  {
+   "ticker": "GOOG",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Despite recent sector rotation, billionaire Stanley Druckenmiller has significantly increased his stake, indicating confidence in Alphabet's long-term AI trajectory.",
+   "rank": 2
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Mixed signals with Thiel's liquidation and sector rotation concerns offset by strong AI deal momentum and OpenAI funding participation.",
+   "rank": 3
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "While Buffett's successor holds a large stake, recent profit-taking on the Nasdaq and Thiel's exit suggest near-term volatility.",
+   "rank": 4
+  },
+  {
+   "ticker": "JPM",
+   "action": "BUY",
+   "p_up": 0.58,
+   "reason": "Institutional inflows into the bank ETF and broader financial rally support a bullish outlook for major banks.",
+   "rank": 5
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Included in Buffett's concentrated portfolio as a defensive holding, offering stability but limited immediate explosive upside.",
+   "rank": 6
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Also part of Buffett's core holdings, providing a stable dividend yield but lacking the current AI-driven momentum of tech peers.",
+   "rank": 7
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Remains a key payment processor with steady cash flows, though not highlighted in today's specific bullish or bearish news firehose.",
+   "rank": 8
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Featured in a dividend buy-and-hold recommendation, suggesting value appeal but no urgent directional catalyst.",
+   "rank": 9
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Quietly outperforming while waiting for the March FDA decision on Sotyktu, presenting a potential catalyst-driven move.",
+   "rank": 10
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Part of the defensive dividend play alongside AbbVie, offering stability without a clear immediate directional bias.",
+   "rank": 11
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Shares the defensive dividend profile with JNJ and ABBV, lacking specific news-driven momentum.",
+   "rank": 12
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Standard consumer staple holding with no specific catalysts in today's news feed.",
+   "rank": 13
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Another reliable dividend stock recommended for long-term holding, but not currently the focus of active trading signals.",
+   "rank": 14
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Healthcare leader with steady fundamentals but no specific news event driving a change in sentiment today.",
+   "rank": 15
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Tech communication stock with solid history but currently overshadowed by the semiconductor and AI narrative.",
+   "rank": 16
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Semiconductor exposure is strong, but specific news regarding Chinese tech ownership concerns adds a layer of uncertainty.",
+   "rank": 17
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Facing a $100M FTC settlement and competition from Amazon's new retail model, creating a mixed outlook.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 29.96,
+  "bare_s": 13.18
+ }
+}

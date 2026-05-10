@@ -1,0 +1,415 @@
+{
+ "date": "2026-04-06",
+ "prev_trading_day": "2026-04-02",
+ "n_news": 17,
+ "n_activations": 8,
+ "n_observations": 4,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_WMT",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "WMT",
+   "sample_reasoning": "Article explicitly states stock is ringing a warning bell at levels not seen since 2008, signaling a potential breakdown in technical support and market decline"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_AAPL",
+   "p_before": 0.5,
+   "p_after": 0.69,
+   "delta": 0.19,
+   "n_activations": 1,
+   "ticker": "AAPL",
+   "sample_reasoning": "Buffett's explicit statement that valuations are 'overpriced' and his cash hoarding suggest the market is overvalued, implying technical support levels are brok"
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article indicates aggressive spending on AI models/chips suggests successful strategic positioning and potential market dominance, implying positive reception o"
+  },
+  {
+   "belief_id": "belief.company.technical_support_broken__ticker_MCD",
+   "p_before": 0.5,
+   "p_after": 0.5987,
+   "delta": 0.0987,
+   "n_activations": 1,
+   "ticker": "MCD",
+   "sample_reasoning": "sympathy from WMT (20d corr +0.56); source magnitude=strong, source dir=increases"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.WMT.next_day_direction",
+   "ticker": "WMT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3501,
+   "delta": -0.1499,
+   "salience": 0.2427,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.619,
+     "link_strength": 0.48
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AAPL.next_day_direction",
+   "ticker": "AAPL",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3933,
+   "delta": -0.1067,
+   "salience": 0.153,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.434,
+     "link_strength": 0.54
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5742,
+   "delta": 0.0742,
+   "salience": 0.0964,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.299,
+     "link_strength": 0.5
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MCD.next_day_direction",
+   "ticker": "MCD",
+   "p_up_before": 0.5,
+   "p_up_after": 0.4518,
+   "delta": -0.0482,
+   "salience": 0.0575,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "technical_support_broken",
+     "contribution_log_odds": -0.193,
+     "link_strength": 0.48
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "up",
+   "actual_return": 0.01149,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "down",
+   "actual_return": -0.01029,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "up",
+   "actual_return": 0.0144,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "flat",
+   "actual_return": -0.00038,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "up",
+   "actual_return": 0.01791,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "flat",
+   "actual_return": -0.00055,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "up",
+   "actual_return": 0.01087,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "up",
+   "actual_return": 0.01561,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "down",
+   "actual_return": -0.00852,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "flat",
+   "actual_return": 0.00289,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "up",
+   "actual_return": 0.00652,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "up",
+   "actual_return": 0.01633,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "up",
+   "actual_return": 0.00853,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": -0.00017,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "flat",
+   "actual_return": -0.00155,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "flat",
+   "actual_return": -0.00178,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "flat",
+   "actual_return": -0.00245,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "up",
+   "actual_return": 0.01479,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "up",
+   "actual_return": 0.00841,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "up",
+   "actual_return": 0.00795,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.5742,
+   "reason": "Strong positive reception to major product launch; technical support intact.",
+   "rank": 1
+  },
+  {
+   "ticker": "WMT",
+   "action": "SELL",
+   "p_up": 0.3501,
+   "reason": "Technical support broken; negative momentum confirmed by event classifier.",
+   "rank": 2
+  },
+  {
+   "ticker": "AAPL",
+   "action": "SELL",
+   "p_up": 0.3933,
+   "reason": "Technical support broken; bearish signal outweighs neutral baseline.",
+   "rank": 3
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.4518,
+   "reason": "Weak technical support break; low salience suggests continued observation.",
+   "rank": 4
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Bullish index fund inflows and Buffett's 'not in this market' comment suggest valuation concerns, but no immediate catalyst for a directional move.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "BUY",
+   "p_up": 0.62,
+   "reason": "Aggressive AI infrastructure spending and upcoming stock split provide strong bullish momentum despite high valuations.",
+   "rank": 2
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Mixed signals from quantum computing fears and legal losses are offset by potential AI partnerships with Uber.",
+   "rank": 3
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Underperformance and Iran tension risks are balanced by potential pre-earnings rally catalysts and marketplace expansion.",
+   "rank": 4
+  },
+  {
+   "ticker": "WMT",
+   "action": "SELL",
+   "p_up": 0.42,
+   "reason": "Historical data suggests a recession warning bell is ringing, with digital price tags sparking consumer and regulatory concerns.",
+   "rank": 5
+  },
+  {
+   "ticker": "CVX",
+   "action": "WATCH",
+   "p_up": 0.53,
+   "reason": "Extreme oil price volatility due to Iran Strait of Hormuz tensions creates a high-risk, high-reward scenario for the week.",
+   "rank": 6
+  },
+  {
+   "ticker": "JNJ",
+   "action": "SELL",
+   "p_up": 0.44,
+   "reason": "New 100% drug tariffs on imported pharmaceuticals pose a significant headwind despite existing MFN exemptions.",
+   "rank": 7
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Exempt from new drug tariffs provides a relative safety net, but the broader tariff environment remains a negative sentiment driver.",
+   "rank": 8
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, but remains a stable large-cap with mixed market sentiment.",
+   "rank": 9
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Lacks specific directional catalysts today, though remains a key beneficiary of the broader payment processing trend.",
+   "rank": 10
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "IoT in healthcare growth is a long-term positive, but no immediate short-term price action catalysts are present.",
+   "rank": 11
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, though remains a core financial sector play in a volatile market.",
+   "rank": 12
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, maintaining its status as a defensive utility stock.",
+   "rank": 13
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, remaining a stable consumer discretionary play.",
+   "rank": 14
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, though the pharma tariff environment is a general sector risk.",
+   "rank": 15
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, maintaining its defensive profile.",
+   "rank": 16
+  },
+  {
+   "ticker": "PG",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, remaining a stable consumer staple.",
+   "rank": 17
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "No specific news catalysts today, though healthcare IoT growth is a positive long-term trend.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 11.37,
+  "bare_s": 12.22
+ }
+}

@@ -1,0 +1,451 @@
+{
+ "date": "2026-03-26",
+ "prev_trading_day": "2026-03-25",
+ "n_news": 44,
+ "n_activations": 11,
+ "n_observations": 4,
+ "belief_deltas": [
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_AVGO",
+   "p_before": 0.5,
+   "p_after": 0.8676,
+   "delta": 0.3676,
+   "n_activations": 2,
+   "ticker": "AVGO",
+   "sample_reasoning": "Partnership with OpenAI for custom AI accelerators signals major product success and market expansion, directly boosting revenue outlook."
+  },
+  {
+   "belief_id": "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Amazon acquired Fauna Robotics, a humanoid robotics firm, signaling aggressive expansion into robotics to improve e-commerce profitability."
+  },
+  {
+   "belief_id": "belief.company.target_in_announced_ma__ticker_AMZN",
+   "p_before": 0.5,
+   "p_after": 0.7824,
+   "delta": 0.2824,
+   "n_activations": 1,
+   "ticker": "AMZN",
+   "sample_reasoning": "Amazon acquired Fauna Robotics, a humanoid robotics firm, signaling aggressive expansion into robotics to improve e-commerce profitability."
+  },
+  {
+   "belief_id": "belief.company.activist_investor_takes_stake__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.2176,
+   "delta": -0.2824,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "Baupost sold 41% of stake after 70% surge, signaling loss of conviction and potential selling pressure."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_MSFT",
+   "p_before": 0.5,
+   "p_after": 0.6457,
+   "delta": 0.1457,
+   "n_activations": 1,
+   "ticker": "MSFT",
+   "sample_reasoning": "Article highlights 39% Azure cloud growth and discounted valuation, signaling positive reception of cloud services and investment appeal."
+  },
+  {
+   "belief_id": "belief.company.major_product_launch_positive_reception__ticker_GOOG",
+   "p_before": 0.5,
+   "p_after": 0.5597,
+   "delta": 0.0597,
+   "n_activations": 1,
+   "ticker": "GOOG",
+   "sample_reasoning": "CalAmp announced integration with Google Pub/Sub, a strategic partnership move that likely benefits Google's cloud ecosystem and customer retention."
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_financial_low",
+   "p_before": 0.9989,
+   "p_after": 0.999,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-financial corr = +0.04 (\u2264 0.10); cluster broken / single-stock environment"
+  },
+  {
+   "belief_id": "belief.market.cluster_correlation_health_low",
+   "p_before": 0.9989,
+   "p_after": 0.999,
+   "delta": 0.0002,
+   "n_activations": 1,
+   "ticker": null,
+   "sample_reasoning": "mean intra-health corr = +0.09 (\u2264 0.10); cluster broken / single-stock environment"
+  }
+ ],
+ "outcome_deltas": [
+  {
+   "outcome_id": "outcome.AVGO.next_day_direction",
+   "ticker": "AVGO",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6694,
+   "delta": 0.1694,
+   "salience": 0.289,
+   "action": "BUY",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.706,
+     "link_strength": 0.38
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.GOOG.next_day_direction",
+   "ticker": "GOOG",
+   "p_up_before": 0.5,
+   "p_up_after": 0.3864,
+   "delta": -0.1136,
+   "salience": 0.1756,
+   "action": "SELL",
+   "top_chain_summary": [
+    {
+     "parent_template": "activist_investor_takes_stake",
+     "contribution_log_odds": -0.546,
+     "link_strength": 0.43
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.AMZN.next_day_direction",
+   "ticker": "AMZN",
+   "p_up_before": 0.5,
+   "p_up_after": 0.6102,
+   "delta": 0.1102,
+   "salience": 0.2159,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "target_in_announced_ma",
+     "contribution_log_odds": 0.96,
+     "link_strength": 0.75
+    }
+   ]
+  },
+  {
+   "outcome_id": "outcome.MSFT.next_day_direction",
+   "ticker": "MSFT",
+   "p_up_before": 0.5,
+   "p_up_after": 0.5787,
+   "delta": 0.0787,
+   "salience": 0.1036,
+   "action": "WATCH",
+   "top_chain_summary": [
+    {
+     "parent_template": "major_product_launch_positive_reception",
+     "contribution_log_odds": 0.317,
+     "link_strength": 0.53
+    }
+   ]
+  }
+ ],
+ "realized_ground_truth": [
+  {
+   "ticker": "AAPL",
+   "actual_direction": "flat",
+   "actual_return": 0.00107,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "ABBV",
+   "actual_direction": "up",
+   "actual_return": 0.01902,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "AMZN",
+   "actual_direction": "down",
+   "actual_return": -0.0197,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "AVGO",
+   "actual_direction": "down",
+   "actual_return": -0.02947,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "CSCO",
+   "actual_direction": "flat",
+   "actual_return": 0.00403,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "CVX",
+   "actual_direction": "up",
+   "actual_return": 0.01287,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.65
+  },
+  {
+   "ticker": "GOOG",
+   "actual_direction": "down",
+   "actual_return": -0.03056,
+   "magnitude_bucket": "large",
+   "ideal_p_up": 0.15
+  },
+  {
+   "ticker": "HD",
+   "actual_direction": "down",
+   "actual_return": -0.01227,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "JNJ",
+   "actual_direction": "flat",
+   "actual_return": -0.00288,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "JPM",
+   "actual_direction": "down",
+   "actual_return": -0.01273,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "KO",
+   "actual_direction": "down",
+   "actual_return": -0.00744,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MA",
+   "actual_direction": "flat",
+   "actual_return": -0.004,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MCD",
+   "actual_direction": "down",
+   "actual_return": -0.00889,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "MRK",
+   "actual_direction": "flat",
+   "actual_return": -0.00369,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "MSFT",
+   "actual_direction": "down",
+   "actual_return": -0.01366,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PEP",
+   "actual_direction": "down",
+   "actual_return": -0.00593,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "PG",
+   "actual_direction": "down",
+   "actual_return": -0.01042,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "UNH",
+   "actual_direction": "down",
+   "actual_return": -0.00924,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  },
+  {
+   "ticker": "V",
+   "actual_direction": "flat",
+   "actual_return": 0.00203,
+   "magnitude_bucket": "flat",
+   "ideal_p_up": 0.5
+  },
+  {
+   "ticker": "WMT",
+   "actual_direction": "down",
+   "actual_return": -0.00715,
+   "magnitude_bucket": "medium",
+   "ideal_p_up": 0.35
+  }
+ ],
+ "watchlist_ecology": [
+  {
+   "ticker": "AVGO",
+   "action": "BUY",
+   "p_up": 0.67,
+   "reason": "Strong positive reception to major product launch drives conviction.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.58,
+   "reason": "Positive product launch reception supports neutral-to-positive outlook.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.61,
+   "reason": "Target announcement positive, though acquisition activity creates conflict.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "SELL",
+   "p_up": 0.39,
+   "reason": "Activist stake pressure outweighs minor product launch optimism.",
+   "rank": 4
+  }
+ ],
+ "watchlist_bare": [
+  {
+   "ticker": "CVX",
+   "action": "BUY",
+   "p_up": 0.68,
+   "reason": "Oil prices surged above $107 due to geopolitical tensions, positioning Chevron as a strong inflation hedge with elevated margins.",
+   "rank": 1
+  },
+  {
+   "ticker": "MSFT",
+   "action": "WATCH",
+   "p_up": 0.52,
+   "reason": "Despite heavy AI infrastructure spending concerns and a 23% YTD drop, the stock remains a core holding with a massive $1T order pipeline.",
+   "rank": 2
+  },
+  {
+   "ticker": "AMZN",
+   "action": "WATCH",
+   "p_up": 0.51,
+   "reason": "Stock is down 10% YTD amid AI compression fears, but recent market rebounds and new robotics acquisitions offer potential upside.",
+   "rank": 3
+  },
+  {
+   "ticker": "GOOG",
+   "action": "WATCH",
+   "p_up": 0.5,
+   "reason": "Facing headwinds from Micron's stock decline due to AI compression algorithms, though it remains a key beneficiary of the cloud sector.",
+   "rank": 4
+  },
+  {
+   "ticker": "AAPL",
+   "action": "WATCH",
+   "p_up": 0.49,
+   "reason": "Part of the 'Magnificent Seven' down 23% YTD, but lacks specific negative catalysts compared to peers like Amazon or Google.",
+   "rank": 5
+  },
+  {
+   "ticker": "AVGO",
+   "action": "WATCH",
+   "p_up": 0.48,
+   "reason": "Benefiting from the AI chip boom and Nvidia's order pipeline, though the sector faces valuation concerns.",
+   "rank": 6
+  },
+  {
+   "ticker": "JPM",
+   "action": "WATCH",
+   "p_up": 0.47,
+   "reason": "Included in high-yield dividend ETFs outperforming the S&P 500, offering stability amidst market volatility.",
+   "rank": 7
+  },
+  {
+   "ticker": "HD",
+   "action": "WATCH",
+   "p_up": 0.46,
+   "reason": "Stable consumer discretionary play with no immediate negative catalysts, though outperformed by tech in recent rallies.",
+   "rank": 8
+  },
+  {
+   "ticker": "ABBV",
+   "action": "WATCH",
+   "p_up": 0.44,
+   "reason": "Pharmaceutical leader with no specific negative news, but lacks the explosive growth narrative of current AI winners.",
+   "rank": 9
+  },
+  {
+   "ticker": "JNJ",
+   "action": "WATCH",
+   "p_up": 0.43,
+   "reason": "Defensive healthcare stock providing portfolio stability, though not a primary focus of today's market moves.",
+   "rank": 10
+  },
+  {
+   "ticker": "MCD",
+   "action": "WATCH",
+   "p_up": 0.42,
+   "reason": "Consumer staple with steady cash flows, but underperforming relative to the aggressive tech rally.",
+   "rank": 11
+  },
+  {
+   "ticker": "PEP",
+   "action": "WATCH",
+   "p_up": 0.41,
+   "reason": "Consistent dividend payer and consumer staple, but lacks the volatility and growth potential of current market favorites.",
+   "rank": 12
+  },
+  {
+   "ticker": "KO",
+   "action": "WATCH",
+   "p_up": 0.4,
+   "reason": "Traditional beverage leader with no immediate catalysts, serving as a low-risk anchor in a volatile market.",
+   "rank": 13
+  },
+  {
+   "ticker": "UNH",
+   "action": "WATCH",
+   "p_up": 0.39,
+   "reason": "Healthcare giant with strong fundamentals, but not directly impacted by the current AI or energy-driven market surge.",
+   "rank": 14
+  },
+  {
+   "ticker": "MA",
+   "action": "WATCH",
+   "p_up": 0.38,
+   "reason": "Payment processor benefiting from digital adoption, though facing competition and regulatory headwinds.",
+   "rank": 15
+  },
+  {
+   "ticker": "WMT",
+   "action": "WATCH",
+   "p_up": 0.37,
+   "reason": "Retail giant with high valuation concerns, but potential for a pullback buy if consumer spending remains resilient.",
+   "rank": 16
+  },
+  {
+   "ticker": "MRK",
+   "action": "WATCH",
+   "p_up": 0.36,
+   "reason": "Pharmaceutical company with no specific negative news, but lacking the growth momentum of the tech sector.",
+   "rank": 17
+  },
+  {
+   "ticker": "CSCO",
+   "action": "WATCH",
+   "p_up": 0.35,
+   "reason": "Telecommunications leader with stable dividends, but underperforming compared to the AI-driven tech rally.",
+   "rank": 18
+  }
+ ],
+ "elapsed": {
+  "ecology_s": 24.35,
+  "bare_s": 14.55
+ }
+}
