@@ -1,0 +1,26 @@
+{
+  "universe": [
+    "AAPL",
+    "ABBV",
+    "AMZN",
+    "AVGO",
+    "CSCO",
+    "CVX",
+    "GOOG",
+    "HD",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MA",
+    "MCD",
+    "MRK",
+    "MSFT",
+    "PEP",
+    "PG",
+    "UNH",
+    "V",
+    "WMT"
+  ],
+  "last_date": "2026-05-07",
+  "n_observations": 67
+}

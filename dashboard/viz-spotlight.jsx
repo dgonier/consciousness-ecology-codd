@@ -155,107 +155,164 @@ function Spotlight({ day, date, dayIdx, mode, ecoStats, bareStats, links, totalC
   );
 }
 
-// Mini equity sparkline (3 lines) + today's positions/orders.
+// Mini equity sparkline (9 lines + buyhold) + today's positions/orders.
 function PortfolioPanel({ day, dayIdx, equitySeries }) {
-  const W = 320, H = 88, padL = 6, padR = 6, padT = 8, padB = 14;
+  const W = 320, H = 110, padL = 6, padR = 6, padT = 8, padB = 14;
   const pts = (arr) => arr.map((v, i) => ({ x: i, y: v })).filter(p => p.y != null);
-  const eco = pts(equitySeries.ecology);
-  const bare = pts(equitySeries.bare);
-  const bh = pts(equitySeries.buyhold);
-  const all = [...eco, ...bare, ...bh].map(p => p.y);
-  const min = Math.min(...all, 100000), max = Math.max(...all, 100000);
+
+  const PIPELINES = [
+    { k: "bare_qwen",      family: "bare",    model: "qwen"   },
+    { k: "bare_sonnet",    family: "bare",    model: "sonnet" },
+    { k: "bare_opus",      family: "bare",    model: "opus"   },
+    { k: "ecology_qwen",   family: "ecology", model: "qwen"   },
+    { k: "ecology_sonnet", family: "ecology", model: "sonnet" },
+    { k: "ecology_opus",   family: "ecology", model: "opus"   },
+    { k: "oracle_qwen",    family: "oracle",  model: "qwen"   },
+    { k: "oracle_sonnet",  family: "oracle",  model: "sonnet" },
+    { k: "oracle_opus",    family: "oracle",  model: "opus"   },
+  ];
+  const allLines = PIPELINES.map(p => ({ ...p, series: pts(equitySeries[p.k] || []) }));
+  const bh = pts(equitySeries.buyhold || []);
+  const allYs = [...allLines.flatMap(l => l.series.map(p => p.y)), ...bh.map(p => p.y)];
+  const min = Math.min(...allYs, 100000), max = Math.max(...allYs, 100000);
   const range = max - min || 1;
-  const N = equitySeries.ecology.length;
+  const N = (equitySeries.bare_qwen || equitySeries.ecology_qwen || []).length;
   const xScale = (i) => padL + (i / Math.max(1, N - 1)) * (W - padL - padR);
   const yScale = (v) => padT + (1 - (v - min) / range) * (H - padT - padB);
   const path = (arr) => arr.map((p, i) => (i === 0 ? "M" : "L") + xScale(p.x).toFixed(1) + "," + yScale(p.y).toFixed(1)).join(" ");
   const baselineY = yScale(100000);
 
-  const ecoNow = equitySeries.ecology[dayIdx];
-  const bareNow = equitySeries.bare[dayIdx];
-  const bhNow = equitySeries.buyhold[dayIdx];
-  const ecoP = day.portfolio?.ecology;
-  const barP = day.portfolio?.bare;
+  // Dash style by model: qwen solid, sonnet dashed, opus dotted.
+  const dashFor = (model) => model === "qwen" ? "" : model === "sonnet" ? "4 2" : "1 2";
 
   return (
     <div className="port">
       <div className="sec-head">
         <span className="sec-title">portfolio · profit curve</span>
-        <span className="sec-sub">$100k seed · 3 strategies</span>
+        <span className="sec-sub">$100k seed · 9 strategies + buyhold</span>
       </div>
       <svg className="eq-svg" width={W} height={H}>
         <line x1={padL} x2={W - padR} y1={baselineY} y2={baselineY} stroke="var(--eq-baseline)" strokeWidth="0.5" strokeDasharray="2 3" />
         {bh.length > 1 && <path d={path(bh)} className="eq-line bh" />}
-        {bare.length > 1 && <path d={path(bare)} className="eq-line bare" />}
-        {eco.length > 1 && <path d={path(eco)} className="eq-line eco" />}
+        {allLines.map(line => line.series.length > 1 && (
+          <path
+            key={line.k}
+            d={path(line.series)}
+            className={"eq-line fam-" + line.family + " mod-" + line.model}
+            strokeDasharray={dashFor(line.model)}
+          />
+        ))}
         <line x1={xScale(dayIdx)} x2={xScale(dayIdx)} y1={padT} y2={H - padB} stroke="var(--eq-cursor)" strokeWidth="1" />
-        {ecoNow != null && <circle cx={xScale(dayIdx)} cy={yScale(ecoNow)} r="3" className="eq-dot eco" />}
-        {bareNow != null && <circle cx={xScale(dayIdx)} cy={yScale(bareNow)} r="2.5" className="eq-dot bare" />}
-        {bhNow != null && <circle cx={xScale(dayIdx)} cy={yScale(bhNow)} r="2.5" className="eq-dot bh" />}
+        {allLines.map(line => {
+          const v = equitySeries[line.k]?.[dayIdx];
+          if (v == null) return null;
+          return (
+            <circle
+              key={"d-" + line.k}
+              cx={xScale(dayIdx)}
+              cy={yScale(v)}
+              r={line.model === "qwen" ? 2.6 : 2}
+              className={"eq-dot fam-" + line.family + " mod-" + line.model}
+            />
+          );
+        })}
+        {equitySeries.buyhold[dayIdx] != null && (
+          <circle cx={xScale(dayIdx)} cy={yScale(equitySeries.buyhold[dayIdx])} r="2.5" className="eq-dot bh" />
+        )}
         <text x={padL} y={H - 2} className="eq-ax">${(min/1000).toFixed(0)}k</text>
         <text x={W - padR} y={H - 2} className="eq-ax" textAnchor="end">${(max/1000).toFixed(0)}k</text>
       </svg>
-      <div className="eq-leg">
-        <Leg cls="eco" label="ecology" v={ecoNow} />
-        <Leg cls="bare" label="bare" v={bareNow} />
-        <Leg cls="bh"   label="buyhold" v={bhNow} />
-      </div>
-      {(ecoP || barP) && (
-        <div className="port-now">
-          <div className="port-strat-headrow">
-            {[["ecology", ecoP], ["bare", barP]].map(([name, p]) => p && (
-              <div key={name} className="port-strat-head">
-                <span className={"port-strat-l " + name}>{name}</span>
-                <span className="port-strat-eq">${p.equity?.toFixed(0)}</span>
-                <span className="port-strat-meta">
-                  {(p.invested_frac * 100).toFixed(0)}% inv · {p.n_open_positions} pos · realized
-                  <span className={p.realized_gains_cum >= 0 ? " up" : " dn"}>
-                    {" "}{p.realized_gains_cum >= 0 ? "+" : ""}${p.realized_gains_cum?.toFixed(0)}
-                  </span>
+      <div className="eq-leg-grid">
+        {["bare", "ecology", "oracle"].map(fam => (
+          <div key={fam} className={"eq-leg-fam fam-" + fam}>
+            <span className={"eq-leg-fam-l " + fam}>{fam}</span>
+            {["qwen", "sonnet", "opus"].map(m => {
+              const v = equitySeries[`${fam}_${m}`]?.[dayIdx];
+              return (
+                <span key={m} className={"eq-leg-mod mod-" + m} title={`${fam} · ${m}`}>
+                  <span className="leg-sw"></span>
+                  <span className="leg-l">{m[0]}</span>
+                  {v != null && <span className="leg-v">{(v/1000).toFixed(1)}k</span>}
                 </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
-          {(() => {
-            // Merge orders by (side, ticker) so both strategies share rows.
-            const byKey = new Map();
-            const add = (strat, o) => {
-              const k = o.side + "|" + o.ticker;
-              if (!byKey.has(k)) byKey.set(k, { side: o.side, ticker: o.ticker, eco: null, bare: null });
-              byKey.get(k)[strat] = o;
-            };
-            (ecoP?.orders_today || []).forEach(o => add("eco", o));
-            (barP?.orders_today || []).forEach(o => add("bare", o));
-            const rows = [...byKey.values()].sort((a, b) => {
-              if (a.side !== b.side) return a.side === "BUY" ? -1 : 1;
-              return a.ticker < b.ticker ? -1 : 1;
-            });
-            if (rows.length === 0) return <div className="port-orders-empty">no trades today (either strategy)</div>;
-            return (
-              <div className="port-orders-tbl">
-                <div className="pot-head">
-                  <span className="pot-h pot-h-side">side</span>
-                  <span className="pot-h pot-h-tkr">ticker</span>
-                  <span className="pot-h pot-h-eco">ecology</span>
-                  <span className="pot-h pot-h-bare">bare</span>
-                </div>
-                {rows.map((r, i) => (
-                  <div key={i} className={"pot-row side-" + r.side.toLowerCase()}>
-                    <span className="pot-side">{r.side}</span>
-                    <span className="pot-tkr">{r.ticker}</span>
-                    <span className="pot-amt eco">
-                      {r.eco ? `$${(r.eco.dollars_intent/1000).toFixed(1)}k` : <span className="pot-blank">—</span>}
-                    </span>
-                    <span className="pot-amt bare">
-                      {r.bare ? `$${(r.bare.dollars_intent/1000).toFixed(1)}k` : <span className="pot-blank">—</span>}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            );
-          })()}
+        ))}
+        <div className="eq-leg-fam fam-bh">
+          <Leg cls="bh" label="buyhold" v={equitySeries.buyhold[dayIdx]} />
         </div>
-      )}
+      </div>
+      <OrdersTable9 day={day} pipelines={PIPELINES} />
+    </div>
+  );
+}
+
+// Orders table — rows by (side, ticker), one mini-cell per pipeline.
+// Shown as 3 family columns (bare/eco/oracle); each cell stacks 3 model dots
+// (q/s/o) showing dollar amount or — for that pipeline.
+function OrdersTable9({ day, pipelines }) {
+  const byKey = new Map();
+  pipelines.forEach(({ k }) => {
+    const orders = day.portfolio?.[k]?.orders_today || [];
+    orders.forEach(o => {
+      const key = o.side + "|" + o.ticker;
+      if (!byKey.has(key)) byKey.set(key, { side: o.side, ticker: o.ticker, by: {} });
+      byKey.get(key).by[k] = o;
+    });
+  });
+  const rows = [...byKey.values()].sort((a, b) => {
+    if (a.side !== b.side) return a.side === "BUY" ? -1 : 1;
+    return a.ticker < b.ticker ? -1 : 1;
+  });
+  const families = ["bare", "ecology", "oracle"];
+  const models = ["qwen", "sonnet", "opus"];
+
+  if (rows.length === 0) return <div className="port-orders-empty">no trades today (any pipeline)</div>;
+
+  const fmtDollars = (n) => n >= 1000 ? `$${(n/1000).toFixed(1)}k` : `$${n.toFixed(0)}`;
+
+  return (
+    <div className="port-orders-tbl9">
+      <div className="pot9-head">
+        <span className="pot9-h pot9-h-side">side</span>
+        <span className="pot9-h pot9-h-tkr">ticker</span>
+        {families.map(f => (
+          <span key={f} className={"pot9-h pot9-h-fam fam-" + f}>{f}</span>
+        ))}
+      </div>
+      <div className="pot9-subhead">
+        <span className="pot9-h pot9-h-side"></span>
+        <span className="pot9-h pot9-h-tkr"></span>
+        {families.map(f => (
+          <span key={f} className="pot9-h-models">
+            {models.map(m => (
+              <span key={m} className={"pot9-h-mod mod-" + m}>{m[0]}</span>
+            ))}
+          </span>
+        ))}
+      </div>
+      {rows.map((r, i) => (
+        <div key={i} className={"pot9-row side-" + r.side.toLowerCase()}>
+          <span className="pot9-side">{r.side}</span>
+          <span className="pot9-tkr">{r.ticker}</span>
+          {families.map(f => (
+            <span key={f} className={"pot9-fam fam-" + f}>
+              {models.map(m => {
+                const o = r.by[`${f}_${m}`];
+                return (
+                  <span
+                    key={m}
+                    className={"pot9-cell mod-" + m + (o ? " on" : " off")}
+                    title={o ? `${f}-${m}: ${fmtDollars(o.dollars_intent)}` : `${f}-${m}: —`}
+                  >
+                    {o ? fmtDollars(o.dollars_intent) : "—"}
+                  </span>
+                );
+              })}
+            </span>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

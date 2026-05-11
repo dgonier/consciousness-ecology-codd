@@ -1,0 +1,95 @@
+{
+  "date": "2026-02-19",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "AMZN",
+    "HD",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.045,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.18,
+      "primary_horizon": "h5",
+      "regime_note": "breakout",
+      "rationale": "MSFT is showing the strongest relative strength (p_up=0.60) with expanding volume, confirming a breakout above key resistance. The h5 horizon captures the immediate momentum leg driven by sector rotation, while h20 captures the earnings-driven continuation. The edge is clear in the short-to-medium t"
+    },
+    {
+      "ticker": "HD",
+      "p_up_h5": 0.035,
+      "p_up_h20": 0.08,
+      "p_up_h60": 0.12,
+      "primary_horizon": "h5",
+      "regime_note": "trend",
+      "rationale": "HD has solid relative strength (p_up=0.61) but volume is less explosive than MSFT. The h5 horizon is appropriate to capture the trend continuation before potential mean reversion. The edge is present but less certain than MSFT."
+    },
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.02,
+      "p_up_h20": 0.05,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h1",
+      "regime_note": "event_driven",
+      "rationale": "MRK is event-driven with a binary FDA decision in 48h. The h1 horizon is critical to capture the immediate volatility and directional move based on the outcome. The edge is high if the decision is positive, but the risk is significant."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.02,
+      "p_up_h60": 0.04,
+      "primary_horizon": "h1",
+      "regime_note": "range",
+      "rationale": "AAPL is showing weak relative strength (p_up=0.37) and is currently in a range-bound phase. No compelling momentum edge to justify a new position or significant rotation. Holding existing position is sufficient."
+    },
+    {
+      "ticker": "AMZN",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.02,
+      "p_up_h60": 0.04,
+      "primary_horizon": "h1",
+      "regime_note": "range",
+      "rationale": "AMZN is also showing weak relative strength (p_up=0.59) and is lagging the tech leaders. The current thesis is invalidated by the lack of breakout momentum. Exiting to reduce drag on the portfolio is the correct action."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 5
+  }
+}

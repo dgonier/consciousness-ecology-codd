@@ -1,0 +1,84 @@
+{
+  "date": "2026-04-20",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.05,
+      "primary_horizon": "h5",
+      "regime_note": "breakout",
+      "rationale": "AMD is showing strong relative strength and volume expansion on the breakout. The h5 horizon captures the immediate momentum from the sector rotation and potential earnings beat, offering the best risk/reward before the trend matures."
+    },
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.05,
+      "p_up_h20": 0.15,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "MRK is event-driven with a binary FDA decision. The h20 horizon allows us to capture the full asymmetric upside of approval while managing the risk of rejection. If the event is negative, the thesis invalidates quickly."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.03,
+      "p_up_h20": 0.06,
+      "p_up_h60": 0.04,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "AAPL is a core momentum name with consistent relative strength. No immediate catalysts warrant a new thesis, but the existing position is well-positioned for a steady h20 trend."
+    },
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.04,
+      "p_up_h20": 0.08,
+      "p_up_h60": 0.05,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "MSFT continues to show strong relative strength and sector rotation support. The existing thesis is valid, and the h20 horizon captures the sustained trend."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 4
+  }
+}

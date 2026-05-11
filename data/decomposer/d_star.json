@@ -1,0 +1,952 @@
+{
+  "belief.company.major_product_launch_positive_reception__ticker_WMT": {
+    "sum": -5.519999999999998,
+    "n": 9,
+    "abs_sum": 5.519999999999998
+  },
+  "belief.company.earnings_beat__ticker_AAPL": {
+    "sum": -18.916938153018133,
+    "n": 12,
+    "abs_sum": 19.826140263794347
+  },
+  "belief.company.short_interest_high_and_rising__ticker_AMZN": {
+    "sum": -2.2190392084062243,
+    "n": 2,
+    "abs_sum": 2.2190392084062243
+  },
+  "belief.company.regulatory_action_announced__ticker_MSFT": {
+    "sum": -1.1346010553881065,
+    "n": 1,
+    "abs_sum": 1.1346010553881065
+  },
+  "belief.company.regulatory_action_announced__ticker_CSCO": {
+    "sum": 2.3346010553881062,
+    "n": 1,
+    "abs_sum": 2.3346010553881062
+  },
+  "belief.company.dividend_increase_announced__ticker_WMT": {
+    "sum": -7.230432084273024,
+    "n": 13,
+    "abs_sum": 12.316116833414107
+  },
+  "belief.company.dividend_increase_announced__ticker_KO": {
+    "sum": -21.30887630603624,
+    "n": 28,
+    "abs_sum": 30.348796305614673
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_AVGO": {
+    "sum": -37.24387630603622,
+    "n": 32,
+    "abs_sum": 47.8952458043184
+  },
+  "belief.company.dividend_increase_announced__ticker_CVX": {
+    "sum": -13.82096079159378,
+    "n": 18,
+    "abs_sum": 17.20631973599489
+  },
+  "belief.company.earnings_beat__ticker_CVX": {
+    "sum": -2.286359736205669,
+    "n": 4,
+    "abs_sum": 4.155561846981881
+  },
+  "belief.company.earnings_miss__ticker_CVX": {
+    "sum": 2.0546010553881064,
+    "n": 1,
+    "abs_sum": 2.0546010553881064
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_GOOG": {
+    "sum": -37.29371340366624,
+    "n": 43,
+    "abs_sum": 48.80540870668839
+  },
+  "belief.company.earnings_beat__ticker_MRK": {
+    "sum": -0.48443815301811766,
+    "n": 2,
+    "abs_sum": 2.35364026379433
+  },
+  "belief.company.guidance_cut__ticker_MRK": {
+    "sum": 2.1555618469818834,
+    "n": 2,
+    "abs_sum": 2.9136402637943295
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_V": {
+    "sum": -1.046359736205669,
+    "n": 8,
+    "abs_sum": 4.831718680606778
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_MCD": {
+    "sum": -3.2190392084062234,
+    "n": 9,
+    "abs_sum": 5.055196042031119
+  },
+  "belief.company.dividend_increase_announced__ticker_MCD": {
+    "sum": -5.924438153018118,
+    "n": 20,
+    "abs_sum": 12.26595393104412
+  },
+  "belief.company.dividend_increase_announced__ticker_PG": {
+    "sum": -15.574601055388106,
+    "n": 28,
+    "abs_sum": 21.315385223512575
+  },
+  "belief.company.dividend_increase_announced__ticker_PEP": {
+    "sum": -16.088836305825446,
+    "n": 28,
+    "abs_sum": 23.50843050066389
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_MA": {
+    "sum": 0.33075788901300207,
+    "n": 8,
+    "abs_sum": 4.212679472200554
+  },
+  "belief.company.regulatory_action_announced__ticker_GOOG": {
+    "sum": -5.340960791593775,
+    "n": 6,
+    "abs_sum": 7.610162902369988
+  },
+  "belief.company.earnings_beat__ticker_ABBV": {
+    "sum": -4.315561846981881,
+    "n": 2,
+    "abs_sum": 4.315561846981881
+  },
+  "belief.company.guidance_cut__ticker_ABBV": {
+    "sum": -0.07556184698188251,
+    "n": 2,
+    "abs_sum": 1.7936402637943303
+  },
+  "belief.company.dividend_increase_announced__ticker_ABBV": {
+    "sum": -9.570757889013,
+    "n": 8,
+    "abs_sum": 11.288836305825448
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_AMZN": {
+    "sum": -18.177197625640243,
+    "n": 35,
+    "abs_sum": 33.57584765151107
+  },
+  "belief.company.activist_investor_takes_stake__ticker_AMZN": {
+    "sum": -13.31748343016943,
+    "n": 11,
+    "abs_sum": 13.915561846981875
+  },
+  "belief.company.activist_investor_takes_stake__ticker_GOOG": {
+    "sum": -13.027915514442455,
+    "n": 17,
+    "abs_sum": 20.66472395754731
+  },
+  "belief.company.earnings_beat__ticker_AVGO": {
+    "sum": -13.806319735994883,
+    "n": 7,
+    "abs_sum": 15.675521846771094
+  },
+  "belief.company.guidance_cut__ticker_MSFT": {
+    "sum": 0.9688763060362353,
+    "n": 7,
+    "abs_sum": 10.425358944401108
+  },
+  "belief.company.earnings_beat__ticker_MA": {
+    "sum": -2.12328131939322,
+    "n": 4,
+    "abs_sum": 2.12328131939322
+  },
+  "belief.company.guidance_cut__ticker_MA": {
+    "sum": 3.6586402637943305,
+    "n": 2,
+    "abs_sum": 3.6586402637943305
+  },
+  "belief.company.earnings_beat__ticker_MSFT": {
+    "sum": -23.324763957758087,
+    "n": 14,
+    "abs_sum": 23.922842374570536
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_MSFT": {
+    "sum": -27.985398944611894,
+    "n": 31,
+    "abs_sum": 38.32948791530541
+  },
+  "belief.company.technical_support_broken__ticker_MSFT": {
+    "sum": -12.123477361424339,
+    "n": 24,
+    "abs_sum": 24.127240527377875
+  },
+  "belief.company.technical_support_broken__ticker_WMT": {
+    "sum": -2.354601055388106,
+    "n": 5,
+    "abs_sum": 2.354601055388106
+  },
+  "belief.company.earnings_beat__ticker_V": {
+    "sum": -3.577320527799462,
+    "n": 4,
+    "abs_sum": 3.6534773614243576
+  },
+  "belief.company.guidance_cut__ticker_V": {
+    "sum": 3.454601055388107,
+    "n": 2,
+    "abs_sum": 3.454601055388107
+  },
+  "belief.company.technical_support_broken__ticker_MCD": {
+    "sum": 0.25711762521867165,
+    "n": 5,
+    "abs_sum": 2.49711762521867
+  },
+  "belief.company.technical_support_broken__ticker_AAPL": {
+    "sum": -7.435561846981884,
+    "n": 12,
+    "abs_sum": 11.224763957758098
+  },
+  "belief.company.earnings_beat__ticker_GOOG": {
+    "sum": -25.811213403666276,
+    "n": 20,
+    "abs_sum": 33.237223957547336
+  },
+  "belief.company.guidance_cut__ticker_AVGO": {
+    "sum": 8.56380316616432,
+    "n": 5,
+    "abs_sum": 8.56380316616432
+  },
+  "belief.company.earnings_beat__ticker_AMZN": {
+    "sum": -20.984641055598892,
+    "n": 23,
+    "abs_sum": 26.899527915516188
+  },
+  "belief.company.guidance_cut__ticker_GOOG": {
+    "sum": -0.35364026379432945,
+    "n": 4,
+    "abs_sum": 1.5155618469818832
+  },
+  "belief.company.earnings_beat__ticker_UNH": {
+    "sum": -6.046359736205669,
+    "n": 5,
+    "abs_sum": 6.6355618469818785
+  },
+  "belief.company.dividend_increase_announced__ticker_UNH": {
+    "sum": -3.1955618469818825,
+    "n": 2,
+    "abs_sum": 3.1955618469818825
+  },
+  "belief.company.regulatory_action_announced__ticker_UNH": {
+    "sum": -1.28,
+    "n": 3,
+    "abs_sum": 3.7892021107762135
+  },
+  "belief.company.earnings_miss__ticker_UNH": {
+    "sum": -2.635561846981882,
+    "n": 2,
+    "abs_sum": 3.39364026379433
+  },
+  "belief.company.guidance_cut__ticker_UNH": {
+    "sum": 3.2336402637943302,
+    "n": 5,
+    "abs_sum": 7.902842374570543
+  },
+  "belief.company.technical_support_broken__ticker_UNH": {
+    "sum": -2.419039208406223,
+    "n": 3,
+    "abs_sum": 4.688241319182437
+  },
+  "belief.company.earnings_beat__ticker_WMT": {
+    "sum": -11.608510501085469,
+    "n": 17,
+    "abs_sum": 19.725318944190313
+  },
+  "belief.company.earnings_beat__ticker_MCD": {
+    "sum": -9.280000000000001,
+    "n": 18,
+    "abs_sum": 11.545358944401107
+  },
+  "belief.company.earnings_miss__ticker_AMZN": {
+    "sum": -5.374601055388106,
+    "n": 4,
+    "abs_sum": 5.374601055388106
+  },
+  "belief.company.guidance_cut__ticker_AMZN": {
+    "sum": 4.4380784168124485,
+    "n": 4,
+    "abs_sum": 4.4380784168124485
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_MRK": {
+    "sum": -7.500960791593774,
+    "n": 9,
+    "abs_sum": 7.539039208406222
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_AAPL": {
+    "sum": -13.677157625429457,
+    "n": 26,
+    "abs_sum": 23.019325012935415
+  },
+  "belief.company.activist_investor_takes_stake__ticker_MSFT": {
+    "sum": -2.5009607915937764,
+    "n": 4,
+    "abs_sum": 5.128241319182435
+  },
+  "belief.company.activist_investor_takes_stake__ticker_AAPL": {
+    "sum": 0.10096079159377624,
+    "n": 2,
+    "abs_sum": 2.939039208406224
+  },
+  "belief.company.regulatory_clearance_received__ticker_CVX": {
+    "sum": -3.3409607915937753,
+    "n": 4,
+    "abs_sum": 3.3409607915937753
+  },
+  "belief.company.regulatory_clearance_received__ticker_GOOG": {
+    "sum": -1.8400000000000003,
+    "n": 3,
+    "abs_sum": 1.8400000000000003
+  },
+  "belief.company.earnings_miss__ticker_MCD": {
+    "sum": -0.9600000000000003,
+    "n": 2,
+    "abs_sum": 0.9600000000000003
+  },
+  "belief.company.earnings_miss__ticker_PG": {
+    "sum": 1.0146010553881066,
+    "n": 5,
+    "abs_sum": 4.610757889013001
+  },
+  "belief.company.earnings_miss__ticker_WMT": {
+    "sum": -2.1980784168124474,
+    "n": 2,
+    "abs_sum": 2.1980784168124474
+  },
+  "belief.company.technical_support_broken__ticker_GOOG": {
+    "sum": -1.1498370976300105,
+    "n": 6,
+    "abs_sum": 7.95744342995865
+  },
+  "belief.company.earnings_miss__ticker_KO": {
+    "sum": -0.18539894461189332,
+    "n": 4,
+    "abs_sum": 5.212679472200553
+  },
+  "belief.company.regulatory_clearance_received__ticker_MRK": {
+    "sum": -3.755561846981884,
+    "n": 3,
+    "abs_sum": 3.755561846981884
+  },
+  "belief.company.earnings_miss__ticker_PEP": {
+    "sum": -1.2000000000000002,
+    "n": 4,
+    "abs_sum": 2.758078416812448
+  },
+  "belief.company.technical_support_broken__ticker_AMZN": {
+    "sum": 1.3555218467710972,
+    "n": 17,
+    "abs_sum": 21.90664554073486
+  },
+  "belief.company.guidance_cut__ticker_CVX": {
+    "sum": 1.6380784168124476,
+    "n": 2,
+    "abs_sum": 1.6380784168124476
+  },
+  "belief.company.earnings_beat__ticker_KO": {
+    "sum": -4.351758680817562,
+    "n": 8,
+    "abs_sum": 5.1390392084062215
+  },
+  "belief.company.buyback_program_announced__ticker_KO": {
+    "sum": 1.0526794722005532,
+    "n": 3,
+    "abs_sum": 1.0526794722005532
+  },
+  "belief.company.technical_support_broken__ticker_KO": {
+    "sum": 1.3136402637943307,
+    "n": 2,
+    "abs_sum": 2.6355618469818825
+  },
+  "belief.company.earnings_beat__ticker_PG": {
+    "sum": -6.279039208406226,
+    "n": 14,
+    "abs_sum": 9.504398152807331
+  },
+  "belief.company.earnings_beat__ticker_PEP": {
+    "sum": -4.283477361424341,
+    "n": 8,
+    "abs_sum": 5.710757889013001
+  },
+  "belief.company.buyback_program_announced__ticker_PG": {
+    "sum": 0.8971176252186708,
+    "n": 3,
+    "abs_sum": 0.8971176252186708
+  },
+  "belief.company.buyback_program_announced__ticker_PEP": {
+    "sum": -1.7599999999999998,
+    "n": 3,
+    "abs_sum": 2.518078416812447
+  },
+  "belief.company.technical_support_broken__ticker_PG": {
+    "sum": -0.020960791593776285,
+    "n": 3,
+    "abs_sum": 2.017117625218671
+  },
+  "belief.company.technical_support_broken__ticker_PEP": {
+    "sum": -0.23999999999999988,
+    "n": 2,
+    "abs_sum": 1.7980784168124475
+  },
+  "belief.company.guidance_cut__ticker_CSCO": {
+    "sum": -2.1346010553881056,
+    "n": 2,
+    "abs_sum": 2.614601055388106
+  },
+  "belief.company.earnings_beat__ticker_CSCO": {
+    "sum": -3.8146010553881062,
+    "n": 2,
+    "abs_sum": 3.8146010553881062
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_CVX": {
+    "sum": -9.347280527588659,
+    "n": 4,
+    "abs_sum": 9.347280527588659
+  },
+  "belief.company.activist_investor_takes_stake__ticker_JPM": {
+    "sum": -1.9746010553881062,
+    "n": 1,
+    "abs_sum": 1.9746010553881062
+  },
+  "belief.company.regulatory_action_announced__ticker_AMZN": {
+    "sum": 0.9600000000000006,
+    "n": 4,
+    "abs_sum": 5.3980784168124485
+  },
+  "belief.company.guidance_cut__ticker_KO": {
+    "sum": 0.35556184698188353,
+    "n": 3,
+    "abs_sum": 3.8336402637943294
+  },
+  "belief.company.ceo_departure_unplanned__ticker_KO": {
+    "sum": -0.5999999999999998,
+    "n": 1,
+    "abs_sum": 0.5999999999999998
+  },
+  "belief.company.guidance_cut__ticker_PG": {
+    "sum": -0.6190392084062233,
+    "n": 3,
+    "abs_sum": 2.3371176252186707
+  },
+  "belief.company.guidance_cut__ticker_PEP": {
+    "sum": 0.020960791593776618,
+    "n": 3,
+    "abs_sum": 2.059039208406224
+  },
+  "belief.company.ceo_departure_unplanned__ticker_PG": {
+    "sum": -0.7790392084062235,
+    "n": 1,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.ceo_departure_unplanned__ticker_PEP": {
+    "sum": -0.7790392084062235,
+    "n": 1,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.dividend_increase_announced__ticker_MA": {
+    "sum": -1.3809607915937754,
+    "n": 4,
+    "abs_sum": 2.139039208406223
+  },
+  "belief.company.regulatory_action_announced__ticker_JPM": {
+    "sum": 1.3326794722005544,
+    "n": 3,
+    "abs_sum": 2.654601055388106
+  },
+  "belief.company.regulatory_action_announced__ticker_V": {
+    "sum": 0.9790392084062238,
+    "n": 1,
+    "abs_sum": 0.9790392084062238
+  },
+  "belief.company.regulatory_action_announced__ticker_MA": {
+    "sum": 0.9790392084062238,
+    "n": 1,
+    "abs_sum": 0.9790392084062238
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_KO": {
+    "sum": -0.43999999999999956,
+    "n": 3,
+    "abs_sum": 1.198078416812447
+  },
+  "belief.company.regulatory_clearance_received__ticker_UNH": {
+    "sum": -1.6044381530181164,
+    "n": 2,
+    "abs_sum": 1.6044381530181164
+  },
+  "belief.company.dividend_increase_announced__ticker_V": {
+    "sum": -2.3809607915937767,
+    "n": 4,
+    "abs_sum": 2.4190392084062244
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_PG": {
+    "sum": -2.59364026379433,
+    "n": 5,
+    "abs_sum": 2.59364026379433
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_PEP": {
+    "sum": -1.3936402637943295,
+    "n": 3,
+    "abs_sum": 2.7155618469818834
+  },
+  "belief.company.regulatory_action_announced__ticker_JNJ": {
+    "sum": -1.6590392084062247,
+    "n": 3,
+    "abs_sum": 2.0209607915937777
+  },
+  "belief.company.ceo_departure_unplanned__ticker_AAPL": {
+    "sum": -6.492679472200553,
+    "n": 7,
+    "abs_sum": 10.290757889013003
+  },
+  "belief.company.dividend_increase_announced__ticker_HD": {
+    "sum": -3.739039208406223,
+    "n": 11,
+    "abs_sum": 6.493274458843565
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_V": {
+    "sum": -2.9494381530181157,
+    "n": 3,
+    "abs_sum": 3.8586402637943293
+  },
+  "belief.company.guidance_cut__ticker_WMT": {
+    "sum": -0.8044381530181182,
+    "n": 2,
+    "abs_sum": 2.67364026379433
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_MA": {
+    "sum": -1.964438153018118,
+    "n": 3,
+    "abs_sum": 4.233640263794332
+  },
+  "belief.company.guidance_cut__ticker_MCD": {
+    "sum": 0.13903920840622364,
+    "n": 2,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_AAPL": {
+    "sum": -1.1955618469818827,
+    "n": 2,
+    "abs_sum": 1.7936402637943296
+  },
+  "belief.company.regulatory_clearance_received__ticker_ABBV": {
+    "sum": -1.520000000000001,
+    "n": 1,
+    "abs_sum": 1.520000000000001
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_ABBV": {
+    "sum": -0.8000000000000003,
+    "n": 1,
+    "abs_sum": 0.8000000000000003
+  },
+  "belief.company.material_lawsuit_filed__ticker_JPM": {
+    "sum": 0.2990392084062234,
+    "n": 1,
+    "abs_sum": 0.2990392084062234
+  },
+  "belief.company.buyback_program_announced__ticker_WMT": {
+    "sum": -1.5199999999999994,
+    "n": 2,
+    "abs_sum": 1.5199999999999994
+  },
+  "belief.company.buyback_program_announced__ticker_HD": {
+    "sum": 0.4590392084062236,
+    "n": 1,
+    "abs_sum": 0.4590392084062236
+  },
+  "belief.company.buyback_program_announced__ticker_MCD": {
+    "sum": -0.020960791593776507,
+    "n": 2,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.regulatory_action_announced__ticker_AAPL": {
+    "sum": -0.77652263857566,
+    "n": 5,
+    "abs_sum": 0.77652263857566
+  },
+  "belief.company.guidance_cut__ticker_JPM": {
+    "sum": -1.6546010553881072,
+    "n": 3,
+    "abs_sum": 3.2546010553881075
+  },
+  "belief.company.regulatory_clearance_received__ticker_AMZN": {
+    "sum": -5.395561846981884,
+    "n": 5,
+    "abs_sum": 5.395561846981884
+  },
+  "belief.company.technical_support_broken__ticker_AVGO": {
+    "sum": -1.3180784168124466,
+    "n": 2,
+    "abs_sum": 1.3180784168124466
+  },
+  "belief.company.earnings_beat__ticker_HD": {
+    "sum": -2.6780784168124465,
+    "n": 2,
+    "abs_sum": 2.6780784168124465
+  },
+  "belief.company.regulatory_clearance_received__ticker_HD": {
+    "sum": -1.899039208406223,
+    "n": 1,
+    "abs_sum": 1.899039208406223
+  },
+  "belief.company.regulatory_clearance_received__ticker_PG": {
+    "sum": 1.3346010553881062,
+    "n": 1,
+    "abs_sum": 1.3346010553881062
+  },
+  "belief.company.regulatory_clearance_received__ticker_AAPL": {
+    "sum": 0.21460105538810703,
+    "n": 2,
+    "abs_sum": 2.774601055388106
+  },
+  "belief.company.regulatory_action_announced__ticker_WMT": {
+    "sum": -0.8844381530181178,
+    "n": 2,
+    "abs_sum": 2.7536402637943302
+  },
+  "belief.company.regulatory_action_announced__ticker_MCD": {
+    "sum": 0.21903920840622346,
+    "n": 2,
+    "abs_sum": 0.6990392084062237
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_AMZN": {
+    "sum": -14.553969472411303,
+    "n": 11,
+    "abs_sum": 17.761575804739937
+  },
+  "belief.company.activist_investor_takes_stake__ticker_UNH": {
+    "sum": 0.9346010553881061,
+    "n": 1,
+    "abs_sum": 0.9346010553881061
+  },
+  "belief.company.ceo_departure_unplanned__ticker_AMZN": {
+    "sum": 2.454601055388107,
+    "n": 3,
+    "abs_sum": 5.292679472200554
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_CVX": {
+    "sum": -5.195561846981881,
+    "n": 4,
+    "abs_sum": 5.953640263794328
+  },
+  "belief.company.buyback_program_announced__ticker_CVX": {
+    "sum": -2.8000000000000007,
+    "n": 3,
+    "abs_sum": 2.8000000000000007
+  },
+  "belief.company.target_in_announced_ma__ticker_MRK": {
+    "sum": -6.19751656983056,
+    "n": 7,
+    "abs_sum": 8.841359736205668
+  },
+  "belief.company.technical_support_broken__ticker_V": {
+    "sum": -1.2799999999999998,
+    "n": 3,
+    "abs_sum": 1.2799999999999998
+  },
+  "belief.company.technical_support_broken__ticker_MA": {
+    "sum": -1.2165226385756587,
+    "n": 3,
+    "abs_sum": 2.7326794722005534
+  },
+  "belief.company.buyback_program_announced__ticker_AAPL": {
+    "sum": -5.804438153018118,
+    "n": 6,
+    "abs_sum": 6.63364026379433
+  },
+  "belief.company.activist_investor_takes_stake__ticker_CVX": {
+    "sum": -3.599999999999999,
+    "n": 4,
+    "abs_sum": 4.509202110776213
+  },
+  "belief.company.target_in_announced_ma__ticker_JPM": {
+    "sum": -0.8000000000000003,
+    "n": 1,
+    "abs_sum": 0.8000000000000003
+  },
+  "belief.company.material_lawsuit_filed__ticker_KO": {
+    "sum": -1.4190392084062238,
+    "n": 1,
+    "abs_sum": 1.4190392084062238
+  },
+  "belief.company.regulatory_clearance_received__ticker_MA": {
+    "sum": -0.8000000000000003,
+    "n": 1,
+    "abs_sum": 0.8000000000000003
+  },
+  "belief.company.material_lawsuit_filed__ticker_PG": {
+    "sum": -0.7790392084062235,
+    "n": 1,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.material_lawsuit_filed__ticker_PEP": {
+    "sum": -0.7790392084062235,
+    "n": 1,
+    "abs_sum": 0.7790392084062235
+  },
+  "belief.company.regulatory_clearance_received__ticker_V": {
+    "sum": -0.23999999999999985,
+    "n": 1,
+    "abs_sum": 0.23999999999999985
+  },
+  "belief.company.buyback_program_announced__ticker_AVGO": {
+    "sum": 0.9346010553881061,
+    "n": 1,
+    "abs_sum": 0.9346010553881061
+  },
+  "belief.company.buyback_program_announced__ticker_V": {
+    "sum": -1.4934773614243406,
+    "n": 3,
+    "abs_sum": 3.0626794722005535
+  },
+  "belief.company.buyback_program_announced__ticker_MA": {
+    "sum": 0.39556184698188346,
+    "n": 3,
+    "abs_sum": 2.5936402637943297
+  },
+  "belief.company.dividend_increase_announced__ticker_AAPL": {
+    "sum": -4.559438153018118,
+    "n": 5,
+    "abs_sum": 5.478640263794331
+  },
+  "belief.company.technical_support_broken__ticker_CSCO": {
+    "sum": 0.37903920840622374,
+    "n": 1,
+    "abs_sum": 0.37903920840622374
+  },
+  "belief.company.dividend_increase_announced__ticker_MSFT": {
+    "sum": -2.459039208406223,
+    "n": 3,
+    "abs_sum": 2.459039208406223
+  },
+  "belief.company.regulatory_action_announced__ticker_CVX": {
+    "sum": 0.21460105538810548,
+    "n": 1,
+    "abs_sum": 0.21460105538810548
+  },
+  "belief.company.technical_support_broken__ticker_CVX": {
+    "sum": -3.140960791593776,
+    "n": 3,
+    "abs_sum": 3.140960791593776
+  },
+  "belief.company.buyback_program_announced__ticker_GOOG": {
+    "sum": -0.20635973620566916,
+    "n": 2,
+    "abs_sum": 1.1155618469818829
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_CSCO": {
+    "sum": -2.3199999999999994,
+    "n": 3,
+    "abs_sum": 2.3199999999999994
+  },
+  "belief.company.material_lawsuit_filed__ticker_MSFT": {
+    "sum": -2.08,
+    "n": 2,
+    "abs_sum": 2.08
+  },
+  "belief.company.target_in_announced_ma__ticker_MSFT": {
+    "sum": -3.1790392084062224,
+    "n": 2,
+    "abs_sum": 3.1790392084062224
+  },
+  "belief.company.earnings_miss__ticker_MSFT": {
+    "sum": -2.1536402637943297,
+    "n": 2,
+    "abs_sum": 2.1536402637943297
+  },
+  "belief.company.earnings_miss__ticker_AAPL": {
+    "sum": 0.2590392084062241,
+    "n": 2,
+    "abs_sum": 1.4590392084062236
+  },
+  "belief.company.earnings_miss__ticker_GOOG": {
+    "sum": -0.5999999999999998,
+    "n": 1,
+    "abs_sum": 0.5999999999999998
+  },
+  "belief.company.ceo_departure_unplanned__ticker_WMT": {
+    "sum": -0.3790392084062233,
+    "n": 1,
+    "abs_sum": 0.3790392084062233
+  },
+  "belief.company.ceo_departure_unplanned__ticker_MCD": {
+    "sum": -0.45903920840622336,
+    "n": 1,
+    "abs_sum": 0.45903920840622336
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_MRK": {
+    "sum": -7.613188153018102,
+    "n": 4,
+    "abs_sum": 7.613188153018102
+  },
+  "belief.company.regulatory_clearance_received__ticker_MSFT": {
+    "sum": -3.179039208406223,
+    "n": 4,
+    "abs_sum": 6.168241319182436
+  },
+  "belief.company.target_in_announced_ma__ticker_AMZN": {
+    "sum": -2.0590392084062232,
+    "n": 2,
+    "abs_sum": 2.0590392084062232
+  },
+  "belief.company.technical_support_broken__ticker_JPM": {
+    "sum": -2.534601055388107,
+    "n": 1,
+    "abs_sum": 2.534601055388107
+  },
+  "belief.company.material_lawsuit_filed__ticker_AMZN": {
+    "sum": -0.3619215831875533,
+    "n": 2,
+    "abs_sum": 0.3619215831875533
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_JPM": {
+    "sum": 0.6946010553881062,
+    "n": 2,
+    "abs_sum": 1.1746010553881059
+  },
+  "belief.company.dividend_increase_announced__ticker_JNJ": {
+    "sum": -1.120960791593777,
+    "n": 4,
+    "abs_sum": 2.357117625218671
+  },
+  "belief.company.material_lawsuit_filed__ticker_JNJ": {
+    "sum": 0.8,
+    "n": 1,
+    "abs_sum": 0.8
+  },
+  "belief.company.dividend_increase_announced__ticker_MRK": {
+    "sum": -0.32000000000000023,
+    "n": 1,
+    "abs_sum": 0.32000000000000023
+  },
+  "belief.company.short_interest_high_and_rising__ticker_AAPL": {
+    "sum": -2.534601055388107,
+    "n": 1,
+    "abs_sum": 2.534601055388107
+  },
+  "belief.company.short_interest_high_and_rising__ticker_GOOG": {
+    "sum": 0.9346010553881061,
+    "n": 1,
+    "abs_sum": 0.9346010553881061
+  },
+  "belief.company.short_interest_high_and_rising__ticker_MSFT": {
+    "sum": -0.8000000000000003,
+    "n": 1,
+    "abs_sum": 0.8000000000000003
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_JNJ": {
+    "sum": -2.4990392084062227,
+    "n": 2,
+    "abs_sum": 2.4990392084062227
+  },
+  "belief.company.earnings_beat__ticker_JNJ": {
+    "sum": -1.6000000000000005,
+    "n": 2,
+    "abs_sum": 1.6000000000000005
+  },
+  "belief.company.guidance_cut__ticker_JNJ": {
+    "sum": 1.4190392084062236,
+    "n": 1,
+    "abs_sum": 1.4190392084062236
+  },
+  "belief.company.earnings_beat__ticker_JPM": {
+    "sum": -6.598078416812449,
+    "n": 3,
+    "abs_sum": 6.598078416812449
+  },
+  "belief.company.buyback_program_announced__ticker_JPM": {
+    "sum": -1.4190392084062238,
+    "n": 1,
+    "abs_sum": 1.4190392084062238
+  },
+  "belief.company.dividend_increase_announced__ticker_JPM": {
+    "sum": -0.8590392084062234,
+    "n": 1,
+    "abs_sum": 0.8590392084062234
+  },
+  "belief.company.target_in_announced_ma__ticker_AAPL": {
+    "sum": 0.9346010553881061,
+    "n": 1,
+    "abs_sum": 0.9346010553881061
+  },
+  "belief.company.technical_support_broken__ticker_JNJ": {
+    "sum": -0.64,
+    "n": 2,
+    "abs_sum": 0.64
+  },
+  "belief.company.dividend_increase_announced__ticker_GOOG": {
+    "sum": -2.3790392084062244,
+    "n": 2,
+    "abs_sum": 2.3790392084062244
+  },
+  "belief.company.regulatory_clearance_received__ticker_JNJ": {
+    "sum": -0.9390392084062238,
+    "n": 1,
+    "abs_sum": 0.9390392084062238
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_JNJ": {
+    "sum": -1.899039208406223,
+    "n": 1,
+    "abs_sum": 1.899039208406223
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_GOOG": {
+    "sum": -1.899039208406223,
+    "n": 1,
+    "abs_sum": 1.899039208406223
+  },
+  "belief.company.buyback_program_announced__ticker_UNH": {
+    "sum": -0.42539894461189565,
+    "n": 1,
+    "abs_sum": 0.42539894461189565
+  },
+  "belief.company.acting_as_acquirer_in_announced_ma__ticker_UNH": {
+    "sum": 0.9346010553881061,
+    "n": 1,
+    "abs_sum": 0.9346010553881061
+  },
+  "belief.company.activist_investor_takes_stake__ticker_CSCO": {
+    "sum": -0.32000000000000023,
+    "n": 1,
+    "abs_sum": 0.32000000000000023
+  },
+  "belief.company.buyback_program_announced__ticker_AMZN": {
+    "sum": 1.4946010553881066,
+    "n": 1,
+    "abs_sum": 1.4946010553881066
+  },
+  "belief.company.target_in_announced_ma__ticker_JNJ": {
+    "sum": -1.899039208406223,
+    "n": 1,
+    "abs_sum": 1.899039208406223
+  },
+  "belief.company.ceo_departure_unplanned__ticker_MSFT": {
+    "sum": -1.5746010553881062,
+    "n": 1,
+    "abs_sum": 1.5746010553881062
+  },
+  "belief.company.ceo_departure_unplanned__ticker_GOOG": {
+    "sum": 0.6146010553881069,
+    "n": 2,
+    "abs_sum": 3.174601055388106
+  },
+  "belief.company.major_product_launch_positive_reception__ticker_UNH": {
+    "sum": -0.23999999999999985,
+    "n": 1,
+    "abs_sum": 0.23999999999999985
+  },
+  "belief.company.guidance_cut__ticker_AAPL": {
+    "sum": 2.174601055388106,
+    "n": 1,
+    "abs_sum": 2.174601055388106
+  },
+  "belief.company.target_in_announced_ma__ticker_ABBV": {
+    "sum": -3.014601055388106,
+    "n": 1,
+    "abs_sum": 3.014601055388106
+  },
+  "belief.company.activist_investor_takes_stake__ticker_AVGO": {
+    "sum": 0.4546010553881068,
+    "n": 1,
+    "abs_sum": 0.4546010553881068
+  },
+  "belief.company.buyback_program_announced__ticker_MSFT": {
+    "sum": -1.4190392084062238,
+    "n": 1,
+    "abs_sum": 1.4190392084062238
+  }
+}

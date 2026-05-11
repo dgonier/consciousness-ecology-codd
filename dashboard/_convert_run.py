@@ -106,62 +106,78 @@ def derive_golden(targets: list[dict]) -> list[dict]:
     return out
 
 
-def derive_portfolio(day: dict) -> dict:
-    """Map ECOLOGY-QWEN and BARE-QWEN snapshots to the v2 portfolio shape."""
+# 9 pipelines from the v3 source: 3 apex models x 3 pipelines.
+# Order matters — drives header/holdings/sparkline display order.
+PIPELINES = [
+    # (source_key, dashboard_key, pipeline_family, model)
+    ("bare",          "bare_qwen",     "bare",    "qwen"),
+    ("bare_sonnet",   "bare_sonnet",   "bare",    "sonnet"),
+    ("bare_opus",     "bare_opus",     "bare",    "opus"),
+    ("ecology",       "ecology_qwen",  "ecology", "qwen"),
+    ("ecology_sonnet","ecology_sonnet","ecology", "sonnet"),
+    ("ecology_opus",  "ecology_opus",  "ecology", "opus"),
+    ("oracle_qwen",   "oracle_qwen",   "oracle",  "qwen"),
+    ("oracle_sonnet", "oracle_sonnet", "oracle",  "sonnet"),
+    ("oracle_opus",   "oracle_opus",   "oracle",  "opus"),
+]
 
-    def remap_snapshot(snap: dict, orders: list[dict]) -> dict:
-        if not snap:
-            return None
-        # Build positions list with the field names the holdings bar reads.
-        positions = []
-        for p in snap.get("open_positions") or []:
-            mv = p.get("mv", 0.0)
-            cost = p.get("cost_basis", mv)
-            upnl = p.get("unrealized_pnl", mv - cost)
-            upnl_pct = (upnl / cost) if cost else 0.0
-            positions.append({
-                "ticker": p["ticker"],
-                "shares": p.get("shares", 0.0),
-                "cost_basis": cost,
-                "mv": mv,
-                "unrealized_pnl": upnl,
-                "unrealized_pnl_pct": upnl_pct,
-                "weight_pct": p.get("weight_pct", 0.0),
-                "days_held": p.get("days_held", 0),
-            })
-        equity = snap.get("equity", 0.0)
-        cash = snap.get("cash", 0.0)
-        invested = snap.get("invested_pct", 0.0) / 100.0
-        return {
-            "equity": equity,
-            "cash": cash,
-            "invested_frac": invested,
-            "n_open_positions": len(positions),
-            "open_positions": positions,
-            "realized_gains_cum": snap.get("realized_gains_cum", 0.0),
-            "tax_owed_accrued": snap.get("tax_owed_accrued", 0.0),
-            "orders_today": [
-                {
-                    "ticker": o["ticker"],
-                    "side": o["side"],
-                    "dollars_intent": o.get("dollars_intent", 0.0),
-                    "size_pct": o.get("size_pct", 0.0),
-                    "reasoning": o.get("reasoning", ""),
-                }
-                for o in (orders or [])
-            ],
-        }
 
-    eco_snap = day["ecology"].get("pm_snapshot_post")
-    eco_orders = day["ecology"].get("pm_orders_validated") or []
-    bare_snap = day["bare"].get("pm_snapshot_post")
-    bare_orders = day["bare"].get("pm_orders_validated") or []
+def remap_snapshot(snap: dict, orders: list[dict]) -> dict:
+    if not snap:
+        return None
+    positions = []
+    for p in snap.get("open_positions") or []:
+        mv = p.get("mv", 0.0)
+        cost = p.get("cost_basis", mv)
+        upnl = p.get("unrealized_pnl", mv - cost)
+        upnl_pct = (upnl / cost) if cost else 0.0
+        positions.append({
+            "ticker": p["ticker"],
+            "shares": p.get("shares", 0.0),
+            "cost_basis": cost,
+            "mv": mv,
+            "unrealized_pnl": upnl,
+            "unrealized_pnl_pct": upnl_pct,
+            "weight_pct": p.get("weight_pct", 0.0),
+            "days_held": p.get("days_held", 0),
+        })
     return {
-        "ecology": remap_snapshot(eco_snap, eco_orders),
-        "bare": remap_snapshot(bare_snap, bare_orders),
-        # frictionless: surface pretax pipelines if present (none here, leave null)
-        "frictionless": None,
+        "equity": snap.get("equity", 0.0),
+        "cash": snap.get("cash", 0.0),
+        "invested_frac": snap.get("invested_pct", 0.0) / 100.0,
+        "n_open_positions": len(positions),
+        "open_positions": positions,
+        "realized_gains_cum": snap.get("realized_gains_cum", 0.0),
+        "tax_owed_accrued": snap.get("tax_owed_accrued", 0.0),
+        "orders_today": [
+            {
+                "ticker": o["ticker"],
+                "side": o["side"],
+                "dollars_intent": o.get("dollars_intent", 0.0),
+                "size_pct": o.get("size_pct", 0.0),
+                "reasoning": o.get("reasoning", ""),
+            }
+            for o in (orders or [])
+        ],
     }
+
+
+def derive_portfolio(day: dict) -> dict:
+    """Map all 9 pipelines + buyhold + back-compat ecology/bare aliases."""
+    out = {}
+    for src, dst, family, model in PIPELINES:
+        block = day.get(src) or {}
+        snap = block.get("pm_snapshot_post")
+        orders = block.get("pm_orders_validated") or []
+        out[dst] = remap_snapshot(snap, orders)
+    # Back-compat aliases for existing dashboard code that reads
+    # `portfolio.ecology` and `portfolio.bare` directly (PortfolioPanel,
+    # HoldingsBar). Point both at the Qwen variants — that's the canonical
+    # single-pipeline framing the prototype was built around.
+    out["ecology"] = out["ecology_qwen"]
+    out["bare"] = out["bare_qwen"]
+    out["frictionless"] = None
+    return out
 
 
 def buyhold_series(days: list[dict]) -> list[float]:
@@ -187,10 +203,36 @@ def buyhold_series(days: list[dict]) -> list[float]:
 def build_manifest() -> dict:
     """Synthesize a manifest in the shape ContextStrip expects:
     `belief_catalog.nodes[]` with {id, scope, statement_template, decay_class,
-    prior_p}. The v3 source has no macro/sector beliefs to surface, so we emit
-    only the canonical company grid; the macro row will be empty (dashboard
-    handles this — `groups.macro.length` = 0)."""
-    nodes = []
+    prior_p}.
+
+    The v3 source carries no macro/sector/market beliefs in the per-day data,
+    but the prototype's manifest documents 16 named non-stub macro/sector/
+    market beliefs that are useful as **context** even when they don't fire.
+    We carry those forward as display-only chips so the macro/cluster strip
+    above the heatmap isn't blank."""
+    NAMED_CONTEXT = [
+        # (id, scope, statement_template, decay_class, prior_p)
+        ("belief.macro.fed_cuts_by_july_2026",                          "macro",  "Fed cuts rates at or before July 2026 FOMC",                                            "glacial", 0.50),
+        ("belief.macro.recession_called_2026",                          "macro",  "NBER calls a US recession in 2026",                                                     "glacial", 0.30),
+        ("belief.sector.major_ai_regulation_passes_2026",               "sector", "A major US federal AI regulation bill passes in 2026",                                  "slow",    0.35),
+        ("belief.market.cluster_correlation_tech_high",                 "market", "Tech cluster (AAPL/MSFT/GOOG/AVGO/CSCO/AMZN) is moving as a single unit",               "fast",    0.55),
+        ("belief.market.cluster_correlation_tech_low",                  "market", "Tech cluster has broken; single-stock dispersion within tech",                          "fast",    0.45),
+        ("belief.market.cluster_correlation_financial_high",            "market", "Financial cluster (JPM/MA/V) is moving as a single unit",                               "fast",    0.50),
+        ("belief.market.cluster_correlation_financial_low",             "market", "Financial cluster has broken / dispersed",                                              "fast",    0.50),
+        ("belief.market.cluster_correlation_health_high",               "market", "Health cluster (JNJ/MRK/UNH/ABBV) is moving as a single unit",                          "fast",    0.50),
+        ("belief.market.cluster_correlation_health_low",                "market", "Health cluster has broken",                                                             "fast",    0.50),
+        ("belief.market.cluster_correlation_consumer_disc_high",        "market", "Consumer discretionary cluster (HD/AMZN) is correlated",                                "fast",    0.45),
+        ("belief.market.cluster_correlation_consumer_disc_low",         "market", "Consumer discretionary cluster has broken",                                             "fast",    0.55),
+        ("belief.market.cluster_correlation_consumer_staples_high",     "market", "Consumer staples cluster (KO/PEP/PG/WMT/MCD) is moving as a single unit (defensive)",    "fast",    0.55),
+        ("belief.market.cluster_correlation_consumer_staples_low",      "market", "Consumer staples cluster has broken",                                                   "fast",    0.45),
+        ("belief.market.cluster_correlation_energy_high",               "market", "Energy cluster (CVX) — singleton placeholder; expand when universe grows",              "fast",    0.50),
+        ("belief.market.cluster_correlation_energy_low",                "market", "Energy cluster diverging from peers",                                                   "fast",    0.50),
+        ("belief.market.cross_asset_dispersion_high",                   "market", "Single-stock dispersion is high; alpha environment over beta",                          "fast",    0.40),
+    ]
+    nodes = [
+        {"id": i, "scope": s, "statement_template": st, "decay_class": dc, "prior_p": p}
+        for (i, s, st, dc, p) in NAMED_CONTEXT
+    ]
     for tpl in TEMPLATES:
         for tkr in TICKERS:
             nodes.append({
@@ -295,6 +337,10 @@ def main() -> None:
                 "triggering_events": o.get("triggering_events") or [],
             })
 
+        watchlists = {f"watchlist_{dst}": (d.get(src) or {}).get("watchlist") or []
+                      for src, dst, _, _ in PIPELINES}
+        rationales = {f"pm_rationale_{dst}": (d.get(src) or {}).get("pm_rationale", "")
+                      for src, dst, _, _ in PIPELINES}
         out = {
             "date": date,
             "n_news": d.get("n_news", 0),
@@ -303,11 +349,14 @@ def main() -> None:
             "belief_deltas": deltas,
             "observations": obs_out,
             "golden": golden,
+            # Back-compat aliases for the existing PortfolioPanel/Spotlight code.
             "watchlist_ecology": eco.get("watchlist") or [],
             "watchlist_bare": (d["bare"].get("watchlist") or []),
-            "portfolio": portfolio,
             "pm_rationale_ecology": eco.get("pm_rationale", ""),
             "pm_rationale_bare": d["bare"].get("pm_rationale", ""),
+            **watchlists,
+            **rationales,
+            "portfolio": portfolio,
         }
         (OUT_DIR / f"{date}.json").write_text(json.dumps(out, separators=(",", ":")))
 

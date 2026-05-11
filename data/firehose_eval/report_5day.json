@@ -1,0 +1,228 @@
+{
+  "n_days": 5,
+  "ecology": {
+    "all": {
+      "path": "ecology",
+      "top_k": null,
+      "n_days": 5,
+      "n_predictions": 36,
+      "n_unique_tickers_predicted": 17,
+      "tp": 19,
+      "tn": 5,
+      "fp": 12,
+      "fn": 0,
+      "accuracy": 0.6667,
+      "mcc": 0.4246,
+      "per_ticker_mcc": {
+        "AMZN": 0.0,
+        "MSFT": 1.0
+      }
+    },
+    "coverage": [
+      {
+        "path": "ecology",
+        "top_k": 3,
+        "n_days": 5,
+        "n_predictions": 12,
+        "n_unique_tickers_predicted": 6,
+        "tp": 5,
+        "tn": 0,
+        "fp": 7,
+        "fn": 0,
+        "accuracy": 0.4167,
+        "mcc": 0.0,
+        "per_ticker_mcc": {
+          "AMZN": 0.0
+        }
+      },
+      {
+        "path": "ecology",
+        "top_k": 5,
+        "n_days": 5,
+        "n_predictions": 20,
+        "n_unique_tickers_predicted": 11,
+        "tp": 11,
+        "tn": 0,
+        "fp": 9,
+        "fn": 0,
+        "accuracy": 0.55,
+        "mcc": 0.0,
+        "per_ticker_mcc": {
+          "AMZN": 0.0
+        }
+      },
+      {
+        "path": "ecology",
+        "top_k": 10,
+        "n_days": 5,
+        "n_predictions": 36,
+        "n_unique_tickers_predicted": 17,
+        "tp": 19,
+        "tn": 5,
+        "fp": 12,
+        "fn": 0,
+        "accuracy": 0.6667,
+        "mcc": 0.4246,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "MSFT": 1.0
+        }
+      },
+      {
+        "path": "ecology",
+        "top_k": null,
+        "n_days": 5,
+        "n_predictions": 36,
+        "n_unique_tickers_predicted": 17,
+        "tp": 19,
+        "tn": 5,
+        "fp": 12,
+        "fn": 0,
+        "accuracy": 0.6667,
+        "mcc": 0.4246,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "MSFT": 1.0
+        }
+      }
+    ],
+    "cluster_coherence": {
+      "path": "ecology",
+      "n_pairs_scored": 114,
+      "coherence_accuracy": 0.5263
+    },
+    "focus_uplift": {
+      "path": "ecology",
+      "focus_n": 0,
+      "focus_mcc": 0.0,
+      "focus_acc": 0.0,
+      "nonfocus_n": 36,
+      "nonfocus_mcc": 0.4246,
+      "nonfocus_acc": 0.6667
+    }
+  },
+  "bare": {
+    "all": {
+      "path": "bare",
+      "top_k": null,
+      "n_days": 5,
+      "n_predictions": 45,
+      "n_unique_tickers_predicted": 14,
+      "tp": 20,
+      "tn": 3,
+      "fp": 17,
+      "fn": 5,
+      "accuracy": 0.5111,
+      "mcc": -0.065,
+      "per_ticker_mcc": {
+        "AMZN": 0.0,
+        "AVGO": 0.0,
+        "CVX": 0.0,
+        "GOOG": 0.0,
+        "JNJ": -0.3333,
+        "JPM": -0.3333,
+        "KO": 0.0,
+        "MSFT": -0.6667
+      }
+    },
+    "coverage": [
+      {
+        "path": "bare",
+        "top_k": 3,
+        "n_days": 5,
+        "n_predictions": 14,
+        "n_unique_tickers_predicted": 4,
+        "tp": 2,
+        "tn": 3,
+        "fp": 7,
+        "fn": 2,
+        "accuracy": 0.3571,
+        "mcc": -0.1886,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "GOOG": 0.0,
+          "MSFT": -0.5774
+        }
+      },
+      {
+        "path": "bare",
+        "top_k": 5,
+        "n_days": 5,
+        "n_predictions": 24,
+        "n_unique_tickers_predicted": 8,
+        "tp": 8,
+        "tn": 3,
+        "fp": 11,
+        "fn": 2,
+        "accuracy": 0.4583,
+        "mcc": 0.0173,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "AVGO": 0.0,
+          "GOOG": 0.0,
+          "MSFT": -0.6667
+        }
+      },
+      {
+        "path": "bare",
+        "top_k": 10,
+        "n_days": 5,
+        "n_predictions": 45,
+        "n_unique_tickers_predicted": 14,
+        "tp": 20,
+        "tn": 3,
+        "fp": 17,
+        "fn": 5,
+        "accuracy": 0.5111,
+        "mcc": -0.065,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "AVGO": 0.0,
+          "CVX": 0.0,
+          "GOOG": 0.0,
+          "JNJ": -0.3333,
+          "JPM": -0.3333,
+          "KO": 0.0,
+          "MSFT": -0.6667
+        }
+      },
+      {
+        "path": "bare",
+        "top_k": null,
+        "n_days": 5,
+        "n_predictions": 45,
+        "n_unique_tickers_predicted": 14,
+        "tp": 20,
+        "tn": 3,
+        "fp": 17,
+        "fn": 5,
+        "accuracy": 0.5111,
+        "mcc": -0.065,
+        "per_ticker_mcc": {
+          "AMZN": 0.0,
+          "AVGO": 0.0,
+          "CVX": 0.0,
+          "GOOG": 0.0,
+          "JNJ": -0.3333,
+          "JPM": -0.3333,
+          "KO": 0.0,
+          "MSFT": -0.6667
+        }
+      }
+    ],
+    "cluster_coherence": {
+      "path": "bare",
+      "n_pairs_scored": 181,
+      "coherence_accuracy": 0.453
+    },
+    "focus_uplift": {
+      "path": "bare",
+      "focus_n": 0,
+      "focus_mcc": 0.0,
+      "focus_acc": 0.0,
+      "nonfocus_n": 45,
+      "nonfocus_mcc": -0.065,
+      "nonfocus_acc": 0.5111
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "date": "2026-04-15",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.015,
+      "p_up_h20": 0.045,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "Strong relative strength and volume expansion suggest a sustained trend. h20 is optimal to capture the earnings-driven rally while deferring taxes."
+    },
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.012,
+      "p_up_h20": 0.038,
+      "p_up_h60": 0.07,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "Persistent breakout above resistance with volume support. h20 aligns with the earnings catalyst and sector rotation."
+    },
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.025,
+      "p_up_h20": 0.05,
+      "p_up_h60": 0.09,
+      "primary_horizon": "h5",
+      "regime_note": "event_driven",
+      "rationale": "Binary FDA decision creates high volatility and asymmetric upside. h5 is the only horizon that captures the event without exposing the thesis to post-event mean reversion."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.03,
+      "p_up_h60": 0.06,
+      "primary_horizon": "h20",
+      "regime_note": "unclear",
+      "rationale": "Chip cycle thesis is active but volume confirmation is mixed. Reducing size to h20 allows for a longer hold if the trend holds, but I am trimming to reduce concentration risk."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 4
+  }
+}

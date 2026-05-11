@@ -1,0 +1,95 @@
+{
+  "date": "2026-02-20",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "AMZN",
+    "HD",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.015,
+      "p_up_h20": 0.045,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "MSFT is showing strong relative strength (p_up=0.60) with expanding volume. The breakout above 20-day resistance suggests a sustained trend. h20 is the optimal horizon to capture the earnings-driven leg up while deferring taxes and slippage costs."
+    },
+    {
+      "ticker": "HD",
+      "p_up_h5": 0.02,
+      "p_up_h20": 0.055,
+      "p_up_h60": 0.09,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "Home Depot exhibits volume expansion and relative strength, confirming a sector rotation into industrials. The h20 horizon allows the trend to mature and capture the full earnings impact, avoiding the noise of h1 day-trading."
+    },
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.035,
+      "p_up_h60": 0.06,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "MRK remains a high-conviction event play. While the immediate h1 binary outcome has passed, the asymmetric volatility and potential for a binary FDA decision outcome justify a longer h20 hold to capture the full swing if the event resolves positively."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.008,
+      "p_up_h20": 0.025,
+      "p_up_h60": 0.04,
+      "primary_horizon": "h5",
+      "regime_note": "range",
+      "rationale": "AAPL is currently in a consolidation phase with p_up=0.47, indicating lack of strong relative strength. The forecast is flat to slightly positive, making it a hold rather than a new entry. h5 is chosen to monitor for a breakout."
+    },
+    {
+      "ticker": "AMZN",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.03,
+      "p_up_h60": 0.05,
+      "primary_horizon": "h5",
+      "regime_note": "trend",
+      "rationale": "AMZN shows moderate relative strength (p_up=0.76) but lacks the volume expansion seen in MSFT and HD. h5 is a satellite position to monitor for a sustained trend continuation."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 5
+  }
+}

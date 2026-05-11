@@ -390,3 +390,314 @@ class InterrogatorHerbivore(BaseAgent):
             "n_questions": len(questions),
             "avg_null_prob": 0.0,
         }
+
+
+# ── PM-mode wrapper (v4 firehose runner) ──────────────────────────────
+#
+# The training-time `InterrogatorHerbivore.hunt_and_synthesize` above is
+# tightly coupled to in-process ModelHost + MathHost (Qwen3-4B in-proc +
+# Qwen2.5-Math-1.5B in-proc) and produces a `Broadcast` for the trophic
+# stack to attach to other herbivore channels.
+#
+# In PM mode (`scripts/run_firehose_loop.py --apex-pm --apex-via-vllm`)
+# the apex runs through DSPy + vLLM, not ModelHost. There's no
+# Broadcast channel — observations are plain dicts that the apex
+# `WatchlistFromObservationsPM` signature reads. Loading a second
+# in-process model (Qwen2.5-Math-1.5B) just for the interrogator
+# doubles the GPU footprint with no gain, since the apex itself is
+# off-process.
+#
+# `PMInterrogator.predict_only` therefore reimplements the
+# plan→solve→synthesize loop on top of DSPy LMs. Same conceptual
+# pipeline — different transport. If anything in the toolchain is
+# unhealthy (vLLM down, MathHost OOM, DSPy adapter error), the
+# `predict_only` returns a no-op synthesis dict with `abstain=True`
+# and a clear `reason` so the sweep continues without crashing.
+
+import dspy as _dspy_for_pm
+from pydantic import BaseModel as _BaseModel
+from pydantic import Field as _Field
+
+
+class _InterrogatorSynthesisOut(_BaseModel):
+    """Pydantic output for the PM-mode interrogator synthesis call.
+
+    Field choices mirror the training-time XML synthesis schema (ticker,
+    bias, pct_move, signal, confidence, abstain) but are typed for DSPy
+    consumption so the runner doesn't have to parse free-text XML.
+    """
+    ticker: str = _Field(default="", description="Focus ticker; empty if no single focus")
+    bias: str = _Field(default="flat", description="up | down | flat")
+    pct_move: float = _Field(default=0.0, description="Signed percentage move; e.g. +1.50 or -0.75")
+    signal: str = _Field(default="weak", description="strong | moderate | weak")
+    confidence: float = _Field(default=0.5, ge=0.0, le=1.0)
+    abstain: bool = _Field(default=False)
+    rationale: str = _Field(default="", description="One-paragraph quantitative rationale")
+
+
+class _PMInterrogatorPlanSig(_dspy_for_pm.Signature):
+    """PM-mode interrogator (planner phase).
+
+    You are a quantitative-analysis planner. Given carnivore observations
+    + focus tickers, decide what would be useful to compute (1-3 questions
+    max). Each question must be self-contained — paste the relevant
+    numbers from the observations directly into it.
+
+    Format: one or more `ASK: <question with numbers inline>` lines, or
+    the single word `ABSTAIN` if there's nothing quantitative to compute.
+    """
+    focus_tickers: list[str] = _dspy_for_pm.InputField()
+    observations_summary: str = _dspy_for_pm.InputField(
+        desc="Compact text rendering of the carnivore observations + key bars."
+    )
+    plan: str = _dspy_for_pm.OutputField(
+        desc="One or more 'ASK: <question>' lines OR 'ABSTAIN'."
+    )
+
+
+class _PMInterrogatorSolveSig(_dspy_for_pm.Signature):
+    """PM-mode interrogator (solver phase).
+
+    You are a math specialist. Given a single quantitative question
+    with the numbers inlined, answer it precisely. Output one line:
+    `ANSWER: <number-with-units>`. No prose.
+    """
+    question: str = _dspy_for_pm.InputField()
+    answer: str = _dspy_for_pm.OutputField(
+        desc="`ANSWER: <number-with-units>` on one line."
+    )
+
+
+class _PMInterrogatorSynthesisSig(_dspy_for_pm.Signature):
+    """PM-mode interrogator (synthesis phase).
+
+    You are an interrogator herbivore. You read carnivore observations
+    and consulted a math specialist for exact arithmetic. Synthesize a
+    structured quantitative view: bias (up / down / flat), expected
+    pct_move (signed), signal strength, and confidence. Cite the math
+    findings — do not invent numbers. If the data is too thin or the
+    math findings are inconsistent, set `abstain=true` and explain.
+    """
+    focus_tickers: list[str] = _dspy_for_pm.InputField()
+    observations_summary: str = _dspy_for_pm.InputField()
+    plan: str = _dspy_for_pm.InputField()
+    findings: str = _dspy_for_pm.InputField(
+        desc="MATH FINDINGS — one Q/A pair per question, or '(no findings)'."
+    )
+    synthesis: _InterrogatorSynthesisOut = _dspy_for_pm.OutputField()
+
+
+def _render_observations_for_interrogator(
+    observations: list[dict], focus_tickers: list[str], max_obs: int = 10,
+) -> str:
+    """Compact text rendering of carnivore observations + focus tickers,
+    sized for the planner prompt (~1.5K chars).
+    """
+    if not observations:
+        return "(no observations)"
+    lines = []
+    if focus_tickers:
+        lines.append(f"FOCUS: {','.join(focus_tickers)}")
+    for o in observations[:max_obs]:
+        # `Observation.to_dict()` shape used by carnivore.aggregate:
+        # {ticker, outcome_id, p_up, magnitude, reasoning, …}
+        tk = o.get("ticker") or o.get("outcome_id", "?")
+        p_up = o.get("p_up")
+        mag = o.get("magnitude")
+        reason = (o.get("reasoning") or o.get("statement") or "")[:120]
+        parts = [str(tk)]
+        if p_up is not None:
+            parts.append(f"p_up={p_up:.2f}")
+        if mag is not None:
+            parts.append(f"mag={mag:+.3f}")
+        if reason:
+            parts.append(reason)
+        lines.append(" | ".join(parts))
+    return "\n".join(lines)
+
+
+def _extract_pm_questions(plan_text: str, max_q: int = 3) -> list[str]:
+    if not plan_text:
+        return []
+    if "ABSTAIN" in plan_text.upper() and "ASK:" not in plan_text.upper():
+        return []
+    asks = re.findall(r"ASK:\s*(.+?)(?:\n|$)", plan_text)
+    return [a.strip() for a in asks if a.strip()][:max_q]
+
+
+@dataclass
+class PMInterrogator:
+    """Lightweight, in-PM-pipeline interrogator herbivore.
+
+    Built once per run (in `scripts/run_firehose_loop.py`); invoked per
+    day per ECO-* path before the apex sees the observations. Returns a
+    structured synthesis dict that the runner appends to the
+    observations list as one additional `kind="interrogator"`
+    observation.
+
+    Never raises out of `predict_only`. If a phase fails, it logs and
+    falls back to abstain-with-reason; the sweep keeps going.
+
+    Constructor flag `enabled=False` is the explicit no-op mode
+    (e.g. for BARE/ORACLE paths, or when MathHost/vLLM is unhealthy
+    and the operator chose to skip the interrogator entirely).
+    """
+    enabled: bool = True
+    label: str = "interrogator"
+    # Capacity of the planner: max number of math questions per day.
+    max_questions: int = 3
+    # If `solver_lm` is None we use the same `dspy.context` LM as the
+    # planner / synthesizer — i.e. the active apex LM. For a separate
+    # Qwen2.5-Math-1.5B endpoint, set `solver_lm` to a dspy.LM and the
+    # solve calls will route through it via `dspy.context(lm=solver_lm)`.
+    solver_lm: Optional["object"] = None  # dspy.LM or None
+
+    def predict_only(
+        self,
+        observations: list[dict],
+        focus_tickers: list[str],
+        *,
+        date: str = "",
+    ) -> dict:
+        """Run plan → solve → synthesize against the active DSPy LM
+        (and `solver_lm` for the math step if set). Returns a dict
+        that the runner appends to the observations list.
+
+        Return shape always has at minimum: `{kind: "interrogator",
+        abstain: bool, reason: str}`. On success also carries
+        `ticker / bias / pct_move / signal / confidence / rationale /
+        n_questions / questions / answers`.
+        """
+        if not self.enabled:
+            return {
+                "kind": "interrogator",
+                "ticker": "",
+                "abstain": True,
+                "reason": "interrogator disabled (--no-interrogator or fallback)",
+            }
+        if not observations:
+            return {
+                "kind": "interrogator",
+                "ticker": "",
+                "abstain": True,
+                "reason": "no observations to interrogate",
+            }
+
+        obs_summary = _render_observations_for_interrogator(
+            observations, focus_tickers,
+        )
+
+        # ── Plan ──────────────────────────────────────────────────────
+        try:
+            plan_pred = _dspy_for_pm.Predict(_PMInterrogatorPlanSig)(
+                focus_tickers=list(focus_tickers or []),
+                observations_summary=obs_summary,
+            )
+            plan_text = (getattr(plan_pred, "plan", "") or "").strip()
+        except Exception as e:
+            return {
+                "kind": "interrogator",
+                "ticker": "",
+                "abstain": True,
+                "reason": f"plan-phase error: {type(e).__name__}: {str(e)[:160]}",
+            }
+
+        questions = _extract_pm_questions(plan_text, max_q=self.max_questions)
+        if not questions:
+            return {
+                "kind": "interrogator",
+                "ticker": "",
+                "abstain": True,
+                "reason": "planner abstained (no math-worthy questions)",
+                "plan": plan_text[:240],
+            }
+
+        # ── Solve ─────────────────────────────────────────────────────
+        answers: list[str] = []
+        solver_lm = self.solver_lm
+        for q in questions:
+            try:
+                if solver_lm is not None:
+                    with _dspy_for_pm.context(lm=solver_lm):
+                        a_pred = _dspy_for_pm.Predict(_PMInterrogatorSolveSig)(question=q)
+                else:
+                    a_pred = _dspy_for_pm.Predict(_PMInterrogatorSolveSig)(question=q)
+                answers.append((getattr(a_pred, "answer", "") or "").strip())
+            except Exception as e:  # one bad solve doesn't kill synthesis
+                answers.append(f"(solver error: {type(e).__name__})")
+
+        findings_lines = ["MATH FINDINGS:"]
+        for q, a in zip(questions, answers):
+            findings_lines.append(f"  Q: {q}")
+            findings_lines.append(f"  A: {a}")
+        findings = "\n".join(findings_lines)
+
+        # ── Synthesize ────────────────────────────────────────────────
+        try:
+            synth_pred = _dspy_for_pm.Predict(_PMInterrogatorSynthesisSig)(
+                focus_tickers=list(focus_tickers or []),
+                observations_summary=obs_summary,
+                plan=plan_text,
+                findings=findings,
+            )
+            synth = getattr(synth_pred, "synthesis", None)
+            if synth is None:
+                raise ValueError("DSPy returned no synthesis field")
+            # synth may be the Pydantic model or a dict (depending on adapter)
+            if hasattr(synth, "model_dump"):
+                synth_dict = synth.model_dump()
+            elif isinstance(synth, dict):
+                synth_dict = dict(synth)
+            else:
+                synth_dict = _InterrogatorSynthesisOut().model_dump()
+        except Exception as e:
+            return {
+                "kind": "interrogator",
+                "ticker": "",
+                "abstain": True,
+                "reason": f"synthesis-phase error: {type(e).__name__}: {str(e)[:160]}",
+                "plan": plan_text[:240],
+                "n_questions": len(questions),
+                "questions": questions,
+                "answers": answers,
+            }
+
+        return {
+            "kind": "interrogator",
+            "ticker": synth_dict.get("ticker", ""),
+            "bias": synth_dict.get("bias", "flat"),
+            "pct_move": float(synth_dict.get("pct_move", 0.0)),
+            "signal": synth_dict.get("signal", "weak"),
+            "confidence": float(synth_dict.get("confidence", 0.5)),
+            "abstain": bool(synth_dict.get("abstain", False)),
+            "rationale": (synth_dict.get("rationale") or "")[:300],
+            "n_questions": len(questions),
+            "questions": questions,
+            "answers": answers,
+            "reason": "",
+        }
+
+
+def make_pm_interrogator(
+    enabled: bool = True,
+    solver_lm=None,
+    label: str = "interrogator",
+) -> "PMInterrogator":
+    """Factory used by `scripts/run_firehose_loop.py`. Never raises.
+
+    Pass `enabled=False` to get a no-op interrogator that always returns
+    an abstain dict (useful when the operator wants to disable it
+    without removing the wiring). When MathHost/vLLM health checks fail
+    upstream, the runner should call this factory with `enabled=False`
+    and log a warning rather than crash the sweep.
+    """
+    return PMInterrogator(enabled=enabled, label=label, solver_lm=solver_lm)
+
+
+# Re-export so `from trophic.agents.interrogator_herbivore import …`
+# picks up both the training-time and PM-mode entry points.
+__all__ = [
+    "InterrogatorHerbivore",
+    "PMInterrogator",
+    "make_pm_interrogator",
+]

@@ -153,18 +153,48 @@ function topKAccuracy(days, upTo, K, srcKey) {
 }
 
 // ─── Equity time-series for the curve panel ──────────────────────────────
+// 9 pipelines (3 apex models × {bare, ecology, oracle}) + buyhold.
+// Back-compat keys `ecology` / `bare` alias the qwen variants so existing
+// surfaces (Header, PortfolioPanel) still work.
+const PIPELINE_KEYS = [
+  "bare_qwen", "bare_sonnet", "bare_opus",
+  "ecology_qwen", "ecology_sonnet", "ecology_opus",
+  "oracle_qwen", "oracle_sonnet", "oracle_opus",
+];
+const PIPELINE_FAMILY = {
+  bare_qwen: "bare", bare_sonnet: "bare", bare_opus: "bare",
+  ecology_qwen: "ecology", ecology_sonnet: "ecology", ecology_opus: "ecology",
+  oracle_qwen: "oracle", oracle_sonnet: "oracle", oracle_opus: "oracle",
+};
+const PIPELINE_MODEL = {
+  bare_qwen: "qwen", ecology_qwen: "qwen", oracle_qwen: "qwen",
+  bare_sonnet: "sonnet", ecology_sonnet: "sonnet", oracle_sonnet: "sonnet",
+  bare_opus: "opus", ecology_opus: "opus", oracle_opus: "opus",
+};
+const PIPELINE_LABEL = {
+  bare_qwen: "BARE-QWEN", bare_sonnet: "BARE-SONNET", bare_opus: "BARE-OPUS",
+  ecology_qwen: "ECO-QWEN", ecology_sonnet: "ECO-SONNET", ecology_opus: "ECO-OPUS",
+  oracle_qwen: "ORACLE-QWEN", oracle_sonnet: "ORACLE-SONNET", oracle_opus: "ORACLE-OPUS",
+};
+
 function buildEquitySeries(days) {
-  const ecology = [], bare = [], buyhold = [], ecoFric = [], bareFric = [];
+  const series = { buyhold: [] };
+  PIPELINE_KEYS.forEach(k => { series[k] = []; });
   days.forEach(d => {
     const p = d.portfolio || {};
-    ecology.push(p.ecology?.equity ?? null);
-    bare.push(p.bare?.equity ?? null);
-    buyhold.push(p.buyhold_equity ?? null);
-    ecoFric.push(p.frictionless?.ecology_equity ?? null);
-    bareFric.push(p.frictionless?.bare_equity ?? null);
+    PIPELINE_KEYS.forEach(k => series[k].push(p[k]?.equity ?? null));
+    series.buyhold.push(p.buyhold_equity ?? null);
   });
-  return { ecology, bare, buyhold, ecoFric, bareFric };
+  // Aliases for back-compat (Header, sparkline, etc).
+  series.ecology = series.ecology_qwen;
+  series.bare = series.bare_qwen;
+  return series;
 }
+
+window.PIPELINE_KEYS = PIPELINE_KEYS;
+window.PIPELINE_FAMILY = PIPELINE_FAMILY;
+window.PIPELINE_MODEL = PIPELINE_MODEL;
+window.PIPELINE_LABEL = PIPELINE_LABEL;
 
 // ─── App ─────────────────────────────────────────────────────────────────
 function App() {
@@ -296,22 +326,21 @@ function App() {
 }
 
 function Header({ date, dayIdx, nDays, playing, setPlaying, speed, setSpeed, mode, setMode, day, equitySeries, runMeta }) {
-  // Equity at-a-glance in header
-  const eEco = equitySeries.ecology[dayIdx];
-  const eBare = equitySeries.bare[dayIdx];
+  // 3x3 grid of equity cells (rows = model, cols = pipeline family) + buyhold.
   const eBH = equitySeries.buyhold[dayIdx];
-  const ecoRet = eEco != null ? (eEco / 100000 - 1) * 100 : null;
-  const bareRet = eBare != null ? (eBare / 100000 - 1) * 100 : null;
   const bhRet = eBH != null ? (eBH / 100000 - 1) * 100 : null;
+  const families = ["bare", "ecology", "oracle"];
+  const models = ["qwen", "sonnet", "opus"];
   return (
     <header className="hdr">
+      <div className="hdr-grid">
       <div className="hdr-l">
         <div className="title">
-          <span className="title-prefix">codd · </span>
+          <span className="title-prefix">Tifin · </span>
           <span className="title-main">belief network timeline</span>
         </div>
         <div className="subtitle">
-          firehose 66-day replay · ecology vs bare vs buyhold · $100k seed
+          firehose 66-day replay · 9-way ablation (3 apex × {`{bare,eco,oracle}`}) · $100k seed
         </div>
         {runMeta && (
           <div className="run-meta" title={runMeta.note}>
@@ -337,18 +366,84 @@ function Header({ date, dayIdx, nDays, playing, setPlaying, speed, setSpeed, mod
       </div>
 
       <div className="hdr-r">
-        <div className="equity-mini">
-          <EqCell label="ECOLOGY" v={eEco} ret={ecoRet} cls="eco" />
-          <EqCell label="BARE"    v={eBare} ret={bareRet} cls="bare" />
-          <EqCell label="BUYHOLD" v={eBH}   ret={bhRet}   cls="bh" />
-        </div>
-        <div className="mode-row">
-          {[["daily", "daily"], ["drift", "drift"], ["side-by-side", "vs bare"]].map(([k, l]) => (
-            <button key={k} className={"mbtn " + (mode === k ? "on" : "")} onClick={() => setMode(k)}>{l}</button>
+        <div className="equity-grid">
+          <div className="eg-corner" />
+          {families.map(f => (
+            <div key={"hf-" + f} className={"eg-col-h fam-" + f}>{f.toUpperCase()}</div>
           ))}
+          {models.map(m => (
+            <React.Fragment key={"row-" + m}>
+              <div className="eg-row-h">{m}</div>
+              {families.map(f => {
+                const k = `${f}_${m}`;
+                const v = equitySeries[k]?.[dayIdx];
+                const ret = v != null ? (v / 100000 - 1) * 100 : null;
+                return <EqCellGrid key={k} v={v} ret={ret} family={f} model={m} />;
+              })}
+            </React.Fragment>
+          ))}
+          {/* CONTROL row: passive equal-weight buyhold of all 20 tickers.
+              Sits under BARE since it's the no-trade baseline; ECOLOGY and
+              ORACLE columns stay empty in this row. */}
+          <div className="eg-row-h">control</div>
+          <EqCellGrid v={eBH} ret={bhRet} family="bh" model="buyhold" />
+          <div className="eg-cell empty" />
+          <div className="eg-cell empty" />
+        </div>
+        <div className="hdr-r-bottom">
+          <div className="mode-row">
+            {[["daily", "daily"], ["drift", "drift"], ["side-by-side", "vs bare"]].map(([k, l]) => (
+              <button key={k} className={"mbtn " + (mode === k ? "on" : "")} onClick={() => setMode(k)}>{l}</button>
+            ))}
+          </div>
         </div>
       </div>
+      </div>
+      <TickerStrip golden={day.golden || []} />
     </header>
+  );
+}
+
+// Marquee-style live ticker. Scrolls today's per-ticker % change horizontally
+// across the bottom of the header. CSS keyframes do the scroll; we duplicate
+// the chip set so the animation seam is invisible.
+function TickerStrip({ golden }) {
+  if (!golden.length) return <div className="ticker-strip empty" />;
+  // Sort by absolute move so the loudest moves bunch up — keeps the eye busy.
+  const sorted = [...golden].sort((a, b) => Math.abs(b.actual_return) - Math.abs(a.actual_return));
+  const renderChip = (g, key) => {
+    const r = g.actual_return ?? 0;
+    const dir = r > 0.001 ? "up" : r < -0.001 ? "dn" : "flat";
+    const arrow = dir === "up" ? "▲" : dir === "dn" ? "▼" : "·";
+    const pct = (r * 100).toFixed(2);
+    const sign = r >= 0 ? "+" : "";
+    return (
+      <span key={key} className={"tk-chip dir-" + dir}>
+        <span className="tk-tkr">{g.ticker}</span>
+        <span className="tk-arr">{arrow}</span>
+        <span className="tk-pct">{sign}{pct}%</span>
+      </span>
+    );
+  };
+  return (
+    <div className="ticker-strip">
+      <div className="ticker-track">
+        {sorted.map((g, i) => renderChip(g, "a" + i))}
+        {/* Duplicate set so the loop has no visible seam */}
+        {sorted.map((g, i) => renderChip(g, "b" + i))}
+      </div>
+    </div>
+  );
+}
+
+function EqCellGrid({ v, ret, family, model }) {
+  if (v == null) return <div className={"eg-cell empty fam-" + family} />;
+  const sign = ret >= 0 ? "+" : "";
+  return (
+    <div className={"eg-cell fam-" + family + " mod-" + model + " " + (ret >= 0 ? "up" : "dn")}>
+      <div className="eg-v">${(v/1000).toFixed(1)}k</div>
+      <div className="eg-r">{sign}{ret.toFixed(1)}%</div>
+    </div>
   );
 }
 

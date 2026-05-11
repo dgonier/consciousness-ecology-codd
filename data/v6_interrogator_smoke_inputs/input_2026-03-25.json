@@ -1,0 +1,84 @@
+{
+  "date": "2026-03-25",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.0,
+      "p_up_h20": 0.0,
+      "p_up_h60": 0.0,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "Holding through the FDA binary event. No directional forecast until outcome is known. If approval occurs, expect +15-20% in 20 days; if rejected, expect -10% drop. Current position captures the volatility premium."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.05,
+      "primary_horizon": "h20",
+      "regime_note": "breakout",
+      "rationale": "Strong relative strength and volume expansion indicate a sustained chip-cycle breakout. Expecting a 12% move over 20 days as earnings beat and sector rotation confirm the trend. h20 is the optimal horizon to capture the full earnings-driven rally while deferring taxes."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.03,
+      "p_up_h20": 0.04,
+      "p_up_h60": 0.02,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "AAPL is in a long-term uptrend but lacks a fresh catalyst today. Waiting for a clear breakout above resistance with volume expansion before adding to the position. Current position held for now."
+    },
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.04,
+      "p_up_h20": 0.06,
+      "p_up_h60": 0.03,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "MSFT continues to show strong relative strength and sector rotation support. Expecting a 6% move over 20 days as the AI infrastructure leader. Current position held; potential to add on a dip if volume confirms the trend."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 4
+  }
+}

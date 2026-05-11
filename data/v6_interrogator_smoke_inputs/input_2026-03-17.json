@@ -1,0 +1,64 @@
+{
+  "date": "2026-03-17",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "MRK"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.045,
+      "p_up_h20": 0.085,
+      "p_up_h60": 0.12,
+      "primary_horizon": "h5",
+      "regime_note": "event_driven",
+      "rationale": "Binary FDA decision creates a high-volatility, asymmetric opportunity. The h5 horizon captures the immediate post-decision re-rating or dislocation before the market re-rates the stock on fundamentals. High confidence in the event outcome, moderate on the direction post-event."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.035,
+      "p_up_h20": 0.075,
+      "p_up_h60": 0.11,
+      "primary_horizon": "h20",
+      "regime_note": "momentum",
+      "rationale": "Persistent relative strength and volume expansion indicate a sustained chip-cycle expansion. The h20 horizon allows the trend to mature and capture the full sector rotation into semiconductors, avoiding the noise of h1 while maintaining exposure to the earnings beat timeline."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 2
+  }
+}

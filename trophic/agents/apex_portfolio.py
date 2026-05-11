@@ -16,7 +16,10 @@ are blind to each other.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable
+from typing import TYPE_CHECKING, Iterable, Optional
+
+if TYPE_CHECKING:
+    from trophic.agents.predator_sub_portfolio import PredatorSubPortfolio
 
 # Same defaults as scripts/portfolio_sim.py so the live runner and the
 # retroactive sim agree on guardrails.
@@ -35,6 +38,22 @@ class _Position:
     shares: float = 0.0
     cost_basis: float = 0.0
     opened_on: str = ""
+    # v4 tax-aware: the committed primary_horizon at buy time. The
+    # MinHoldByHorizon validator reads THIS (not the order's horizon) on
+    # SELL, so re-buys cannot reset the clock. Default "" means "no
+    # commitment recorded" — the tax-aware chain treats it as
+    # pass-through (legacy compatibility).
+    primary_horizon: str = ""
+    # Mirror of opened_on under the v4 contract name; populated alongside.
+    bought_at_date: str = ""
+    # Ticker is mirrored from the dict key so duck-typed validators can
+    # match by .ticker attribute without needing the parent dict.
+    ticker: str = ""
+    # v4 debate: optional reference back to the InvestmentThesis that
+    # motivated this position. Empty string = legacy / non-debate path.
+    # Setting this on first BUY follows the same gameability rule as
+    # primary_horizon — a re-buy never resets it.
+    thesis_id: str = ""
 
     def days_held(self, today: str, calendar: list[str]) -> int:
         if not self.opened_on or self.opened_on not in calendar:
@@ -67,10 +86,24 @@ class ApexPortfolio:
     _last_price: dict[str, float] = field(default_factory=dict)
     # ordered list of dates we've seen, for days_held math
     _dates_seen: list[str] = field(default_factory=list)
+    # v4 DEBATE: optional per-predator capital sub-portfolios. None for
+    # v3.3/v4 non-debate paths (legacy behaviour intact). When populated,
+    # aggregate equity / cash / invested_pct / tax_owed_accrued sum
+    # across sub-portfolios; validators run per-predator via
+    # `state_for_predator()`. Type is `dict[str, PredatorSubPortfolio]`
+    # but we keep the annotation loose to avoid a circular import at
+    # module load time.
+    sub_portfolios: Optional[dict[str, "PredatorSubPortfolio"]] = None
 
     def __post_init__(self) -> None:
         if self.cash == 0.0:
             self.cash = self.starting_cash
+
+    # ── Debate mode (v4) ──────────────────────────────────────────────
+
+    def is_debate_mode(self) -> bool:
+        """True iff `sub_portfolios` is populated with at least one predator."""
+        return self.sub_portfolios is not None and len(self.sub_portfolios) > 0
 
     # ── Price index (mirrors scripts/portfolio_sim.py) ────────────────
 
@@ -107,6 +140,8 @@ class ApexPortfolio:
     # ── State the apex sees ───────────────────────────────────────────
 
     def equity(self, prices: dict[str, float]) -> float:
+        if self.is_debate_mode():
+            return sum(s.equity(prices) for s in self.sub_portfolios.values())
         held = sum(
             p.shares * prices.get(t, self._last_price.get(t, 0.0))
             for t, p in self.positions.items()
@@ -117,16 +152,103 @@ class ApexPortfolio:
         eq = self.equity(prices)
         if eq <= 0:
             return 0.0
+        if self.is_debate_mode():
+            held = 0.0
+            for sub in self.sub_portfolios.values():
+                held += sum(
+                    p.shares * prices.get(t, 0.0)
+                    for t, p in sub.positions.items()
+                )
+            return 100.0 * held / eq
         held = sum(
             p.shares * prices.get(t, self._last_price.get(t, 0.0))
             for t, p in self.positions.items()
         )
         return 100.0 * held / eq
 
+    # ── Debate-mode aggregate accessors ────────────────────────────────
+
+    @property
+    def total_cash(self) -> float:
+        """Total cash across sub-portfolios in debate mode; legacy cash otherwise."""
+        if self.is_debate_mode():
+            return sum(s.cash for s in self.sub_portfolios.values())
+        return self.cash
+
+    @property
+    def total_tax_owed_accrued(self) -> float:
+        """Aggregate tax_owed across sub-portfolios in debate mode.
+
+        Per-predator tax isolation invariant: each predator's tax is
+        accrued on its own slice; the aggregate is simply the sum.
+        """
+        if self.is_debate_mode():
+            return sum(s.tax_owed_accrued for s in self.sub_portfolios.values())
+        return self.tax_owed
+
     def recent_realized_pnl(self) -> float:
         if not self.daily_realized:
             return 0.0
         return sum(v for _, v in self.daily_realized[-RECENT_PNL_WINDOW:])
+
+    def state_for_predator(
+        self,
+        predator_id: str,
+        today: str,
+        prices: dict[str, float],
+    ):
+        """Return (PortfolioState, list[PositionSnapshot]) scoped to ONE predator's
+        sub-portfolio. Used by the debate mechanism (phase3-A-05d) to give each
+        predator its own view of its own book so validators can run per-predator
+        without modification.
+
+        Raises ValueError if not in debate mode or predator_id is unknown.
+        """
+        from trophic.beliefs.apex_signatures import PortfolioState, PositionSnapshot
+
+        if not self.is_debate_mode():
+            raise ValueError("state_for_predator requires debate mode")
+        if predator_id not in self.sub_portfolios:
+            raise ValueError(
+                f"unknown predator_id={predator_id!r}; "
+                f"known: {sorted(self.sub_portfolios.keys())}"
+            )
+        sub = self.sub_portfolios[predator_id]
+        eq = sub.equity(prices)
+        inv_pct = max(0.0, min(100.0, sub.invested_pct(prices)))
+        portfolio_state = PortfolioState(
+            equity=round(eq, 2),
+            cash=round(sub.cash, 2),
+            invested_pct=round(inv_pct, 2),
+            tax_owed_accrued=round(sub.tax_owed_accrued, 2),
+            recent_realized_pnl_5d=round(sub.recent_realized_pnl_5d(today), 2),
+            cash_yield_annual_pct=round(100.0 * self.cash_yield_annual, 2),
+            cash_yield_today=0.0,  # cash yield is accrued at the parent level
+            cash_yield_ytd=0.0,
+            profit_definition=(
+                f"net_profit = realized_pnl - tax_owed - slippage + cash_yield. "
+                f"Currently {round(sub.tax_owed_accrued, 2):.2f} owed in tax accrual "
+                f"(predator={predator_id!r}, already netted from this slice's "
+                f"equity). Tax rate {round(100.0 * self.tax_rate, 1):.1f}% on "
+                f"short-term gains; slippage {self.slippage_bps:.0f}bps per leg."
+            ),
+        )
+        open_positions = []
+        for t, p in sub.positions.items():
+            px = prices.get(t, self._last_price.get(t, 0.0))
+            mv = p.shares * px
+            unrealized = mv - p.cost_basis
+            weight_raw = 100.0 * mv / eq if eq > 0 else 0.0
+            open_positions.append(PositionSnapshot(
+                ticker=t,
+                weight_pct=round(max(0.0, min(100.0, weight_raw)), 2),
+                unrealized_pnl_pct=round(
+                    100.0 * unrealized / p.cost_basis if p.cost_basis > 0 else 0.0,
+                    2,
+                ),
+                days_held=p.days_held(today, self._dates_seen),
+            ))
+        return portfolio_state, open_positions
 
     def state_for_apex(self, today: str, prices: dict[str, float]):
         """Return (PortfolioState, list[PositionSnapshot]) Pydantic instances
@@ -149,6 +271,14 @@ class ApexPortfolio:
             cash_yield_annual_pct=round(100.0 * self.cash_yield_annual, 2),
             cash_yield_today=round(self.cash_yield_today, 2),
             cash_yield_ytd=round(self.cash_yield_cum, 2),
+            profit_definition=(
+                f"net_profit = realized_pnl - tax_owed - slippage + cash_yield. "
+                f"Currently {round(self.tax_owed, 2):.2f} owed in tax accrual "
+                f"(already netted from equity). Tax rate "
+                f"{round(100.0 * self.tax_rate, 1):.1f}% on short-term gains; "
+                f"slippage {self.slippage_bps:.0f}bps per leg; cash yield "
+                f"{round(100.0 * self.cash_yield_annual, 2):.2f}%/yr."
+            ),
         )
         open_positions = []
         for t, p in self.positions.items():
@@ -255,6 +385,8 @@ class ApexPortfolio:
                 size_pct = float(o.get("size_pct") or 0)
                 reasoning = (o.get("reasoning") or "")[:200]
                 rotate_id = o.get("_rotate_id")
+                primary_horizon = o.get("primary_horizon") or ""
+                expected_alpha_bps = float(o.get("expected_alpha_bps") or 0.0)
             except Exception as e:
                 rejected.append(f"unparsable order ({e}): {o}")
                 continue
@@ -296,6 +428,8 @@ class ApexPortfolio:
                     "size_pct": round(pct, 2),
                     "dollars_intent": round(dollars, 2),
                     "reasoning": reasoning,
+                    "primary_horizon": primary_horizon,
+                    "expected_alpha_bps": expected_alpha_bps,
                     "_rotate_id": rotate_id,
                 })
             else:  # BUY
@@ -306,6 +440,8 @@ class ApexPortfolio:
                     "size_pct": round(pct, 2),
                     "dollars_intent": 0.0,  # set after sells settle
                     "reasoning": reasoning,
+                    "primary_horizon": primary_horizon,
+                    "expected_alpha_bps": expected_alpha_bps,
                     "_raw_pct": pct,
                     "_rotate_id": rotate_id,
                 })
@@ -461,6 +597,84 @@ class ApexPortfolio:
             v.pop("_rotate_eq_pct", None)
         return validated, rejected
 
+    # ── v4 tax-aware filter (runs AFTER validate_orders) ──────────────
+
+    def filter_tax_aware(
+        self,
+        validated_orders: list[dict],
+        today: str,
+        views: list = (),
+        slice_fraction: float = 1.0,
+        universe: "Optional[Iterable[str]]" = None,
+    ) -> tuple[list[dict], list[str]]:
+        """Second-layer filter: enforce v4 tax-aware discipline.
+
+        Inputs are the *already-validated* dicts returned by
+        `validate_orders` (so structural/cash/cap checks have run). This
+        layer runs `run_tax_aware_chain` on each order and partitions
+        accepted vs rejected. Rejected orders are not executed; the
+        returned reasons feed into the apex retry loop.
+
+        - `views`: iterable of TickerView pydantic instances (or
+          duck-typed objects) — needed for forecast consistency, edge
+          floor, and regime-invalidation overrides.
+        - `slice_fraction`: forwarded to the horizon-sizing validator
+          for debate-mode predator slices (default 1.0 = whole portfolio).
+        - `universe`: optional iterable of in-universe tickers. When set,
+          `validate_in_universe` runs FIRST in the chain so off-universe
+          hallucinations (cross-predator extension leaks) fail-loud.
+          When None, the universe check is skipped (backward-compat).
+        """
+        from trophic.beliefs.apex_signatures import Order
+        from trophic.beliefs.validators import run_tax_aware_chain
+
+        # Materialize positions with the .ticker attribute so the
+        # duck-typed validator can match.
+        positions_view = []
+        for ticker_key, p in self.positions.items():
+            if not p.ticker:
+                p.ticker = ticker_key
+            positions_view.append(p)
+
+        accepted: list[dict] = []
+        rejections: list[str] = []
+        for od in validated_orders:
+            # Skip orders that don't carry a primary_horizon — they came
+            # from a non-PM path (legacy watchlist mode) and the
+            # tax-aware chain isn't applicable.
+            if not od.get("primary_horizon"):
+                accepted.append(od)
+                continue
+            try:
+                order_obj = Order(
+                    side=od["side"],
+                    ticker=od.get("ticker"),
+                    size_pct=float(od.get("size_pct") or 0),
+                    reasoning=od.get("reasoning") or "tax-aware-chain",
+                    primary_horizon=od["primary_horizon"],
+                    expected_alpha_bps=float(od.get("expected_alpha_bps") or 0.0),
+                )
+            except Exception as e:  # pragma: no cover - defensive
+                rejections.append(
+                    f"{od.get('ticker', '?')}: tax-aware-chain "
+                    f"could not rebuild Order ({e})"
+                )
+                continue
+            result = run_tax_aware_chain(
+                order_obj,
+                positions_view,
+                today,
+                self._dates_seen,
+                views,
+                slice_fraction=slice_fraction,
+                universe=universe,
+            )
+            if result.accepted:
+                accepted.append(od)
+            else:
+                rejections.append(result.reason)
+        return accepted, rejections
+
     # ── Execute (mirrors scripts/portfolio_sim.execute) ───────────────
 
     def execute(
@@ -485,9 +699,26 @@ class ApexPortfolio:
                     dollars = cost_with_slip / (1 + bps)
                 shares = dollars / px
                 self.cash -= cost_with_slip
-                pos = self.positions.setdefault(t, _Position(opened_on=date))
+                pos = self.positions.setdefault(
+                    t, _Position(opened_on=date, ticker=t),
+                )
+                # v4: record the committed primary_horizon at buy time so
+                # MinHoldByHorizon can enforce on SELL. A re-buy on an
+                # already-open position does NOT reset the horizon — the
+                # original commitment stands (otherwise the apex could
+                # game min_hold by adding 1 share to refresh the clock).
+                order_horizon = o.get("primary_horizon") or ""
                 if pos.shares == 0:
                     pos.opened_on = date
+                    pos.bought_at_date = date
+                    pos.ticker = t
+                    if order_horizon:
+                        pos.primary_horizon = order_horizon
+                else:
+                    # Existing position: keep stored horizon unchanged.
+                    # Only fill in if it was missing (e.g. pre-v4 legacy).
+                    if not pos.primary_horizon and order_horizon:
+                        pos.primary_horizon = order_horizon
                 pos.shares += shares
                 pos.cost_basis += cost_with_slip
                 self.n_buys += 1
@@ -546,3 +777,62 @@ class ApexPortfolio:
             "n_sells_total": self.n_sells,
             "open_positions": positions,
         }
+
+
+# ── Debate-mode factory ───────────────────────────────────────────────
+
+DEFAULT_DEBATE_PREDATORS: tuple[tuple[str, str], ...] = (
+    ("momentum",     "momentum"),
+    ("value",        "value"),
+    ("mean_revert",  "mean_revert"),
+    ("event_driven", "event_driven"),
+)
+
+
+def make_debate_portfolio(
+    total_starting_cash: float = 100_000.0,
+    predators: tuple[tuple[str, str], ...] = DEFAULT_DEBATE_PREDATORS,
+    label: str = "DEBATE",
+    slippage_bps: float = DEFAULT_SLIPPAGE_BPS,
+    tax_rate: float = DEFAULT_TAX_RATE,
+    cash_yield_annual: float = DEFAULT_CASH_YIELD_ANNUAL,
+) -> "ApexPortfolio":
+    """Create an ApexPortfolio in DEBATE mode with N predators each starting
+    with `total_starting_cash / N`.
+
+    Each `predators` entry is `(predator_id, philosophy)`. Defaults to the
+    4-predator setup (momentum / value / mean_revert / event_driven) used
+    by phase 3's DEBATE path.
+
+    The returned ApexPortfolio has:
+      - `sub_portfolios` populated (one PredatorSubPortfolio per predator),
+      - `is_debate_mode()` → True,
+      - legacy `cash` / `tax_owed` left at 0 (the per-predator slices
+        carry capital + tax accrual instead).
+    """
+    from trophic.agents.predator_sub_portfolio import PredatorSubPortfolio
+
+    if not predators:
+        raise ValueError("predators tuple must not be empty")
+    n = len(predators)
+    per_slice = total_starting_cash / n
+
+    subs: dict[str, PredatorSubPortfolio] = {}
+    for predator_id, philosophy in predators:
+        if predator_id in subs:
+            raise ValueError(f"duplicate predator_id in factory: {predator_id!r}")
+        subs[predator_id] = PredatorSubPortfolio(
+            predator_id=predator_id,
+            philosophy=philosophy,
+            starting_cash=per_slice,
+        )
+
+    return ApexPortfolio(
+        label=label,
+        starting_cash=0.0,  # capital lives in sub-portfolios
+        cash=0.0,
+        slippage_bps=slippage_bps,
+        tax_rate=tax_rate,
+        cash_yield_annual=cash_yield_annual,
+        sub_portfolios=subs,
+    )

@@ -1,0 +1,94 @@
+{
+  "date": "2026-03-27",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "CVX",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.15,
+      "p_up_h60": 0.12,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "FDA decision today creates a binary event with asymmetric upside. If approved, expect a 15% move over h20 as the market re-rates the pipeline. Holding through the event avoids tax drag and captures the full volatility swing."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.06,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h20",
+      "regime_note": "momentum",
+      "rationale": "Strong relative strength and volume expansion confirm the chip cycle is accelerating. A 12% return over h20 is expected as earnings beat and sector rotation continue. Avoiding h1 flips prevents tax erosion on noise."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.02,
+      "p_up_h20": 0.04,
+      "p_up_h60": 0.03,
+      "primary_horizon": "h20",
+      "regime_note": "range",
+      "rationale": "Current position is underperforming (-7.72%). No fresh catalysts justify a new entry. Holding existing position for now, but no new thesis generated."
+    },
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.03,
+      "p_up_h60": 0.02,
+      "primary_horizon": "h20",
+      "regime_note": "mean_revert",
+      "rationale": "Held at -10.53%. Showing signs of mean reversion after recent breakout. No new entry planned until clearer trend confirmation."
+    },
+    {
+      "ticker": "CVX",
+      "p_up_h5": 0.01,
+      "p_up_h20": 0.02,
+      "p_up_h60": 0.01,
+      "primary_horizon": "h20",
+      "regime_note": "trend",
+      "rationale": "Strong performer (+17.1%) but lacks a new catalyst. Holding existing position; no new thesis required."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 5
+  }
+}

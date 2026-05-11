@@ -1,0 +1,14 @@
+{
+  "event_classifier.v0.qwen-local": {
+    "n_acts": 754,
+    "brier_sum": 344.0,
+    "hits": 410,
+    "misses": 344
+  },
+  "cross_correlation.v0": {
+    "n_acts": 218,
+    "brier_sum": 94.0,
+    "hits": 124,
+    "misses": 94
+  }
+}

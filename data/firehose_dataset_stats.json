@@ -1,0 +1,51 @@
+{
+  "rows": 66,
+  "first_day": "2026-02-03",
+  "last_day": "2026-05-07",
+  "tickers": [
+    "AAPL",
+    "ABBV",
+    "AMZN",
+    "AVGO",
+    "CSCO",
+    "CVX",
+    "GOOG",
+    "HD",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MA",
+    "MCD",
+    "MRK",
+    "MSFT",
+    "PEP",
+    "PG",
+    "UNH",
+    "V",
+    "WMT"
+  ],
+  "ticker_count": 20,
+  "total_ticker_day_predictions": 1317,
+  "news_per_day": {
+    "min": 12,
+    "max": 57,
+    "mean": 35.7,
+    "median": 37
+  },
+  "mentioned_tickers_per_day": {
+    "min": 9,
+    "max": 18,
+    "mean": 13.4
+  },
+  "direction_distribution": {
+    "up": 489,
+    "down": 459,
+    "flat": 369
+  },
+  "magnitude_distribution": {
+    "flat": 369,
+    "medium": 684,
+    "large": 264
+  },
+  "class_balance_up_pct": 37.1
+}

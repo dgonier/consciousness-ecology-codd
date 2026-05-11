@@ -2,22 +2,35 @@
 
 ## On "continue where you left off"
 
-Read **`HANDOFF.md`** first. It is the single source of truth for the
-current state of the project. Do not act on prior memory or git history
-without reconciling against `HANDOFF.md` — both can be stale relative to
-what was actually decided last session.
+Read **`roadmap.md`** first. It is the living source of truth for what
+is done, in flight, and queued. The "Last updated" timestamp at the top
+tells you how fresh it is; the "In flight" section names the active
+workstream. Reconcile against `roadmap.md` before acting on prior
+memory or git history — both can be stale relative to what was actually
+decided last session.
 
-Specifically check:
-- The "TL;DR" section for whether the project has hit its current bar
-  (bare Qwen3-4B + benchmark XML prompt = MCC +0.292 on 50 StockNet test
-  scenarios; trained variants must beat this to justify themselves).
+Then read **`HANDOFF.md`** for the StockNet/MCC track history (a
+separate workstream — Qwen3-4B + benchmark XML prompt baseline at MCC
++0.292; trained variants must beat that bar).
+
+Specifically check in `roadmap.md`:
+- "Last updated" timestamp — older than a day means treat with care.
+- "In flight" section — the active workstream and its sub-tasks.
+- "Done" section — the most recent entry tells you what just landed.
+
+Specifically check in `HANDOFF.md`:
+- The "TL;DR" section for whether the project has hit its current bar.
 - The "Numbers" table for what's been tried and what each scored.
-- The "Recommended next steps" section — execute the highest-priority
-  unfinished item there unless the user redirects.
+- The "Recommended next steps" section.
 
-After reading HANDOFF.md, run the sanity-check commands at the bottom of
-that file to verify the state on disk matches what the doc claims, and
-report any discrepancies before starting new work.
+After reading both, run the sanity-check commands at the bottom of
+`HANDOFF.md` to verify the state on disk matches what the docs claim,
+and report any discrepancies before starting new work.
+
+**Keep `roadmap.md` up to date as work progresses** — update timestamps
+on every meaningful change, move items between Done/In flight/Discussed,
+and capture follow-up tasks immediately so they don't get lost between
+sessions.
 
 ## Project basics
 

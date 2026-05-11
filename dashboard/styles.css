@@ -86,19 +86,30 @@ html, body {
 
 .app {
   display: grid;
-  grid-template-rows: 156px 1fr 96px;
+  /* Header sizes to content (3x3 equity grid grew the natural height);
+     main fills remaining space; scrubber pinned at 96px. */
+  grid-template-rows: max-content 1fr 96px;
   background: var(--bg-0);
 }
 
 /* ─── Header ─────────────────────────────────────────────────────────── */
 .hdr {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  align-items: stretch;
+  display: flex;
+  flex-direction: column;
   border-bottom: 1px solid var(--rule);
   background: linear-gradient(to bottom, var(--bg-1), var(--bg-0));
-  padding: 14px 22px;
-  gap: 24px;
+  /* Cap header at the viewport so the ticker strip's max-content track
+     can't blow the whole row out wider than the window. */
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.hdr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  align-items: start;
+  padding: 6px 22px 6px;
+  gap: 14px;
 }
 .hdr-l { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
 .title {
@@ -186,6 +197,7 @@ html, body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;
   overflow: hidden;
+  min-height: 0;
 }
 
 /* ─── Grid ───────────────────────────────────────────────────────────── */
@@ -258,6 +270,8 @@ html, body {
   padding: 0;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  height: 100%;
 }
 .spot-sec {
   border-bottom: 1px solid var(--rule);
@@ -1188,12 +1202,27 @@ html, body {
 
 /* ─── Holdings bar chart (top of left column) ─────────────────────── */
 .holdings { padding: 14px 18px 12px; border-bottom: 1px solid var(--rule); background: var(--bg-1); flex: 0 0 auto; display: flex; flex-direction: column; gap: 8px; }
-.holdings-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-.holdings-title { display: flex; flex-direction: column; gap: 2px; }
+.holdings-head { display: flex; flex-direction: column; gap: 8px; }
+.holdings-titlebar { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .holdings-eyebrow { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); }
 .holdings-h { font-size: 16px; font-weight: 600; color: var(--fg-0); letter-spacing: -0.01em; }
 .holdings-orders { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
-.ord-group { display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; max-width: 600px; justify-content: flex-end; }
+.ord-group {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 4px 6px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 4px 8px;
+  border-left: 2px solid var(--rule);
+  min-width: 0;
+}
+.ord-group.fam-bare    { border-left-color: var(--fam-bare); }
+.ord-group.fam-ecology { border-left-color: var(--fam-ecology); }
+.ord-group.fam-oracle  { border-left-color: var(--fam-oracle); }
+.ord-group .ord-l { padding-right: 4px; flex: 0 0 auto; font-weight: 700; }
+.ord-empty { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--fg-3); font-style: italic; }
 .ord-l { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-2); font-weight: 600; }
 .ord-l.eco { color: var(--accent); }
 .ord-l.bare { color: var(--fg-2); }
@@ -1288,3 +1317,481 @@ html, body {
 .pot-amt.eco { color: var(--accent); font-weight: 600; }
 .pot-amt.bare { color: var(--fg-1); font-weight: 600; }
 .pot-blank { color: var(--bg-3); font-weight: 400; }
+
+/* ─── 9-pipeline ablation styles ─────────────────────────────────────── */
+
+/* Pipeline-family identity colors. Vivid + distinct so they read clearly as
+   row labels (heatmap), border accents (holdings), header equity-grid cells,
+   and sparkline lines. */
+:root {
+  --fam-bare:    oklch(0.78 0.18 30);      /* neon orange */
+  --fam-ecology: oklch(0.72 0.22 320);     /* hot magenta / pink */
+  --fam-oracle:  oklch(0.74 0.16 220);     /* electric blue */
+}
+.theme-light {
+  --fam-bare:    oklch(0.58 0.18 30);
+  --fam-ecology: oklch(0.52 0.22 320);
+  --fam-oracle:  oklch(0.50 0.18 220);
+}
+
+/* Header equity 3x3 grid (rows = model, cols = pipeline family). */
+.equity-grid {
+  display: grid;
+  grid-template-columns: 38px repeat(3, 1fr);
+  /* 4 rows now: header + qwen/sonnet/opus + control */
+  grid-template-rows: 12px repeat(4, auto);
+  gap: 1px 3px;
+  align-items: stretch;
+  background: var(--bg-2);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 3px;
+}
+.eg-corner { }
+.eg-col-h {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-align: center;
+  align-self: center;
+  text-transform: uppercase;
+}
+.eg-col-h.fam-bare    { color: var(--fam-bare); }
+.eg-col-h.fam-ecology { color: var(--fam-ecology); }
+.eg-col-h.fam-oracle  { color: var(--fam-oracle); }
+.eg-row-h {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--fg-3);
+  align-self: center;
+  text-transform: uppercase;
+  text-align: right;
+  padding-right: 2px;
+}
+.eg-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1px 5px;
+  border-radius: 2px;
+  background: var(--bg-0);
+  border: 1px solid var(--rule);
+  border-left-width: 2px;
+  min-width: 52px;
+  line-height: 1.15;
+}
+.eg-cell.fam-bare    { border-left-color: var(--fam-bare); }
+.eg-cell.fam-ecology { border-left-color: var(--fam-ecology); }
+.eg-cell.fam-oracle  { border-left-color: var(--fam-oracle); }
+.eg-cell.fam-bh      { border-left-color: var(--watch); }
+.eg-cell.empty { background: transparent; border: 1px dashed var(--rule); }
+.eg-v {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fg-0);
+}
+.eg-r {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  font-weight: 600;
+}
+.eg-cell.up .eg-r { color: var(--bull); }
+.eg-cell.dn .eg-r { color: var(--bear); }
+
+/* Header bottom row: BUYHOLD eq cell + mode-row */
+.hdr-r-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+/* Holdings: family border accent on each row label */
+.hold-row.fam-bare    .hold-row-name { border-left: 2px solid var(--fam-bare);    padding-left: 6px; }
+.hold-row.fam-ecology .hold-row-name { border-left: 2px solid var(--fam-ecology); padding-left: 6px; }
+.hold-row.fam-oracle  .hold-row-name { border-left: 2px solid var(--fam-oracle);  padding-left: 6px; }
+.hold-row.fam-bare    .hold-row-name { color: var(--fam-bare); }
+.hold-row.fam-ecology .hold-row-name { color: var(--fam-ecology); }
+.hold-row.fam-oracle  .hold-row-name { color: var(--fam-oracle); }
+/* Compact spacing now that there are 9 rows. */
+.holdings .hold-row { margin-top: 2px; }
+.hold-row-empty { opacity: 0.45; }
+.hold-row-empty .hold-row-bar { background: transparent; border-style: dashed; }
+
+/* Holdings header orders block — group by family */
+.holdings-orders {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 16px;
+  align-items: start;
+  width: 100%;
+}
+.ord-group.fam-bare    .ord-l { color: var(--fam-bare); }
+.ord-group.fam-ecology .ord-l { color: var(--fam-ecology); }
+.ord-group.fam-oracle  .ord-l { color: var(--fam-oracle); }
+.ord-mod {
+  display: inline-block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8px;
+  font-weight: 700;
+  margin-left: 3px;
+  padding: 0 3px;
+  border-radius: 2px;
+  background: var(--bg-3);
+  color: var(--fg-1);
+  text-transform: uppercase;
+}
+
+/* 9-line sparkline */
+.eq-line.fam-bare    { stroke: var(--fam-bare); }
+.eq-line.fam-ecology { stroke: var(--fam-ecology); }
+.eq-line.fam-oracle  { stroke: var(--fam-oracle); }
+.eq-line.mod-qwen    { stroke-width: 1.6; opacity: 0.95; }
+.eq-line.mod-sonnet  { stroke-width: 1.2; opacity: 0.85; }
+.eq-line.mod-opus    { stroke-width: 1.0; opacity: 0.75; }
+
+.eq-dot.fam-bare    { fill: var(--fam-bare); }
+.eq-dot.fam-ecology { fill: var(--fam-ecology); }
+.eq-dot.fam-oracle  { fill: var(--fam-oracle); }
+
+/* Sparkline legend grid: 3 family blocks, each with q/s/o swatches */
+.eq-leg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px 8px;
+  padding: 4px 0 0 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+}
+.eq-leg-fam {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-left: 2px solid var(--rule);
+  padding-left: 5px;
+}
+.eq-leg-fam.fam-bare    { border-left-color: var(--fam-bare); }
+.eq-leg-fam.fam-ecology { border-left-color: var(--fam-ecology); }
+.eq-leg-fam.fam-oracle  { border-left-color: var(--fam-oracle); }
+.eq-leg-fam.fam-bh      { border-left-color: var(--watch); grid-column: 1 / -1; padding-top: 4px; border-top: 1px dashed var(--rule); border-left-style: solid; }
+.eq-leg-fam-l {
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  font-size: 8.5px;
+}
+.eq-leg-fam-l.bare    { color: var(--fam-bare); }
+.eq-leg-fam-l.ecology { color: var(--fam-ecology); }
+.eq-leg-fam-l.oracle  { color: var(--fam-oracle); }
+.eq-leg-mod {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--fg-1);
+}
+.eq-leg-mod .leg-sw {
+  display: inline-block;
+  width: 8px;
+  height: 2px;
+  background: var(--fg-3);
+  vertical-align: middle;
+}
+.eq-leg-mod.mod-qwen   .leg-sw { background: currentColor; }
+.eq-leg-mod.mod-sonnet .leg-sw { background: currentColor; opacity: 0.7; height: 2px; }
+.eq-leg-mod.mod-opus   .leg-sw { background: currentColor; opacity: 0.55; }
+.eq-leg-mod.mod-qwen   { color: var(--fg-0); }
+.eq-leg-mod .leg-l { font-weight: 700; }
+.eq-leg-mod .leg-v { color: var(--fg-1); margin-left: 2px; }
+
+/* OrdersTable9 — side · ticker · 3 family columns × 3 model dots */
+.port-orders-tbl9 {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 6px;
+}
+.pot9-head, .pot9-subhead, .pot9-row {
+  display: grid;
+  grid-template-columns: 36px 48px 1fr 1fr 1fr;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+}
+.pot9-head {
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 3px;
+}
+.pot9-h-fam.fam-bare    { color: var(--fam-bare);    text-align: center; font-weight: 700; }
+.pot9-h-fam.fam-ecology { color: var(--fam-ecology); text-align: center; font-weight: 700; }
+.pot9-h-fam.fam-oracle  { color: var(--fam-oracle);  text-align: center; font-weight: 700; }
+.pot9-subhead {
+  padding: 0 4px 3px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 8px;
+  color: var(--fg-3);
+}
+.pot9-h-models {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+.pot9-h-mod { text-align: center; font-weight: 700; letter-spacing: 0.06em; }
+.pot9-row { border-radius: 2px; }
+.pot9-row:hover { background: var(--bg-2); }
+.pot9-row.side-buy  .pot9-side { color: var(--bull); }
+.pot9-row.side-sell .pot9-side { color: var(--bear); }
+.pot9-side { font-weight: 700; letter-spacing: 0.06em; }
+.pot9-tkr { font-weight: 600; color: var(--fg-0); }
+.pot9-fam {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  align-items: center;
+}
+.pot9-cell {
+  text-align: center;
+  font-size: 8.5px;
+  padding: 1px 2px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.pot9-cell.off { color: var(--bg-3); font-weight: 400; }
+.pot9-cell.on.mod-qwen,
+.pot9-cell.on.mod-sonnet,
+.pot9-cell.on.mod-opus { color: var(--fg-0); }
+.pot9-fam.fam-bare    .pot9-cell.on { background: oklch(from var(--fam-bare)    l c h / 0.20); }
+.pot9-fam.fam-ecology .pot9-cell.on { background: oklch(from var(--fam-ecology) l c h / 0.20); }
+.pot9-fam.fam-oracle  .pot9-cell.on { background: oklch(from var(--fam-oracle)  l c h / 0.20); }
+
+/* ─── Position heatmap (below holdings bars, aligned w/ belief grid) ─── */
+.pos-heatmap-wrap {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+  overflow-x: auto;
+}
+.pos-heatmap-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 0 0 6px 0;
+}
+.pos-heatmap-eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+  font-weight: 600;
+}
+.pos-heatmap-sub {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.pos-heatmap-svg {
+  display: block;
+}
+.pos-row-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  fill: var(--fg-0);
+}
+.pos-row-label.fam-bare    { fill: var(--fam-bare); }
+.pos-row-label.fam-ecology { fill: var(--fam-ecology); }
+.pos-row-label.fam-oracle  { fill: var(--fam-oracle); }
+.pos-cell-num {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 8.5px;
+  font-weight: 700;
+  /* Cells fade up into bright orange/magenta/cyan; black reads on all of them
+     in dark mode, dark gray works in light mode. Subtle white outline keeps
+     it legible on the medium-saturation midtones too. */
+  fill: oklch(0.10 0 0);
+  paint-order: stroke;
+  stroke: oklch(1 0 0 / 0.45);
+  stroke-width: 0.4;
+  pointer-events: none;
+}
+.theme-light .pos-cell-num {
+  fill: oklch(0.15 0 0);
+  stroke: oklch(1 0 0 / 0.6);
+}
+
+/* ─── Top-3 signal cards (under positions, day-by-day) ──────────────── */
+.topsig-wrap {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.topsig-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+.topsig-eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+  font-weight: 600;
+}
+.topsig-sub {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.topsig-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.topsig-card {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--bg-1);
+  cursor: default;
+  transition: background 80ms, border-color 80ms;
+}
+.topsig-card:hover { background: var(--bg-2); border-color: var(--fg-3); }
+.topsig-card.dir-up   { border-left: 3px solid var(--bull); }
+.topsig-card.dir-dn   { border-left: 3px solid var(--bear); }
+.topsig-rank {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fg-3);
+  letter-spacing: 0.05em;
+  align-self: start;
+  padding-top: 2px;
+}
+.topsig-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.topsig-l1 { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.topsig-action {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+.topsig-action.act-buy   { background: oklch(from var(--bull) l c h / 0.20); color: var(--bull); }
+.topsig-action.act-sell  { background: oklch(from var(--bear) l c h / 0.20); color: var(--bear); }
+.topsig-action.act-watch { background: var(--bg-3); color: var(--fg-1); }
+.topsig-tkr {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--fg-0);
+  letter-spacing: -0.01em;
+}
+.topsig-pup {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  margin-left: auto;
+}
+.topsig-pup.up { color: var(--bull); }
+.topsig-pup.dn { color: var(--bear); }
+.topsig-l2 {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  color: var(--fg-3);
+  flex-wrap: wrap;
+}
+.topsig-conf { text-transform: uppercase; letter-spacing: 0.10em; font-weight: 600; color: var(--fg-1); }
+.topsig-sal { letter-spacing: 0.04em; }
+.topsig-top {
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topsig-reason {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  line-height: 1.35;
+  color: var(--fg-1);
+  margin-top: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Live ticker strip (header bottom band) ──────────────────────── */
+.ticker-strip {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100vw;
+  height: 22px;
+  overflow: hidden;
+  background: oklch(from var(--bg-0) calc(l - 0.02) c h);
+  border-top: 1px solid var(--rule);
+  /* Edge fade so chips appear/vanish into the panel sides instead of clipping. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+}
+.ticker-strip.empty { background: var(--bg-0); }
+.ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 100%;
+  white-space: nowrap;
+  width: max-content;
+  /* 60s for one full cycle (we render 2 copies of the data so it loops seamlessly). */
+  animation: ticker-scroll 60s linear infinite;
+  padding: 0 14px;
+}
+.ticker-strip:hover .ticker-track { animation-play-state: paused; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.tk-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+}
+.tk-tkr { font-weight: 700; color: var(--fg-0); }
+.tk-arr { font-size: 9px; }
+.tk-pct { font-weight: 600; font-feature-settings: "tnum" 1; }
+.tk-chip.dir-up   .tk-arr,
+.tk-chip.dir-up   .tk-pct { color: var(--bull); }
+.tk-chip.dir-dn   .tk-arr,
+.tk-chip.dir-dn   .tk-pct { color: var(--bear); }
+.tk-chip.dir-flat .tk-arr { color: var(--fg-3); }
+.tk-chip.dir-flat .tk-pct { color: var(--fg-2); }

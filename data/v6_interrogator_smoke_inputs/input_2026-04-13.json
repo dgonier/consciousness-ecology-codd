@@ -1,0 +1,64 @@
+{
+  "date": "2026-04-13",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "MRK"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.15,
+      "p_up_h60": 0.12,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "Binary FDA decision today creates a high-probability asymmetric setup. If approved, the stock can re-rate significantly on a binary outcome within 20 days. If rejected, the downside is capped by the binary nature, allowing for a quick exit if the thesis fails."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.06,
+      "p_up_h20": 0.1,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h5",
+      "regime_note": "momentum",
+      "rationale": "Chip sector rotation is confirmed with volume expansion. A 5-day horizon allows us to ride the immediate breakout momentum and confirm if the trend holds before committing to a longer h20 position. This avoids the noise of the initial breakout while capturing the early trend."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 2
+  }
+}

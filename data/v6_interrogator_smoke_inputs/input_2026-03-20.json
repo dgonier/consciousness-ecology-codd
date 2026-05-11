@@ -1,0 +1,84 @@
+{
+  "date": "2026-03-20",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "AAPL",
+    "MRK",
+    "MSFT"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.15,
+      "p_up_h60": 0.12,
+      "primary_horizon": "h20",
+      "regime_note": "event_driven",
+      "rationale": "Binary FDA decision creates asymmetric volatility. If positive, expect 15%+ re-rating over 20 days. If negative, thesis invalidates. h20 is optimal to capture the full swing without premature exit on noise."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.06,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.08,
+      "primary_horizon": "h20",
+      "regime_note": "momentum",
+      "rationale": "Strong relative strength (p_up=0.60) and sector rotation into semiconductors support a 12% upside over 20 days. Earnings beat timeline provides the catalyst. h20 allows riding the trend to the earnings event."
+    },
+    {
+      "ticker": "AAPL",
+      "p_up_h5": 0.02,
+      "p_up_h20": 0.04,
+      "p_up_h60": 0.03,
+      "primary_horizon": "h20",
+      "regime_note": "unclear",
+      "rationale": "Currently extended (-8% unrealized). Waiting for a confirmed breakout above resistance with volume expansion before re-entering. No immediate high-conviction edge."
+    },
+    {
+      "ticker": "MSFT",
+      "p_up_h5": 0.02,
+      "p_up_h20": 0.05,
+      "p_up_h60": 0.04,
+      "primary_horizon": "h20",
+      "regime_note": "momentum",
+      "rationale": "Held for now due to recent underperformance (-4.23%). Requires a retest of breakout levels with volume confirmation before adding to the position."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 4
+  }
+}

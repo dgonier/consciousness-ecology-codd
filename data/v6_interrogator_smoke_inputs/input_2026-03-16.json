@@ -1,0 +1,64 @@
+{
+  "date": "2026-03-16",
+  "universe": [
+    "AAPL",
+    "AMGN",
+    "AMZN",
+    "AXP",
+    "BA",
+    "CAT",
+    "CRM",
+    "CSCO",
+    "CVX",
+    "DIS",
+    "DOW",
+    "GS",
+    "HD",
+    "HON",
+    "IBM",
+    "INTC",
+    "JNJ",
+    "JPM",
+    "KO",
+    "MCD",
+    "MMM",
+    "MRK",
+    "MSFT",
+    "NKE",
+    "PG",
+    "TRV",
+    "UNH",
+    "V",
+    "VZ",
+    "WMT"
+  ],
+  "focus_tickers": [
+    "MRK"
+  ],
+  "carnivore_observations": [
+    {
+      "ticker": "MRK",
+      "p_up_h5": 0.08,
+      "p_up_h20": 0.12,
+      "p_up_h60": 0.05,
+      "primary_horizon": "h5",
+      "regime_note": "event_driven",
+      "rationale": "FDA decision creates binary volatility. h5 captures the immediate re-rating or dislocation. h20 holds if approval triggers a multi-month run, but h5 is the primary edge due to event timing."
+    },
+    {
+      "ticker": "AMD",
+      "p_up_h5": 0.04,
+      "p_up_h20": 0.09,
+      "p_up_h60": 0.03,
+      "primary_horizon": "h20",
+      "regime_note": "momentum",
+      "rationale": "Chip sector rotation and earnings catalyst support a 20-day ride. h5 is too short for the earnings play, h60 is too long for the current trend. h20 balances the catalyst window with tax efficiency."
+    }
+  ],
+  "metadata": {
+    "source": "run9_salvaged_day54",
+    "extracted_from": "phase1.momentum.views",
+    "timestamp_extracted": "2026-05-11T03:30:00Z",
+    "n_observations": 2
+  }
+}

@@ -1,0 +1,23 @@
+# Strategy committee weighting. Higher weights → more influence in
+# the aggregator's size_pct weighted average. The aggregator uses
+# `weight[strategy] * conviction` per agreeing vote, so a vote can
+# still be drowned out by a low conviction even if its strategy weight
+# is high.
+#
+# All three keys MUST be present; the loader expects literal strategy
+# names. Defaults are roughly equal (0.34 / 0.33 / 0.33 — sums to 1.0).
+conviction_weighted: 0.34
+tiered_discrete:     0.33
+kelly_edge:          0.33
+
+# Trading philosophy bias (additive on top of strategy weights).
+# v4 round 1 defaults: all zero. Tune in v4.1 once we have committee
+# end-to-end PnL data and can attribute pnl back to philosophy.
+#
+# - momentum:    if > 0, boost conviction_weighted on tickers with positive h1+h5
+# - mean_revert: if > 0, boost tiered_discrete on tickers with negative h1, positive h20
+# - value:       if > 0, boost kelly_edge with longer-horizon emphasis
+philosophy_bias:
+  momentum:    0.0
+  mean_revert: 0.0
+  value:       0.0
