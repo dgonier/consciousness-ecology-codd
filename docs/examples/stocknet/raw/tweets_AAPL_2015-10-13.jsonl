@@ -1,0 +1,6 @@
+{"_comment": "Illustrative excerpt of StockNet preprocessed tweet file. One JSON object per line. Source: yumoxu/stocknet-dataset/tweet/preprocessed/<TICKER>/<YYYY-MM-DD>. Tokens are pre-tokenized; URL/AT_USER are normalization markers from the paper's preprocessor. Text below is SYNTHETIC for format documentation only."}
+{"id": "synthetic-001", "created_at": "2015-10-13T13:42:01Z", "user_id_str": "AT_USER", "text": ["$", "aapl", "earnings", "next", "week", "long", "calls", "URL"]}
+{"id": "synthetic-002", "created_at": "2015-10-13T15:08:55Z", "user_id_str": "AT_USER", "text": ["aapl", "iphone", "6s", "demand", "looks", "strong", "into", "q4"]}
+{"id": "synthetic-003", "created_at": "2015-10-13T17:21:30Z", "user_id_str": "AT_USER", "text": ["AT_USER", "aapl", "supply", "chain", "reads", "soft", "watch", "the", "guide"]}
+{"id": "synthetic-004", "created_at": "2015-10-13T19:55:12Z", "user_id_str": "AT_USER", "text": ["$", "aapl", "breakout", "above", "112", "if", "spy", "holds"]}
+{"id": "synthetic-005", "created_at": "2015-10-13T20:33:47Z", "user_id_str": "AT_USER", "text": ["aapl", "options", "skew", "neutral", "today", "no", "directional", "edge"]}

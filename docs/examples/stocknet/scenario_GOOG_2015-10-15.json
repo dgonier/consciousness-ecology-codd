@@ -1,0 +1,39 @@
+{
+  "_comment": "Illustrative 'down' label scenario. Counterpart to scenario_AAPL_2015-10-13.json — included to show both label classes and what an empty-tweet day's fundamental_target looks like (abstain).",
+  "name": "stocknet_test_GOOG_2015-10-15",
+  "split": "test",
+  "ticker": "GOOG",
+  "date": "2015-10-15",
+  "label": "down",
+  "movement_pct": -0.0083,
+  "label_rule": "movement_pct >= 0.0055 -> 'up'; <= -0.005 -> 'down'; else filtered",
+  "inputs": [
+    {
+      "id": "stocknet.GOOG.2015-10-15.ohlcv",
+      "source": "ohlcv",
+      "payload": {
+        "source": "stocknet_normalized",
+        "bars": [
+          {"open":  0.005, "high":  0.012, "low":  0.001, "close":  0.009, "volume": 1820000.0},
+          {"open":  0.003, "high":  0.008, "low": -0.002, "close":  0.004, "volume": 1640000.0},
+          {"open": -0.001, "high":  0.004, "low": -0.006, "close": -0.003, "volume": 1500000.0},
+          {"open": -0.004, "high":  0.000, "low": -0.011, "close": -0.008, "volume": 1980000.0},
+          {"open": -0.006, "high":  0.002, "low": -0.013, "close": -0.010, "volume": 2120000.0}
+        ]
+      }
+    },
+    {
+      "id": "stocknet.GOOG.2015-10-15.press",
+      "source": "press",
+      "payload": {
+        "ticker": "GOOG",
+        "headline": "daily tweet feed (3 tweets)",
+        "body": "googl regulatory headline weighing on tape\nAT_USER googl ad spend channel checks coming in light\n$ googl looks heavy below the 50dma",
+        "source": "stocknet_tweets"
+      }
+    }
+  ],
+  "predator_target": "<prediction><ticker>GOOG</ticker><direction>down</direction><horizon_min>1440</horizon_min><confidence>0.65</confidence></prediction>",
+  "technical_target": "<synthesis kind=\"technical\"><ticker>GOOG</ticker><bias>down</bias><signal>moderate</signal></synthesis>",
+  "fundamental_target": "<synthesis kind=\"fundamental\"><ticker>GOOG</ticker><bias>down</bias><signal>moderate</signal></synthesis>"
+}

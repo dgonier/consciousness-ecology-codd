@@ -1,0 +1,11 @@
+{
+  "_comment": "Illustrative example of a day that is FILTERED OUT by the StockNet labeling rule. movement_pct of -0.0008 falls inside the no-action band (-0.005, 0.0055) so the loader skips it. Included to make the filter rule concrete.",
+  "name": "stocknet_test_AAPL_2015-10-09",
+  "split": "test",
+  "ticker": "AAPL",
+  "date": "2015-10-09",
+  "movement_pct": -0.0008,
+  "label": null,
+  "filter_reason": "DOWN_THRESHOLD < movement_pct < UP_THRESHOLD (no-action band)",
+  "in_loader_output": false
+}
